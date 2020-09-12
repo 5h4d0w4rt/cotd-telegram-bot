@@ -3,15 +3,15 @@ from telegram.ext import CommandHandler, MessageHandler, Filters
 from handlers import unknown, start, cringe
 import logging
 import os
+from config import Config
 
 
 def run(updater):
     updater.start_polling()
 
 
-def main():
-    updater = Updater(token=os.environ['COTD_TELEGRAM_BOT_TOKEN'],
-                      use_context=True)
+def main(config):
+    updater = Updater(token=config.env['token'], use_context=True)
     dispatcher = updater.dispatcher
 
     start_handler = CommandHandler('start', start)
@@ -32,4 +32,4 @@ if __name__ == "__main__":
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO)
 
-    main()
+    main(Config(token=os.environ['COTD_TELEGRAM_BOT_TOKEN']))
