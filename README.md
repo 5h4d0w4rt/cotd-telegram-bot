@@ -10,3 +10,10 @@ cringe of the day bot
 4. encode and send smiley-cat https://core.telegram.org/bots/api#sendsticker
 
 todo: inline mode 'that's cringe'?
+
+
+
+
+## stories
+- As a shitposter I want to activate cringebot by sending a sticker so I can save up time typing "/cringe".
+- As a shitposter I want to choose the bot activation sticker so I can add it a personal touch.
