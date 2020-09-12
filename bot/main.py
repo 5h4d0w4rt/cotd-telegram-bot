@@ -1,6 +1,6 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler, MessageHandler, Filters
-from handlers import unknown, start, cringe, oldfellow
+from handlers import unknown, start, cringe, oldfellow, kekw
 import logging
 import os
 from config import Config
@@ -23,6 +23,8 @@ def main(config):
     oldfellow_handler = CommandHandler('oldfellow', oldfellow)
     dispatcher.add_handler(oldfellow_handler)
 
+    kekw_handler = CommandHandler('kekw', kekw)
+    dispatcher.add_handler(kekw_handler)
     # must be added last
     unknown_handler = MessageHandler(Filters.command, unknown)
     dispatcher.add_handler(unknown_handler)

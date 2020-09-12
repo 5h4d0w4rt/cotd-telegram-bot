@@ -7,11 +7,9 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_python/releases/download/0.0.2/rules_python-0.0.2.tar.gz",
 )
 
-load("@rules_python//python:pip.bzl", "pip_repositories")
+load("@rules_python//python:pip.bzl", "pip_import", "pip_repositories")
 
 pip_repositories()
-
-load("@rules_python//python:pip.bzl", "pip_import")
 
 # Create a central repo that knows about the dependencies needed for
 # requirements.txt.

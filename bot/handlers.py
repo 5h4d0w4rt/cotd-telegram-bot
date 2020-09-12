@@ -16,3 +16,8 @@ def cringe(update, context):
 def oldfellow(update, context):
     context.bot.send_video(chat_id=update.effective_chat.id,
                            video=open('static/oldfellow.mp4', 'rb'))
+
+
+def kekw(update, context):
+    context.bot.send_video(chat_id=update.effective_chat.id,
+                           video=open('static/KEKW.mp4', 'rb'))

@@ -15,6 +15,7 @@ py_binary(
     name = "main",
     srcs = ["main.py"],
     data = [
+        "//static:KEKW.mp4",
         "//static:oldfellow.mp4",
         "//static:smileyOne.webp",
     ],
