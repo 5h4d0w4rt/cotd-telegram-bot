@@ -15,8 +15,8 @@ py_binary(
     name = "main",
     srcs = ["main.py"],
     data = [
+        "//static:oldfellow.mp4",
         "//static:smileyOne.webp",
-        "//static:starina.mp4",
     ],
     deps = [
         requirement("python-telegram-bot"),
