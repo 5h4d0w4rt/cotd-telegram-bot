@@ -1,11 +1,15 @@
 def unknown(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="Sorry, I didn't understand that command.")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="nope")
 
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="I'm a bot, please talk to me!")
+    pass
+    # if update.effective_message.reply_to_message:
+    #     context.bot.send_message(
+    #         chat_id=update.effective_message.reply_to_message['message_id'],
+    #         text=f"{update.effective_message}")
+    # else:
+    context.bot.send_message(chat_id=update.effective_chat.id, text="start")
 
 
 def cringe(update, context):
