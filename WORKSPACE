@@ -7,13 +7,13 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_python/releases/download/0.0.2/rules_python-0.0.2.tar.gz",
 )
 
-load("@rules_python//python:pip.bzl", "pip_import", "pip_repositories")
+load("@rules_python//python:pip.bzl", "pip3_import", "pip_repositories")
 
 pip_repositories()
 
 # Create a central repo that knows about the dependencies needed for
 # requirements.txt.
-pip_import(
+pip3_import(
     # or pip3_import
     name = "python_workspace_deps",
     requirements = "//:requirements.txt",
