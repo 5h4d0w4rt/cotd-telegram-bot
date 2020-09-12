@@ -4,5 +4,6 @@ load("@python_workspace_deps//:requirements.bzl", "requirement")
 py_binary(
     name = "main",
     srcs = ["main.py"],
+    data = ["//static:smileyOne.webp"],
     deps = [requirement("python-telegram-bot")],
 )
