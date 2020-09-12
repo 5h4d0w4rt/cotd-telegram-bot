@@ -14,7 +14,10 @@ py_library(
 py_binary(
     name = "main",
     srcs = ["main.py"],
-    data = ["//static:smileyOne.webp"],
+    data = [
+        "//static:smileyOne.webp",
+        "//static:starina.mp4",
+    ],
     deps = [
         requirement("python-telegram-bot"),
         "config",

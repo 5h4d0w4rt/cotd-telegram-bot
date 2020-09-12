@@ -11,3 +11,8 @@ def start(update, context):
 def cringe(update, context):
     context.bot.send_sticker(chat_id=update.effective_chat.id,
                              sticker=open('static/smileyOne.webp', 'rb'))
+
+
+def oldfellow(update, context):
+    context.bot.send_video(chat_id=update.effective_chat.id,
+                           video=open('static/oldfellow.mp4', 'rb'))
