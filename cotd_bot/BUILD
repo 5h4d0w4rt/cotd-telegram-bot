@@ -32,6 +32,7 @@ py_binary(
     ],
     deps = [
         requirement("python-telegram-bot"),
+        requirement("flask"),
         "config",
         "flags",
         "handlers",

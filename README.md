@@ -8,7 +8,7 @@ cringe of the day bot
 2. export `COTD_TELEGRAM_BOT_TOKEN=` and run
 
 ```bash
-    bazel run //bot:main
+    bazel run //cotd_bot:main
 ```
 
 ## flow
@@ -30,3 +30,11 @@ cringe of the day bot
 - As a shitposter I want to activate cringebot by sending a sticker so I can save up time typing "/cringe".
 - As a shitposter I want to choose the bot activation sticker so I can add it a personal touch.
 - As a shitposter I want to receive system feedback after calling the cringe so I can know that everything worked.
+
+### deploy
+
+git push heroku master
+
+### warm-up
+
+app is monitored via pings on uptimerobot.com every 35 minutes
