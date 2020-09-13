@@ -1,12 +1,12 @@
+from telegram import BotCommand
 from telegram.ext import Updater, Defaults
 from telegram.ext import CommandHandler, MessageHandler, Filters
-from telegram import BotCommand
-from handlers import unknown, start, cringe, iscringe, oldfellow, kekw, secret
-from flags import parse_feature_flags
+from cotd_bot.handlers import unknown, start, cringe, iscringe, oldfellow, kekw, secret
+from cotd_bot.flags import parse_feature_flags
 import logging
 import os
 from cotd_bot.config import Config, EnvConfig, FeatureFlagsConfig, OptionsConfig
-from options import parse_options
+from cotd_bot.options import parse_options
 import argparse
 import sys
 
