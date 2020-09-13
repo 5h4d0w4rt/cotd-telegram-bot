@@ -1,17 +1,25 @@
-from telegram.ext import Updater
+from telegram.ext import Updater, Defaults
 from telegram.ext import CommandHandler, MessageHandler, Filters
 from handlers import unknown, start, cringe, iscringe, oldfellow, kekw, secret
 import logging
 import os
-from config import Config
+from config import EnvConfig
 
 
 def run(updater):
     updater.start_polling()
+    updater.idle()
 
 
 def main(config):
-    updater = Updater(token=config.env['token'], use_context=True)
+    updater = Updater(token=config.env['token'],
+                      use_context=True,
+                      defaults=Defaults(
+                          parse_mode='HTML',
+                          disable_notification=True,
+                          disable_web_page_preview=True,
+                          timeout=5.0,
+                      ))
     dispatcher = updater.dispatcher
 
     start_handler = CommandHandler('start', start)
@@ -43,4 +51,4 @@ if __name__ == "__main__":
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO)
 
-    main(Config(token=os.environ['COTD_TELEGRAM_BOT_TOKEN']))
+    main(EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN']))
