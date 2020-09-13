@@ -5,20 +5,21 @@ cringe of the day bot
 ## how to start
 
 1. install python3
-2. go to `cotd-telegram-bot` directory
-3. run `pip3 install -r requirements.txt`
-4. run `COTD_TELEGRAM_BOT_TOKEN=123:TOKEN python3 bot/main.py`
-5. enjoy
+2. export `COTD_TELEGRAM_BOT_TOKEN=` and run
+
+```bash
+    bazel run //bot:main
+```
 
 ## commands
 
-| command   | inline | reply | description |
-|-----------|--------|-------|-------------|
-| /start    | ✅ | | Reply in chat with 'start' |
-| /cringe   | ✅ | ✅ | Post or reply smileyOne sticker |
-| /iscringe | | ✅ | Validate message for cringe or base |
-| /oldfellow | ✅ | | Reply with oldfellow gif |
-| /kekw | ✅ | | Reply with KEKW gif |
+| command    | inline | reply | description                         |
+| ---------- | ------ | ----- | ----------------------------------- |
+| /start     | ✅     |       | Reply in chat with 'start'          |
+| /cringe    | ✅     | ✅    | Post or reply smileyOne sticker     |
+| /iscringe  |        | ✅    | Validate message for cringe or base |
+| /oldfellow | ✅     |       | Reply with oldfellow gif            |
+| /kekw      | ✅     |       | Reply with KEKW gif                 |
 
 ## flow
 
@@ -31,7 +32,7 @@ cringe of the day bot
 
 ## todo
 
-* inline mode 'that's cringe'?
+- inline mode 'that's cringe'?
 
 ## stories
 
