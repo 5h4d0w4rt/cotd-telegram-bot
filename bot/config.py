@@ -4,3 +4,6 @@ class Config:
         self._env = {}
         self._env['token'] = token
         self.env = self._env
+
+    def features(self):
+        pass

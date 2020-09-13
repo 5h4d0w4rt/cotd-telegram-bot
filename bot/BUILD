@@ -17,6 +17,7 @@ py_binary(
     data = [
         "//static:KEKW.mp4",
         "//static:oldfellow.mp4",
+        "//static:ribnikov.based.mp4",
         "//static:smileyOne.webp",
     ],
     deps = [
