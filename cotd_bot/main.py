@@ -5,7 +5,7 @@ from handlers import unknown, start, cringe, iscringe, oldfellow, kekw, secret
 from flags import parse_feature_flags
 import logging
 import os
-from bot.config import Config, EnvConfig, FeatureFlagsConfig, OptionsConfig
+from cotd_bot.config import Config, EnvConfig, FeatureFlagsConfig, OptionsConfig
 from options import parse_options
 import argparse
 import sys
