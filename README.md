@@ -2,6 +2,26 @@
 
 cringe of the day bot
 
+## how to start
+
+1. install python3
+2. go to `cotd-telegram-bot` directory
+3. run `pip3 install -r requirements.txt`
+4. run `COTD_TELEGRAM_BOT_TOKEN=123:TOKEN python3 bot/main.py`
+5. enjoy
+
+## commands
+
+| command   | inline | reply | description |
+|-----------|--------|-------|-------------|
+| /start    | ✅ | | Reply in chat with 'start' |
+| /cringe   | ✅ | ✅ | Post or reply smileyOne sticker |
+| /iscringe | | ✅ | Validate message for cringe or base |
+| /oldfellow | ✅ | | Reply with oldfellow gif |
+| /kekw | ✅ | | Reply with KEKW gif |
+
+## flow
+
 1. start bot with accepted channelid/channelname flag in gcs and initialized as can-join-groups
    1. setwebhook method <https://core.telegram.org/bots/api#setwebhook>
    2.
@@ -9,7 +29,9 @@ cringe of the day bot
 3. then it will post smiley-cat as a reply
 4. encode and send smiley-cat <https://core.telegram.org/bots/api#sendsticker>
 
-todo: inline mode 'that's cringe'?
+## todo
+
+* inline mode 'that's cringe'?
 
 ## stories
 
