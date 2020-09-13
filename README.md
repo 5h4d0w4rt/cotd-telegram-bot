@@ -11,28 +11,19 @@ cringe of the day bot
     bazel run //bot:main
 ```
 
-## commands
-
-| command    | inline | reply | description                         |
-| ---------- | ------ | ----- | ----------------------------------- |
-| /start     | ✅     |       | Reply in chat with 'start'          |
-| /cringe    | ✅     | ✅    | Post or reply smileyOne sticker     |
-| /iscringe  |        | ✅    | Validate message for cringe or base |
-| /oldfellow | ✅     |       | Reply with oldfellow gif            |
-| /kekw      | ✅     |       | Reply with KEKW gif                 |
-
 ## flow
 
 1. start bot with accepted channelid/channelname flag in gcs and initialized as can-join-groups
-   1. setwebhook method <https://core.telegram.org/bots/api#setwebhook>
-   2.
+   1. setwebhook method <https://core.telegram.org/bots/api#setwebhook> if not in token mode
 2. /cotd will list all messages for the last day and select one which is cringe semi-randomly
+   1. this will require database persistence
 3. then it will post smiley-cat as a reply
-4. encode and send smiley-cat <https://core.telegram.org/bots/api#sendsticker>
+   1. this will require database persistence
 
 ## todo
 
 - inline mode 'that's cringe'?
+- deploy to heroku/google
 
 ## stories
 
