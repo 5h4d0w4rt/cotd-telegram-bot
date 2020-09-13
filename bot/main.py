@@ -2,9 +2,13 @@ from telegram.ext import Updater, Defaults
 from telegram.ext import CommandHandler, MessageHandler, Filters
 from telegram import BotCommand
 from handlers import unknown, start, cringe, iscringe, oldfellow, kekw, secret
+from flags import parse_feature_flags
 import logging
 import os
-from config import EnvConfig
+from config import Config, EnvConfig, FeatureFlagsConfig, OptionsConfig
+from options import parse_options
+import argparse
+import sys
 
 
 def run(updater):
@@ -13,7 +17,7 @@ def run(updater):
 
 
 def main(config):
-    updater = Updater(token=config.env['token'],
+    updater = Updater(token=config.env.token,
                       use_context=True,
                       defaults=Defaults(
                           parse_mode='HTML',
@@ -63,4 +67,11 @@ if __name__ == "__main__":
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO)
 
-    main(EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN']))
+    config = Config(
+        env=EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN']),
+        features=FeatureFlagsConfig(features=parse_feature_flags(
+            argparse.ArgumentParser(), sys.argv[1:])),
+        options=OptionsConfig(
+            options=parse_options(argparse.ArgumentParser(), sys.argv[1:])))
+
+    main(config)

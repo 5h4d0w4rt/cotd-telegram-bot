@@ -11,6 +11,16 @@ py_library(
     srcs = ["handlers.py"],
 )
 
+py_library(
+    name = "flags",
+    srcs = ["flags.py"],
+)
+
+py_library(
+    name = "options",
+    srcs = ["options.py"],
+)
+
 py_binary(
     name = "main",
     srcs = ["main.py"],
@@ -23,6 +33,8 @@ py_binary(
     deps = [
         requirement("python-telegram-bot"),
         "config",
+        "flags",
         "handlers",
+        "options",
     ],
 )

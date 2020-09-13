@@ -1,10 +1,27 @@
+import argparse
+
+
+class Config:
+
+    def __init__(self, env, features, options):
+        self.env = env
+        self.features = features
+        self.options = options
+
+
 class EnvConfig:
 
     def __init__(self, token):
-        self._env = {}
-        self._env['token'] = token
-        self.env = self._env
+        self.token = token
 
 
-class FeatureFlags:
-    pass
+class FeatureFlagsConfig:
+
+    def __init__(self, features):
+        self.features = features
+
+
+class OptionsConfig:
+
+    def __init__(self, options):
+        self.options = options
