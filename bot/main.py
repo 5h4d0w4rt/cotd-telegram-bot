@@ -1,5 +1,6 @@
 from telegram.ext import Updater, Defaults
 from telegram.ext import CommandHandler, MessageHandler, Filters
+from telegram import BotCommand
 from handlers import unknown, start, cringe, iscringe, oldfellow, kekw, secret
 import logging
 import os
@@ -45,7 +46,15 @@ def main(config):
     unknown_handler = MessageHandler(Filters.command, unknown)
     dispatcher.add_handler(unknown_handler)
 
-    updater.set_my_command()
+    updater.bot.set_my_commands([
+        BotCommand("start", "Hello world"),
+        BotCommand("cringe", "Gets you a nice smiley-cat"),
+        BotCommand("iscringe",
+                   "Determines if post you reply to is cringe or based"),
+        BotCommand("oldfellow", "Starina siebi nahui"),
+        BotCommand("kekw", "KEKW"),
+        BotCommand("secret", "what's in there?")
+    ])
     run(updater)
 
 

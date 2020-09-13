@@ -41,7 +41,7 @@ def iscringe(update, context):
                 text="yep, it's cringe")
     except AttributeError:
         return context.bot.send_message(chat_id=update.effective_chat.id,
-                                        text='Где кринж?')
+                                        text='Can"t see cringe though')
 
 
 def oldfellow(update, context):

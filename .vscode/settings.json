@@ -1,8 +1,11 @@
 {
-    "python.testing.pytestArgs": [
-        "test"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.nosetestsEnabled": false,
-    "python.testing.pytestEnabled": true
+  "python.testing.pytestArgs": ["test"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.nosetestsEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}/bazel-${workspaceFolderBasename}/external/python_workspace_deps_pypi__python_telegram_bot_12_8/telegram",
+    "bazel-cotd-telegram-bot/external/**/*",
+    "${workspaceFolder}/bazel-${workspaceFolderBasename}/external/**/*"
+  ]
 }
