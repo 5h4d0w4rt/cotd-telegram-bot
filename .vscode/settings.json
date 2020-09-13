@@ -4,9 +4,6 @@
   "python.testing.nosetestsEnabled": false,
   "python.testing.pytestEnabled": true,
   "python.analysis.extraPaths": [
-    "${workspaceFolderBasename}/external/python_workspace_deps_pypi__python_telegram_bot_12_8/",
-    "${workspaceFolderBasename}/external/python_workspace_deps_pypi__python_telegram_bot_12_8/telegram",
-    "bazel-cotd-telegram-bot/external/python_workspace_deps_pypi__python_telegram_bot_12_8/",
-    "bazel-cotd-telegram-bot/external/python_workspace_deps_pypi__python_telegram_bot_12_8/telegram"
+    "bazel-cotd-telegram-bot/external/python_workspace_deps_pypi__python_telegram_bot_12_8/"
   ]
 }
