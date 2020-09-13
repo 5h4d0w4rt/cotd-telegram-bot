@@ -1,5 +1,9 @@
 import random
 
+# TODO create class
+# that logs every handler call
+# so we do not need to implement logging for every handler out there
+
 
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="nope")
