@@ -1,6 +1,6 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler, MessageHandler, Filters
-from handlers import unknown, start, cringe, oldfellow, kekw
+from handlers import unknown, start, cringe, iscringe, oldfellow, kekw
 import logging
 import os
 from config import Config
@@ -19,6 +19,9 @@ def main(config):
 
     cringe_handler = CommandHandler('cringe', cringe)
     dispatcher.add_handler(cringe_handler)
+
+    iscringe_handler = CommandHandler('iscringe', iscringe)
+    dispatcher.add_handler(iscringe_handler)
 
     oldfellow_handler = CommandHandler('oldfellow', oldfellow)
     dispatcher.add_handler(oldfellow_handler)

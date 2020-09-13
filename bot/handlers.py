@@ -1,3 +1,5 @@
+import random
+
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="nope")
 
@@ -18,6 +20,15 @@ def cringe(update, context):
     else:
         context.bot.send_sticker(chat_id=update.effective_chat.id,          
                                 sticker=open('static/smileyOne.webp', 'rb'))
+
+def iscringe(update, context):
+    if hasattr(update.message.reply_to_message,'message_id'):
+        context.bot.send_message(chat_id=update.effective_chat.id,          
+                                reply_to_message_id=update.message.reply_to_message.message_id,
+                                text=random.choice(["это база", "это кринж"]))
+    else:
+        context.bot.send_message(chat_id=update.effective_chat.id,          
+                                 text='Где кринж?')
 
 def oldfellow(update, context):
     context.bot.send_video(chat_id=update.effective_chat.id,
