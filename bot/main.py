@@ -22,7 +22,9 @@ def main(config):
                       ))
     dispatcher = updater.dispatcher
 
-    start_handler = CommandHandler('start', start)
+    start_handler = CommandHandler('start',
+                                   start,
+                                   filters=~Filters.update.edited_message)
     dispatcher.add_handler(start_handler)
 
     cringe_handler = CommandHandler('cringe', cringe)
@@ -43,6 +45,7 @@ def main(config):
     unknown_handler = MessageHandler(Filters.command, unknown)
     dispatcher.add_handler(unknown_handler)
 
+    updater.set_my_command()
     run(updater)
 
 
