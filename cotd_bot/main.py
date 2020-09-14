@@ -10,14 +10,6 @@ from cotd_bot.options import parse_options
 import argparse
 import sys
 
-from flask import Flask
-app = Flask(__name__)
-
-
-@app.route('/')
-def hello_world():
-    return 200
-
 
 def run(updater):
     updater.start_polling()
