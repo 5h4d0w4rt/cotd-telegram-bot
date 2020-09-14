@@ -1,1 +1,1 @@
-worker: python3 cotd_bot/main.py
+worker: python3 cotd/main.py
