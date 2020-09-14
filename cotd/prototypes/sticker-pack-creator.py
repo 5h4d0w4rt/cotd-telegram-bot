@@ -15,6 +15,7 @@ def start(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> telegram.Message:
+    print(update)
     return context.bot.send_message(chat_id=update.effective_chat.id, text="start")
 
 
@@ -23,13 +24,14 @@ def main():
     cotdbot = cotd.updater.COTDBot(config)
     me = cotdbot.updater.bot.get_me()
     print(me)
-    # print(cotdbot.updater.bot.get_sticker_set("VolumetricCringeStickerSet"))
     cotdbot.updater.bot.create_new_sticker_set(
         png_sticker=open("static/ezgif.com-resize.png", 'rb'),
         name=f"VC_by_{me.username}",
         title=f"VC_by_{me.username}",
         user_id=int(me.id),
         emojis="🙂")
+    disp = cotdbot.updater.dispatcher
+    disp.add_handler(telegram.ext.CommandHandler('start', start))
     run(cotdbot)
 
 
