@@ -14,7 +14,6 @@ import telegram.ext
 from cotd_bot.flags import parse_feature_flags
 from cotd_bot.handlers import (cringe, iscringe, kekw, oldfellow, secret, start,
                                unknown)
-from cotd_bot.logger import logger
 from cotd_bot.options import parse_options
 
 
@@ -35,15 +34,18 @@ def init_dispatcher(updater: telegram.ext.Updater, handlers: list):
 
 
 def main():
-    config = cotd_bot.updater.Config(
-        env=cotd_bot.updater.EnvConfig(
-            token=os.environ['COTD_TELEGRAM_BOT_TOKEN']),
-        features=cotd_bot.updater.FeatureFlagsConfig(
-            features=parse_feature_flags(argparse.ArgumentParser(),
-                                         sys.argv[1:])),
-        options=cotd_bot.updater.OptionsConfig(
-            options=parse_options(argparse.ArgumentParser(), sys.argv[1:])),
-        logger=logger(__name__, logging.DEBUG))
+    logger = cotd_bot.logger.logger(__name__, logging.DEBUG)
+    envs = cotd_bot.updater.EnvConfig(
+        token=os.environ['COTD_TELEGRAM_BOT_TOKEN'])
+    feature_flags = cotd_bot.updater.FeatureFlagsConfig(
+        features=parse_feature_flags(argparse.ArgumentParser(), sys.argv[1:]))
+    options = cotd_bot.updater.OptionsConfig(
+        options=parse_options(argparse.ArgumentParser(), sys.argv[1:]))
+
+    config = cotd_bot.updater.Config(env=envs,
+                                     features=feature_flags,
+                                     options=options,
+                                     logger=logger)
 
     cotd = cotd_bot.updater.COTDBot(config=config)
 
