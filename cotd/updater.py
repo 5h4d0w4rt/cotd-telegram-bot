@@ -1,4 +1,5 @@
 import telegram.ext
+import logging
 
 
 class EnvConfig:
@@ -27,8 +28,11 @@ class ClientsConfig:
 
 class Config:
 
-    def __init__(self, env: EnvConfig, features: FeatureFlagsConfig,
-                 options: OptionsConfig, logger):
+    def __init__(self,
+                 env: EnvConfig = None,
+                 features: FeatureFlagsConfig = None,
+                 options: OptionsConfig = None,
+                 logger: logging.Logger = None):
         self.env = env
         self.features = features
         self.options = options
@@ -42,11 +46,12 @@ class COTDBot:
         self.updater = self._updater()
 
     def _updater(self):
-        return telegram.ext.Updater(token=self.config.env.token,
-                                    use_context=True,
-                                    defaults=telegram.ext.Defaults(
-                                        parse_mode='HTML',
-                                        disable_notification=True,
-                                        disable_web_page_preview=True,
-                                        timeout=5.0,
-                                    ))
+        return telegram.ext.Updater(
+            token=self.config.env.token,
+            use_context=True,
+            defaults=telegram.ext.Defaults(
+                parse_mode='HTML',
+                disable_notification=True,
+                disable_web_page_preview=True,
+                timeout=5.0,
+            ))

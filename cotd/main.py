@@ -61,7 +61,7 @@ def main():
         telegram.BotCommand("kekw", "KEKW"),
         telegram.BotCommand("secret", "what's in there?")
     ])
-
+    logger.info('initialized')
     run(cotdbot.updater)
 
 

@@ -1,6 +1,10 @@
 load("@rules_python//python:defs.bzl", "py_binary", "py_library")
 load("@python_workspace_deps//:requirements.bzl", "requirement")
 
+package(
+    default_visibility = ["//visibility:public"],
+)
+
 py_library(
     name = "handlers",
     srcs = ["handlers.py"],
@@ -27,7 +31,7 @@ py_library(
 )
 
 py_binary(
-    name = "main",
+    name = "cotdbot",
     srcs = ["main.py"],
     data = [
         "//static:KEKW.mp4",
@@ -35,6 +39,7 @@ py_binary(
         "//static:ribnikov.based.mp4",
         "//static:smileyOne.webp",
     ],
+    main = "main.py",
     deps = [
         requirement("python-telegram-bot"),
         requirement("flask"),
