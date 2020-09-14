@@ -59,6 +59,8 @@ def setup_sticker_set(cotdbot: cotd.updater.COTDBot):
     me = cotdbot.updater.bot.get_me()
     try:
         sticker_pack = cotdbot.updater.bot.get_sticker_set(f"VC_by_{me.username}")
+        if sticker_pack:
+            fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
     except telegram.error.BadRequest as err:
         if 'Stickerset_invalid' in str(err):
             sticker_pack = cotdbot.updater.bot.create_new_sticker_set(
@@ -67,9 +69,9 @@ def setup_sticker_set(cotdbot: cotd.updater.COTDBot):
                 title=f"VC_by_{me.username}",
                 user_id=int(145043750),
                 emojis="🙂😊")
+            fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
         else:
             raise
-    fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
     cotdbot.config.logger.info(fileids)
     return fileids
 
