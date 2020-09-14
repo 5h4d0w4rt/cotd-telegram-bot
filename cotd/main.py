@@ -54,41 +54,50 @@ def set_dispatcher_handlers(updater: telegram.ext.Updater, handlers: list):
 
 def setup_sticker_set(cotdbot: cotd.updater.COTDBot):
     fileids = []
-    me = cotdbot.updater.bot.get_me()
     try:
-        sticker_pack = cotdbot.updater.bot.get_sticker_set(f"VC_by_{me.username}")
+        sticker_pack = cotdbot.updater.bot.get_sticker_set(
+            f"VC_by_{cotdbot.config.metadata.username}")
         if sticker_pack:
             fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
     except telegram.error.BadRequest as err:
         if 'Stickerset_invalid' in str(err):
             sticker_pack = cotdbot.updater.bot.create_new_sticker_set(
                 png_sticker=open("static/smileyOne512x512.png", 'rb'),
-                name=f"VC_by_{me.username}",
-                title=f"VC_by_{me.username}",
+                name=f"VC_by_{cotdbot.config.metadata.username}",
+                title=f"VC_by_{cotdbot.config.metadata.username}",
                 user_id=int(145043750),
                 emojis="🙂😊")
             fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
         else:
             raise
     cotdbot.config.logger.info(fileids)
+    cotdbot.config.sticker_pack = sticker_pack
     return fileids
 
 
 def main():
     logger = cotd.logger.get_logger(__name__, logging.DEBUG)
+
     envs = cotd.updater.EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN'])
     logger.info("initialized environment variables")
+
     feature_flags = parse_feature_flags(argparse.ArgumentParser(), sys.argv[1:])
     logger.info(f"initialized feature flags: {feature_flags}")
+
     options = parse_options(argparse.ArgumentParser(), sys.argv[1:])
     logger.info(f"initialized startup options {options}")
+
     config = cotd.updater.Config(env=envs, features=feature_flags, options=options, logger=logger)
     logger.info("initialized config")
     cotdbot = cotd.updater.COTDBot(config=config)
+
+    cotdbot.config.metadata = cotdbot.updater.bot.get_me()
+
     logger.info("initialized cringe of the day client")
+
     fileids = setup_sticker_set(cotdbot)
 
-    cringe_filter = CringeFilter(fileids, cotdbot.updater.bot.get_me())
+    cringe_filter = CringeFilter(fileids, cotdbot.config.metadata)
 
     set_dispatcher_handlers(cotdbot.updater, [
         telegram.ext.CommandHandler(
