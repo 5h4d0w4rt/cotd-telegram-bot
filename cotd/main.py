@@ -23,8 +23,6 @@ class CringeFilter(telegram.ext.BaseFilter):
         self.metadata = metadata
 
     def filter(self, message: telegram.Update):
-        print(message)
-        print(self.fileids)
         try:
             return (message.reply_to_message.sticker.file_id in self.fileids or
                     (message.sticker.emoji == '🙂' and
