@@ -6,6 +6,7 @@ py_binary(
     srcs = ["sticker-pack-creator.py"],
     data = [
         "//static:KEKW.mp4",
+        "//static:ezgif.com-resize.png",
         "//static:oldfellow.mp4",
         "//static:ribnikov.based.mp4",
         "//static:smileyOne.webp",

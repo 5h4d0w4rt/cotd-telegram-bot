@@ -1,20 +1,27 @@
 import random
 import telegram
 import telegram.ext
-# TODO create class
-# that logs every handler call
-# so we do not need to implement logging for every handler out there
+import logging
 
 
-def unknown(update: telegram.Update, context: telegram.ext.CallbackContext) -> telegram.Message:
+def unknown(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
     return context.bot.send_message(chat_id=update.effective_chat.id, text="nope")
 
 
-def start(update: telegram.Update, context: telegram.ext.CallbackContext) -> telegram.Message:
+def start(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
     return context.bot.send_message(chat_id=update.effective_chat.id, text="start")
 
 
-def cringe(update: telegram.Update, context: telegram.ext.CallbackContext) -> telegram.Message:
+def cringe(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
     try:
         return context.bot.send_sticker(
             chat_id=update.effective_chat.id,
@@ -25,7 +32,10 @@ def cringe(update: telegram.Update, context: telegram.ext.CallbackContext) -> te
             chat_id=update.effective_chat.id, sticker=open('static/smileyOne.webp', 'rb'))
 
 
-def iscringe(update: telegram.Update, context: telegram.ext.CallbackContext) -> telegram.Message:
+def iscringe(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
     choices = ["based", "cringe"]
     final_choice = random.choice(choices)
     try:
@@ -44,7 +54,10 @@ def iscringe(update: telegram.Update, context: telegram.ext.CallbackContext) -> 
             chat_id=update.effective_chat.id, text='Can"t see cringe though')
 
 
-def oldfellow(update: telegram.Update, context: telegram.ext.CallbackContext) -> telegram.Message:
+def oldfellow(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
     try:
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
@@ -55,7 +68,10 @@ def oldfellow(update: telegram.Update, context: telegram.ext.CallbackContext) ->
             chat_id=update.effective_chat.id, video=open('static/oldfellow.mp4', 'rb'))
 
 
-def kekw(update: telegram.Update, context: telegram.ext.CallbackContext) -> telegram.Message:
+def kekw(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
     try:
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
@@ -66,5 +82,8 @@ def kekw(update: telegram.Update, context: telegram.ext.CallbackContext) -> tele
             chat_id=update.effective_chat.id, video=open('static/KEKW.mp4', 'rb'))
 
 
-def secret(update: telegram.Update, context: telegram.ext.CallbackContext) -> telegram.Message:
+def secret(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
     return context.bot.send_message(chat_id=update.effective_chat.id, text='bit.ly/2Ro39uJ')
