@@ -7,4 +7,4 @@ def define_options(parser: argparse.ArgumentParser):
 
 def parse_options(parser: argparse.ArgumentParser, args):
     define_options(parser)
-    return parser.parse_known_args(args)
+    return parser.parse_known_args(args)[0]

@@ -1,5 +1,6 @@
 import telegram.ext
 import logging
+import argparse
 
 
 class EnvConfig:
@@ -8,30 +9,12 @@ class EnvConfig:
         self.token = token
 
 
-class FeatureFlagsConfig:
-
-    def __init__(self, features):
-        self.features = features
-
-
-class OptionsConfig:
-
-    def __init__(self, options):
-        self.options = options
-
-
-class ClientsConfig:
-
-    def __init__(self, telegram_bot_updater_client: telegram.ext.Updater):
-        self.telegram_bot_updater_client = telegram_bot_updater_client
-
-
 class Config:
 
     def __init__(self,
                  env: EnvConfig = None,
-                 features: FeatureFlagsConfig = None,
-                 options: OptionsConfig = None,
+                 features: argparse.Namespace = None,
+                 options: argparse.Namespace = None,
                  logger: logging.Logger = None):
         self.env = env
         self.features = features
