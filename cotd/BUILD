@@ -33,7 +33,10 @@ py_library(
 py_binary(
     name = "cotdbot",
     srcs = ["main.py"],
-    args = ["--incomplete-create-sticker-set"],
+    args = [
+        "--mode",
+        "token",
+    ],
     data = [
         "//static:KEKW.mp4",
         "//static:oldfellow.mp4",

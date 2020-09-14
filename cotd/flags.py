@@ -2,7 +2,7 @@ import argparse
 
 
 def define_feature_flags(parser: argparse.ArgumentParser):
-    parser.add_argument('--incomplete-create-sticker-set', action="store_true", default=False)
+    pass
 
 
 def parse_feature_flags(parser: argparse.ArgumentParser, args):

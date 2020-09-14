@@ -26,10 +26,11 @@ def cringe(
         return context.bot.send_sticker(
             chat_id=update.effective_chat.id,
             reply_to_message_id=update.message.reply_to_message.message_id,
-            sticker=open('static/smileyOne.webp', 'rb'))
+            sticker='CAACAgIAAxUAAV9fnDk1559P8eTSTmr6zhG-51cAA0AAAyYxpQgyTMNtqCOcyxsE')
     except AttributeError:
         return context.bot.send_sticker(
-            chat_id=update.effective_chat.id, sticker=open('static/smileyOne.webp', 'rb'))
+            chat_id=update.effective_chat.id,
+            sticker='CAACAgIAAxUAAV9fnDk1559P8eTSTmr6zhG-51cAA0AAAyYxpQgyTMNtqCOcyxsE')
 
 
 def iscringe(
