@@ -26,11 +26,6 @@ py_library(
     srcs = ["updater.py"],
 )
 
-py_library(
-    name = "builders",
-    srcs = ["builders.py"],
-)
-
 py_binary(
     name = "main",
     srcs = ["main.py"],
@@ -43,7 +38,6 @@ py_binary(
     deps = [
         requirement("python-telegram-bot"),
         requirement("flask"),
-        "builders",
         "flags",
         "handlers",
         "logger",
