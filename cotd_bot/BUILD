@@ -2,11 +2,6 @@ load("@rules_python//python:defs.bzl", "py_binary", "py_library")
 load("@python_workspace_deps//:requirements.bzl", "requirement")
 
 py_library(
-    name = "config",
-    srcs = ["config.py"],
-)
-
-py_library(
     name = "handlers",
     srcs = ["handlers.py"],
 )
@@ -21,6 +16,21 @@ py_library(
     srcs = ["options.py"],
 )
 
+py_library(
+    name = "logger",
+    srcs = ["logger.py"],
+)
+
+py_library(
+    name = "updater",
+    srcs = ["updater.py"],
+)
+
+py_library(
+    name = "builders",
+    srcs = ["builders.py"],
+)
+
 py_binary(
     name = "main",
     srcs = ["main.py"],
@@ -33,9 +43,11 @@ py_binary(
     deps = [
         requirement("python-telegram-bot"),
         requirement("flask"),
-        "config",
+        "builders",
         "flags",
         "handlers",
+        "logger",
         "options",
+        "updater",
     ],
 )

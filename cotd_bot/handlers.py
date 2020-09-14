@@ -1,19 +1,24 @@
 import random
-
+import telegram
+import telegram.ext
+from telegram import Bot
 # TODO create class
 # that logs every handler call
 # so we do not need to implement logging for every handler out there
 
 
-def unknown(update, context):
+def unknown(update: telegram.Update,
+            context: telegram.ext.CallbackContext) -> None:
     context.bot.send_message(chat_id=update.effective_chat.id, text="nope")
 
 
-def start(update, context):
+def start(update: telegram.Update,
+          context: telegram.ext.CallbackContext) -> None:
     context.bot.send_message(chat_id=update.effective_chat.id, text="start")
 
 
-def cringe(update, context):
+def cringe(update: telegram.Update,
+           context: telegram.ext.CallbackContext) -> None:
     try:
         return context.bot.send_sticker(
             chat_id=update.effective_chat.id,
@@ -25,7 +30,8 @@ def cringe(update, context):
                                                      'rb'))
 
 
-def iscringe(update, context):
+def iscringe(update: telegram.Update,
+             context: telegram.ext.CallbackContext) -> None:
     choices = ["based", "cringe"]
     final_choice = random.choice(choices)
     try:
@@ -44,7 +50,8 @@ def iscringe(update, context):
                                         text='Can"t see cringe though')
 
 
-def oldfellow(update, context):
+def oldfellow(update: telegram.Update,
+              context: telegram.ext.CallbackContext) -> None:
     try:
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
@@ -55,7 +62,8 @@ def oldfellow(update, context):
                                video=open('static/oldfellow.mp4', 'rb'))
 
 
-def kekw(update, context):
+def kekw(update: telegram.Update,
+         context: telegram.ext.CallbackContext) -> None:
     try:
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
@@ -66,6 +74,7 @@ def kekw(update, context):
                                       video=open('static/KEKW.mp4', 'rb'))
 
 
-def secret(update, context):
+def secret(update: telegram.Update,
+           context: telegram.ext.CallbackContext) -> None:
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text='bit.ly/2Ro39uJ')

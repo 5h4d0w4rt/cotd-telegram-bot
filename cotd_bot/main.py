@@ -1,77 +1,79 @@
-from telegram import BotCommand
-from telegram.ext import Updater, Defaults
-from telegram.ext import CommandHandler, MessageHandler, Filters
-from cotd_bot.handlers import unknown, start, cringe, iscringe, oldfellow, kekw, secret
-from cotd_bot.flags import parse_feature_flags
+import argparse
 import logging
 import os
-from cotd_bot.config import Config, EnvConfig, FeatureFlagsConfig, OptionsConfig
-from cotd_bot.options import parse_options
-import argparse
 import sys
 
+import cotd_bot.builders
+import cotd_bot.flags
+import cotd_bot.handlers
+import cotd_bot.logger
+import cotd_bot.options
+import cotd_bot.updater
+import telegram
+import telegram.ext
+from cotd_bot.flags import parse_feature_flags
+from cotd_bot.handlers import (cringe, iscringe, kekw, oldfellow, secret, start,
+                               unknown)
+from cotd_bot.logger import logger
+from cotd_bot.options import parse_options
 
-def run(updater):
+
+def run(updater: telegram.ext.Updater):
     updater.start_polling()
     updater.idle()
 
 
-def main(config):
-    updater = Updater(token=config.env.token,
-                      use_context=True,
-                      defaults=Defaults(
-                          parse_mode='HTML',
-                          disable_notification=True,
-                          disable_web_page_preview=True,
-                          timeout=5.0,
-                      ))
-    dispatcher = updater.dispatcher
+def init_set_commands(updater: telegram.ext.Updater, commands: list):
+    updater.bot.set_my_commands(commands)
 
-    start_handler = CommandHandler('start',
-                                   start,
-                                   filters=~Filters.update.edited_message)
-    dispatcher.add_handler(start_handler)
 
-    cringe_handler = CommandHandler('cringe', cringe)
-    dispatcher.add_handler(cringe_handler)
+def init_dispatcher(updater: telegram.ext.Updater, handlers: list):
+    cotd_bot.builders.DispatcherBuilder(updater.dispatcher).with_handlers(
+        handlers).with_unknown_message_handler(
+            telegram.ext.MessageHandler(telegram.ext.Filters.command,
+                                        unknown)).build()
 
-    iscringe_handler = CommandHandler('iscringe', iscringe)
-    dispatcher.add_handler(iscringe_handler)
 
-    oldfellow_handler = CommandHandler('oldfellow', oldfellow)
-    dispatcher.add_handler(oldfellow_handler)
+def main():
+    config = cotd_bot.updater.Config(
+        env=cotd_bot.updater.EnvConfig(
+            token=os.environ['COTD_TELEGRAM_BOT_TOKEN']),
+        features=cotd_bot.updater.FeatureFlagsConfig(
+            features=parse_feature_flags(argparse.ArgumentParser(),
+                                         sys.argv[1:])),
+        options=cotd_bot.updater.OptionsConfig(
+            options=parse_options(argparse.ArgumentParser(), sys.argv[1:])),
+        logger=logger(__name__, logging.DEBUG))
 
-    kekw_handler = CommandHandler('kekw', kekw)
-    dispatcher.add_handler(kekw_handler)
+    cotd = cotd_bot.updater.COTDBot(config=config)
 
-    secret_handler = CommandHandler('secret', secret)
-    dispatcher.add_handler(secret_handler)
-    # must be added last
-    unknown_handler = MessageHandler(Filters.command, unknown)
-    dispatcher.add_handler(unknown_handler)
+    handlers = [
+        telegram.ext.CommandHandler(
+            'start', start,
+            filters=~telegram.ext.Filters.update.edited_message),
+        telegram.ext.CommandHandler('cringe', cringe),
+        telegram.ext.CommandHandler('iscringe', iscringe),
+        telegram.ext.CommandHandler('oldfellow', oldfellow),
+        telegram.ext.CommandHandler('kekw', kekw),
+        telegram.ext.CommandHandler('secret', secret),
+    ]
 
-    updater.bot.set_my_commands([
-        BotCommand("start", "Hello world"),
-        BotCommand("cringe", "Gets you a nice smiley-cat"),
-        BotCommand("iscringe",
-                   "Determines if post you reply to is cringe or based"),
-        BotCommand("oldfellow", "Starina siebi nahui"),
-        BotCommand("kekw", "KEKW"),
-        BotCommand("secret", "what's in there?")
-    ])
-    run(updater)
+    commands = [
+        telegram.BotCommand("start", "Hello world"),
+        telegram.BotCommand("cringe", "Gets you a nice smiley-cat"),
+        telegram.BotCommand(
+            "iscringe", "Determines if post you reply to is cringe or based"),
+        telegram.BotCommand("oldfellow", "Starina siebi nahui"),
+        telegram.BotCommand("kekw", "KEKW"),
+        telegram.BotCommand("secret", "what's in there?")
+    ]
+
+    init_dispatcher(cotd.updater, handlers)
+    init_set_commands(cotd.updater, commands)
+
+    run(cotd.updater)
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        level=logging.INFO)
 
-    config = Config(
-        env=EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN']),
-        features=FeatureFlagsConfig(features=parse_feature_flags(
-            argparse.ArgumentParser(), sys.argv[1:])),
-        options=OptionsConfig(
-            options=parse_options(argparse.ArgumentParser(), sys.argv[1:])))
-
-    main(config)
+    main()
