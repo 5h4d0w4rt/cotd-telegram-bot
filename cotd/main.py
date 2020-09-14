@@ -33,15 +33,26 @@ def set_dispatcher_handlers(updater: telegram.ext.Updater, handlers: list):
         telegram.ext.MessageHandler(telegram.ext.Filters.command, unknown))
 
 
+def setup_sticker_set(cotdbot: cotd.updater.COTDBot):
+    me = cotdbot.updater.bot.get_me()
+    
+    cotdbot.updater.bot.create_new_sticker_set(
+        png_sticker=open("static/smileyOne512x512.png", 'rb'),
+        name=f"VC_by_{me.username}",
+        title=f"VC_by_{me.username}",
+        user_id=int(145043750),
+        emojis="🙂")
+
+
 def main():
     logger = cotd.logger.get_logger(__name__, logging.DEBUG)
     envs = cotd.updater.EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN'])
     logger.info("initialized environment variables")
     feature_flags = cotd.updater.FeatureFlagsConfig(
         parse_feature_flags(argparse.ArgumentParser(), sys.argv[1:]))
-    logger.info("initialized feature flags")
+    logger.info(f"initialized feature flags: {feature_flags.features}")
     options = cotd.updater.OptionsConfig(parse_options(argparse.ArgumentParser(), sys.argv[1:]))
-    logger.info("initialized startup options")
+    logger.info(f"initialized startup options {options.options}")
     config = cotd.updater.Config(env=envs, features=feature_flags, options=options, logger=logger)
     logger.info("initialized config")
     cotdbot = cotd.updater.COTDBot(config=config)
@@ -66,6 +77,13 @@ def main():
         telegram.BotCommand("kekw", "KEKW"),
         telegram.BotCommand("secret", "what's in there?")
     ])
+
+    try:
+        if cotdbot.config.features.incomplete_create_sticker_set:
+            setup_sticker_set(cotdbot)
+    except AttributeError:
+        pass
+
     logger.info('initialized list of commands')
     run(cotdbot.updater)
 

@@ -33,11 +33,13 @@ py_library(
 py_binary(
     name = "cotdbot",
     srcs = ["main.py"],
+    args = ["--incomplete-create-sticker-set"],
     data = [
         "//static:KEKW.mp4",
         "//static:oldfellow.mp4",
         "//static:ribnikov.based.mp4",
         "//static:smileyOne.webp",
+        "//static:smileyOne512x512.png",
     ],
     main = "main.py",
     deps = [

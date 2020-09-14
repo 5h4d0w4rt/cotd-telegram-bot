@@ -25,10 +25,10 @@ def main():
     me = cotdbot.updater.bot.get_me()
     print(me)
     cotdbot.updater.bot.create_new_sticker_set(
-        png_sticker=open("static/ezgif.com-resize.png", 'rb'),
+        png_sticker=open("static/smileyOne512x512.png", 'rb'),
         name=f"VC_by_{me.username}",
         title=f"VC_by_{me.username}",
-        user_id=int(me.id),
+        user_id=int(145043750),
         emojis="🙂")
     disp = cotdbot.updater.dispatcher
     disp.add_handler(telegram.ext.CommandHandler('start', start))

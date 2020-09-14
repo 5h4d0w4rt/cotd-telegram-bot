@@ -5,5 +5,5 @@ exports_files([
     "oldfellow.mp4",
     "KEKW.mp4",
     "ribnikov.based.mp4",
-    "ezgif.com-resize.png",
+    "smileyOne512x512.png",
 ])
