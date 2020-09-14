@@ -26,12 +26,10 @@ class CringeFilter(telegram.ext.BaseFilter):
         print(message)
         print(self.fileids)
         try:
-            print(message.reply_to_message.sticker.file_id in self.fileids)
             return (message.reply_to_message.sticker.file_id in self.fileids or
                     (message.sticker.emoji == '🙂' and
                      message.sticker.set_name == f'VC_by_{self.metadata.username}'))
         except AttributeError:
-            print(message.sticker.file_id in self.fileids)
             return (message.sticker.file_id in self.fileids or
                     (message.sticker.emoji == '🙂' and
                      message.sticker.set_name == f'VC_by_{self.metadata.username}'))
@@ -97,7 +95,7 @@ def main():
             'start', start, filters=~telegram.ext.Filters.update.edited_message),
         telegram.ext.CommandHandler('cringe', cringe),
         telegram.ext.MessageHandler(telegram.ext.Filters.regex(r'iscringe|😊|🙂'), iscringe),
-        telegram.ext.MessageHandler(cringe_filter, iscringe),
+        telegram.ext.MessageHandler(telegram.ext.Filters.sticker and cringe_filter, iscringe),
         telegram.ext.CommandHandler('iscringe', iscringe),
         telegram.ext.CommandHandler('oldfellow', oldfellow),
         telegram.ext.CommandHandler('kekw', kekw),
