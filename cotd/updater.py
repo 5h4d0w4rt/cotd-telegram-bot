@@ -16,8 +16,12 @@ class Config:
     env: EnvConfig
     updater: telegram.ext.Updater
     logger: logging.Logger
-    features: typing.Optional[argparse.Namespace] = None
-    options: typing.Optional[argparse.Namespace] = None
+    options: argparse.Namespace
+
+
+@dataclass
+class COTDBotConfig(Config):
+    features: argparse.Namespace
 
 
 @dataclass
@@ -34,9 +38,10 @@ class COTDBotMetadata(TGBotMetadata):
 class TGBotClient:
 
     def __init__(self, config: Config):
-        self.config = config
-        self.logger = self.config.logger
-        self.updater = self.config.updater
+        self.env = config.env
+        self.options = config.options
+        self.logger = config.logger
+        self.updater = config.updater
         self.metadata = TGBotMetadata(user=self.__fetch_user_metadata(self.updater))
 
         self.__init_loggers(
@@ -49,19 +54,20 @@ class TGBotClient:
 
     def __init_loggers(self, base_logger: logging.Logger, dispatcher_logger: logging.Logger,
                        updater_logger: logging.Logger) -> None:
-        base_logger.setLevel(self.config.options.log_level)
+        base_logger.setLevel(self.options.log_level)
 
-        updater_logger.setLevel(self.config.options.log_level)
+        updater_logger.setLevel(self.options.log_level)
         updater_logger.addHandler(logging.StreamHandler())
 
-        dispatcher_logger.setLevel(self.config.options.log_level)
+        dispatcher_logger.setLevel(self.options.log_level)
         dispatcher_logger.addHandler(logging.StreamHandler())
 
 
 class COTDBot(TGBotClient):
 
-    def __init__(self, config: Config):
+    def __init__(self, config: COTDBotConfig):
         TGBotClient.__init__(self, config)
+        self.features = config.features
         self.metadata = COTDBotMetadata(
             user=self.metadata.user, **self.sticker_set(self.updater, self.metadata.user))
 
@@ -82,8 +88,9 @@ class COTDBot(TGBotClient):
             user_id=int(145043750),
             emojis="🙂😊")
 
-    def _fetch_sticker_set(self, updater: telegram.ext.Updater,
-                           me: telegram.User) -> typing.Tuple[telegram.StickerSet, typing.List[str]]:
+    def _fetch_sticker_set(
+        self, updater: telegram.ext.Updater, me: telegram.User
+                           ) -> typing.Tuple[telegram.StickerSet, typing.List[str]]:
         try:
             return updater.bot.get_sticker_set(f"VC_by_{me.username}")
         except telegram.error.BadRequest as err:

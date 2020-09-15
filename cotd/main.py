@@ -1,7 +1,5 @@
 import argparse
-import logging
 import os
-import re
 import sys
 import typing
 from re import match
@@ -11,7 +9,7 @@ import cotd.logger
 import cotd.updater
 import telegram
 import telegram.ext
-from cotd.handlers import (cringe, iscringe, kekw, oldfellow, secret, start, unknown)
+from cotd.handlers import (iscringe, kekw, oldfellow, secret, start, unknown)
 
 # class CringeFilter(telegram.ext.BaseFilter):
 
@@ -31,26 +29,20 @@ from cotd.handlers import (cringe, iscringe, kekw, oldfellow, secret, start, unk
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> None:
-    pass
-
-
-def parse_feature_flags(parser: argparse.ArgumentParser,
-                        args: typing.List[str]) -> argparse.ArgumentParser:
-    return parser.parse_args(args)
+    flags = parser.add_argument_group('flags')
+    flags.add_argument('--stub-feature-flag')
+    return flags
 
 
 def define_options(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument('--mode', choices=["token", "webhook"])
-    parser.add_argument(
+    options = parser.add_argument_group('options')
+    options.add_argument('--mode', choices=["token", "webhook"])
+    options.add_argument(
         '--log-level',
         type=lambda x: x.upper(),
         choices=['CRITICAL', 'WARNING', 'ERROR', 'INFO', 'DEBUG'],
         default='ERROR')
-
-
-def parse_options(parser: argparse.ArgumentParser,
-                  args: typing.List[str]) -> argparse.ArgumentParser:
-    return parser.parse_args(args)
+    return options
 
 
 def run(updater: telegram.ext.Updater) -> None:
@@ -74,14 +66,29 @@ def set_dispatcher_handlers(updater: telegram.ext.Updater,
 
 def main():
     argparser = argparse.ArgumentParser(description="cringee-bot")
-    define_feature_flags(argparser)
-    define_options(argparser)
-    feature_flags = parse_feature_flags(argparser, sys.argv[1:])
-    options = parse_options(argparser, sys.argv[1:])
+
+    _flags = define_feature_flags(argparser)
+    _options = define_options(argparser)
+
+    args = argparser.parse_args()
+
+    features = argparse.Namespace(
+        **{
+            name: value
+            for (name, value) in args._get_kwargs()
+            if name in set(y.dest for y in _flags._group_actions)
+        })
+    options = argparse.Namespace(
+        **{
+            name: value
+            for (name, value) in args._get_kwargs()
+            if name in set(y.dest for y in _options._group_actions)
+        })
 
     envs = cotd.updater.EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN'])
 
-    config = cotd.updater.Config(
+    config = cotd.updater.COTDBotConfig(
+        features=features,
         env=envs,
         updater=telegram.ext.Updater(
             token=envs.token,
@@ -92,12 +99,11 @@ def main():
                 disable_web_page_preview=True,
                 timeout=5.0,
             )),
-        features=feature_flags,
         options=options,
         logger=cotd.logger.get_logger(__name__, level=options.log_level))
-
     cotdbot = cotd.updater.COTDBot(config)
-    cotdbot.logger.info(f"initialized with feature flags: {feature_flags}")
+
+    cotdbot.logger.info(f"initialized with feature flags: {features}")
     cotdbot.logger.info(f"initialized with startup options {options}")
     cotdbot.logger.info("initialized config")
     cotdbot.logger.info("initialized cringe of the day client")
