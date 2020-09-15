@@ -11,16 +11,6 @@ py_library(
 )
 
 py_library(
-    name = "flags",
-    srcs = ["flags.py"],
-)
-
-py_library(
-    name = "options",
-    srcs = ["options.py"],
-)
-
-py_library(
     name = "logger",
     srcs = ["logger.py"],
 )
@@ -36,6 +26,8 @@ py_binary(
     args = [
         "--mode",
         "token",
+        "--log-level",
+        "debug",
     ],
     data = [
         "//static:KEKW.mp4",
@@ -48,10 +40,8 @@ py_binary(
     deps = [
         requirement("python-telegram-bot"),
         requirement("flask"),
-        "flags",
         "handlers",
         "logger",
-        "options",
         "updater",
     ],
 )

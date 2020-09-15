@@ -1,48 +1,70 @@
 import argparse
 import logging
 import os
-from re import match
-import sys
 import re
-import cotd.flags
+import sys
+import typing
+from re import match
+
 import cotd.handlers
 import cotd.logger
-import cotd.options
 import cotd.updater
 import telegram
 import telegram.ext
-from cotd.flags import parse_feature_flags
 from cotd.handlers import (cringe, iscringe, kekw, oldfellow, secret, start, unknown)
-from cotd.options import parse_options
+
+# class CringeFilter(telegram.ext.BaseFilter):
+
+#     def __init__(self, fileids, metadata):
+#         self.fileids = set(fileids)
+#         self.metadata = metadata
+
+#     def filter(self, message: telegram.Update) -> bool:
+#         try:
+#             return (message.reply_to_message.sticker.file_id in self.fileids or
+#                     (message.sticker.emoji == '🙂' and
+#                      message.sticker.set_name == f'VC_by_{self.metadata.username}'))
+#         except AttributeError:
+#             return (message.sticker.file_id in self.fileids or
+#                     (message.sticker.emoji == '🙂' and
+#                      message.sticker.set_name == f'VC_by_{self.metadata.username}'))
 
 
-class CringeFilter(telegram.ext.BaseFilter):
-
-    def __init__(self, fileids, metadata):
-        self.fileids = set(fileids)
-        self.metadata = metadata
-
-    def filter(self, message: telegram.Update):
-        try:
-            return (message.reply_to_message.sticker.file_id in self.fileids or
-                    (message.sticker.emoji == '🙂' and
-                     message.sticker.set_name == f'VC_by_{self.metadata.username}'))
-        except AttributeError:
-            return (message.sticker.file_id in self.fileids or
-                    (message.sticker.emoji == '🙂' and
-                     message.sticker.set_name == f'VC_by_{self.metadata.username}'))
+def define_feature_flags(parser: argparse.ArgumentParser) -> None:
+    pass
 
 
-def run(updater: telegram.ext.Updater):
+def parse_feature_flags(parser: argparse.ArgumentParser,
+                        args: typing.List[str]) -> argparse.ArgumentParser:
+    return parser.parse_args(args)
+
+
+def define_options(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument('--mode', choices=["token", "webhook"])
+    parser.add_argument(
+        '--log-level',
+        type=lambda x: x.upper(),
+        choices=['CRITICAL', 'WARNING', 'ERROR', 'INFO', 'DEBUG'],
+        default='ERROR')
+
+
+def parse_options(parser: argparse.ArgumentParser,
+                  args: typing.List[str]) -> argparse.ArgumentParser:
+    return parser.parse_args(args)
+
+
+def run(updater: telegram.ext.Updater) -> None:
     updater.start_polling()
     updater.idle()
 
 
-def set_bot_commands(updater: telegram.ext.Updater, commands: list):
+def set_bot_commands(updater: telegram.ext.Updater,
+                     commands: typing.List[telegram.BotCommand]) -> None:
     updater.bot.set_my_commands(commands)
 
 
-def set_dispatcher_handlers(updater: telegram.ext.Updater, handlers: list):
+def set_dispatcher_handlers(updater: telegram.ext.Updater,
+                            handlers: typing.List[telegram.ext.Handler]):
     for handler in handlers:
         updater.dispatcher.add_handler(handler)
 
@@ -50,64 +72,54 @@ def set_dispatcher_handlers(updater: telegram.ext.Updater, handlers: list):
         telegram.ext.MessageHandler(telegram.ext.Filters.command, unknown))
 
 
-def setup_sticker_set(cotdbot: cotd.updater.COTDBot):
-    fileids = []
-    try:
-        sticker_pack = cotdbot.updater.bot.get_sticker_set(
-            f"VC_by_{cotdbot.config.metadata.username}")
-        if sticker_pack:
-            fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
-    except telegram.error.BadRequest as err:
-        if 'Stickerset_invalid' in str(err):
-            sticker_pack = cotdbot.updater.bot.create_new_sticker_set(
-                png_sticker=open("static/smileyOne512x512.png", 'rb'),
-                name=f"VC_by_{cotdbot.config.metadata.username}",
-                title=f"VC_by_{cotdbot.config.metadata.username}",
-                user_id=int(145043750),
-                emojis="🙂😊")
-            fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
-        else:
-            raise
-    cotdbot.config.logger.info(fileids)
-    cotdbot.config.sticker_pack = sticker_pack
-    return fileids
-
-
 def main():
+    argparser = argparse.ArgumentParser(description="cringee-bot")
+    define_feature_flags(argparser)
+    define_options(argparser)
+    feature_flags = parse_feature_flags(argparser, sys.argv[1:])
+    options = parse_options(argparser, sys.argv[1:])
+
     logger = cotd.logger.get_logger(__name__, logging.DEBUG)
 
     envs = cotd.updater.EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN'])
-    logger.info("initialized environment variables")
 
-    feature_flags = parse_feature_flags(argparse.ArgumentParser(), sys.argv[1:])
-    logger.info(f"initialized feature flags: {feature_flags}")
+    config = cotd.updater.Config(
+        env=envs,
+        updater=telegram.ext.Updater(
+            token=envs.token,
+            use_context=True,
+            defaults=telegram.ext.Defaults(
+                parse_mode='HTML',
+                disable_notification=True,
+                disable_web_page_preview=True,
+                timeout=5.0,
+            )),
+        features=feature_flags,
+        options=options,
+        logger=logger)
 
-    options = parse_options(argparse.ArgumentParser(), sys.argv[1:])
-    logger.info(f"initialized startup options {options}")
-
-    config = cotd.updater.Config(env=envs, features=feature_flags, options=options, logger=logger)
-    logger.info("initialized config")
     cotdbot = cotd.updater.COTDBot(config=config)
 
-    cotdbot.config.metadata = cotdbot.updater.bot.get_me()
+    cotdbot.logger.info(f"initialized with feature flags: {feature_flags}")
+    cotdbot.logger.info(f"initialized with startup options {options}")
+    cotdbot.logger.info("initialized config")
+    cotdbot.logger.info("initialized cringe of the day client")
 
-    logger.info("initialized cringe of the day client")
+    # cringe_filter = CringeFilter(cotdbot.metadata.sticker_set_file_ids, cotdbot.metadata)
 
-    fileids = setup_sticker_set(cotdbot)
-
-    cringe_filter = CringeFilter(fileids, cotdbot.config.metadata)
-
-    set_dispatcher_handlers(cotdbot.updater, [
-        telegram.ext.CommandHandler(
-            'start', start, filters=~telegram.ext.Filters.update.edited_message),
-        telegram.ext.CommandHandler('cringe', cringe),
-        telegram.ext.MessageHandler(telegram.ext.Filters.regex(r'iscringe|😊|🙂'), iscringe),
-        telegram.ext.MessageHandler(telegram.ext.Filters.sticker and cringe_filter, iscringe),
-        telegram.ext.CommandHandler('iscringe', iscringe),
-        telegram.ext.CommandHandler('oldfellow', oldfellow),
-        telegram.ext.CommandHandler('kekw', kekw),
-        telegram.ext.CommandHandler('secret', secret),
-    ])
+    set_dispatcher_handlers(
+        cotdbot.updater,
+        [
+            telegram.ext.CommandHandler(
+                'start', start, filters=~telegram.ext.Filters.update.edited_message),
+            telegram.ext.CommandHandler('cringe', cringe),
+            telegram.ext.MessageHandler(telegram.ext.Filters.regex(r'iscringe|😊|🙂'), iscringe),
+            # telegram.ext.MessageHandler(telegram.ext.Filters.sticker and cringe_filter, iscringe),
+            telegram.ext.CommandHandler('iscringe', iscringe),
+            telegram.ext.CommandHandler('oldfellow', oldfellow),
+            telegram.ext.CommandHandler('kekw', kekw),
+            telegram.ext.CommandHandler('secret', secret),
+        ])
     logger.info("initialized handlers")
     set_bot_commands(cotdbot.updater, [
         telegram.BotCommand("start", "Hello world"),

@@ -65,7 +65,7 @@ def oldfellow(
             reply_to_message_id=update.message.reply_to_message.message_id,
             video=open('static/oldfellow.mp4', 'rb'))
     except AttributeError:
-        context.bot.send_video(
+        return context.bot.send_video(
             chat_id=update.effective_chat.id, video=open('static/oldfellow.mp4', 'rb'))
 
 
@@ -73,6 +73,8 @@ def kekw(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> telegram.Message:
+    logger = logging.getLogger('telegram.ext.Dispatcher')
+    logger.debug(f'called {__name__} with telegram.Update {update}')
     try:
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
