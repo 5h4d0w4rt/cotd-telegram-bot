@@ -21,53 +21,73 @@ class Config:
 
 
 @dataclass
-class COTDBotMetadata:
-    me: telegram.User
+class TGBotMetadata:
+    user: telegram.User
+
+
+@dataclass
+class COTDBotMetadata(TGBotMetadata):
     sticker_set: telegram.StickerSet
     sticker_set_file_ids: typing.List[str]
 
 
-class COTDBot:
+class TGBotClient:
 
     def __init__(self, config: Config):
         self.config = config
         self.logger = self.config.logger
         self.updater = self.config.updater
-        self.__me = self._fetch_user_metadata()
-        self.__sticker_set = self._sticker_set()
+        self.metadata = TGBotMetadata(user=self.__fetch_user_metadata(self.updater))
+
+        self.__init_loggers(
+            base_logger=self.logger,
+            updater_logger=self.updater.logger,
+            dispatcher_logger=self.updater.dispatcher.logger)
+
+    def __fetch_user_metadata(self, updater: telegram.ext.Updater) -> telegram.User:
+        return updater.bot.get_me()
+
+    def __init_loggers(self, base_logger: logging.Logger, dispatcher_logger: logging.Logger,
+                       updater_logger: logging.Logger) -> None:
+        base_logger.setLevel(self.config.options.log_level)
+
+        updater_logger.setLevel(self.config.options.log_level)
+        updater_logger.addHandler(logging.StreamHandler())
+
+        dispatcher_logger.setLevel(self.config.options.log_level)
+        dispatcher_logger.addHandler(logging.StreamHandler())
+
+
+class COTDBot(TGBotClient):
+
+    def __init__(self, config: Config):
+        TGBotClient.__init__(self, config)
         self.metadata = COTDBotMetadata(
-            me=self.__me,
-            sticker_set=self.__sticker_set[0],
-            sticker_set_file_ids=self.__sticker_set[1])
+            user=self.metadata.user, **self.sticker_set(self.updater, self.metadata.user))
 
-        self._set_loggers()
+    def sticker_set(self, updater: telegram.ext.Updater, me: telegram.User) -> typing.Dict:
 
-    def _sticker_set(self) -> typing.Tuple[telegram.StickerSet, typing.List[str]]:
+        if not (sticker_pack := self._fetch_sticker_set(updater, me)):
+            sticker_pack = self._init_sticker_set(updater, me)
+
         fileids = []
+        fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
+        return {'sticker_set': sticker_pack, 'sticker_set_file_ids': fileids}
+
+    def _init_sticker_set(self, updater: telegram.ext.Updater, me: telegram.User):
+        return updater.bot.create_new_sticker_set(
+            png_sticker=open("static/smileyOne512x512.png", 'rb'),
+            name=f"VC_by_{me.username}",
+            title=f"VC_by_{me.username}",
+            user_id=int(145043750),
+            emojis="🙂😊")
+
+    def _fetch_sticker_set(self, updater: telegram.ext.Updater,
+                           me: telegram.User) -> typing.Tuple[telegram.StickerSet, typing.List[str]]:
         try:
-            sticker_pack: telegram.StickerSet = self.updater.bot.get_sticker_set(
-                f"VC_by_{self.__me.username}")
-            if sticker_pack:
-                fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
+            return updater.bot.get_sticker_set(f"VC_by_{me.username}")
         except telegram.error.BadRequest as err:
             if 'Stickerset_invalid' in str(err):
-                sticker_pack: telegram.StickerSet = self.updater.bot.create_new_sticker_set(
-                    png_sticker=open("static/smileyOne512x512.png", 'rb'),
-                    name=f"VC_by_{self.__me.username}",
-                    title=f"VC_by_{self.__me.username}",
-                    user_id=int(145043750),
-                    emojis="🙂😊")
-                fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
+                return False
             else:
                 raise
-        return sticker_pack, fileids
-
-    def _fetch_user_metadata(self):
-        return self.updater.bot.get_me()
-
-    def _set_loggers(self):
-        self.logger.setLevel(self.config.options.log_level)
-        self.updater.dispatcher.logger.setLevel(self.config.options.log_level)
-        self.updater.dispatcher.logger.addHandler(logging.StreamHandler())
-        self.updater.logger.setLevel(self.config.options.log_level)
-        self.updater.logger.addHandler(logging.StreamHandler())

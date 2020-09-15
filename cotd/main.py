@@ -96,8 +96,7 @@ def main():
         options=options,
         logger=cotd.logger.get_logger(__name__, level=options.log_level))
 
-    cotdbot = cotd.updater.COTDBot(config=config)
-
+    cotdbot = cotd.updater.COTDBot(config)
     cotdbot.logger.info(f"initialized with feature flags: {feature_flags}")
     cotdbot.logger.info(f"initialized with startup options {options}")
     cotdbot.logger.info("initialized config")
@@ -117,6 +116,7 @@ def main():
             telegram.ext.CommandHandler('secret', secret),
         ])
     cotdbot.logger.info("initialized handlers")
+
     set_bot_commands(cotdbot.updater, [
         telegram.BotCommand("start", "Hello world"),
         telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
@@ -124,8 +124,8 @@ def main():
         telegram.BotCommand("kekw", "KEKW"),
         telegram.BotCommand("secret", "what's in there?")
     ])
-
     cotdbot.logger.info('initialized list of commands')
+
     run(cotdbot.updater)
 
 

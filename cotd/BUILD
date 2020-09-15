@@ -27,7 +27,7 @@ py_binary(
         "--mode",
         "token",
         "--log-level",
-        "debug",
+        "info",
     ],
     data = [
         "//static:KEKW.mp4",
