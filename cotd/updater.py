@@ -68,17 +68,21 @@ class COTDBot(TGBotClient):
     def __init__(self, config: COTDBotConfig):
         TGBotClient.__init__(self, config)
         self.features = config.features
-        self.metadata = COTDBotMetadata(
-            user=self.metadata.user, **self.sticker_set(self.updater, self.metadata.user))
+        self.metadata = self.fetch_metadata(self.updater, self.metadata.user)
 
-    def sticker_set(self, updater: telegram.ext.Updater, me: telegram.User) -> typing.Dict:
+    def fetch_metadata(self, updater: telegram.ext.Updater, me: telegram.User) -> COTDBotMetadata:
 
         if not (sticker_pack := self._fetch_sticker_set(updater, me)):
             sticker_pack = self._init_sticker_set(updater, me)
 
         fileids = []
-        fileids.extend(list(sticker.file_id for sticker in sticker_pack.stickers))
-        return {'sticker_set': sticker_pack, 'sticker_set_file_ids': fileids}
+
+        return COTDBotMetadata(**{
+            'user': me,
+            'sticker_set': sticker_pack, 'sticker_set_file_ids': fileids.extend(
+                list(sticker.file_id for sticker in sticker_pack.stickers)
+            )
+        })
 
     def _init_sticker_set(self, updater: telegram.ext.Updater, me: telegram.User):
         return updater.bot.create_new_sticker_set(

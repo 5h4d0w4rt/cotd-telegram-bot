@@ -11,30 +11,14 @@ import telegram
 import telegram.ext
 from cotd.handlers import (iscringe, kekw, oldfellow, secret, start, unknown)
 
-# class CringeFilter(telegram.ext.BaseFilter):
 
-#     def __init__(self, fileids, metadata):
-#         self.fileids = set(fileids)
-#         self.metadata = metadata
-
-#     def filter(self, message: telegram.Update) -> bool:
-#         try:
-#             return (message.reply_to_message.sticker.file_id in self.fileids or
-#                     (message.sticker.emoji == '🙂' and
-#                      message.sticker.set_name == f'VC_by_{self.metadata.username}'))
-#         except AttributeError:
-#             return (message.sticker.file_id in self.fileids or
-#                     (message.sticker.emoji == '🙂' and
-#                      message.sticker.set_name == f'VC_by_{self.metadata.username}'))
-
-
-def define_feature_flags(parser: argparse.ArgumentParser) -> None:
+def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group('flags')
     flags.add_argument('--stub-feature-flag')
     return flags
 
 
-def define_options(parser: argparse.ArgumentParser) -> None:
+def define_options(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     options = parser.add_argument_group('options')
     options.add_argument('--mode', choices=["token", "webhook"])
     options.add_argument(
@@ -110,17 +94,14 @@ def main():
 
     # cringe_filter = CringeFilter(cotdbot.metadata.sticker_set_file_ids, cotdbot.metadata)
 
-    set_dispatcher_handlers(
-        cotdbot.updater,
-        [
-            telegram.ext.CommandHandler(
-                'start', start, filters=~telegram.ext.Filters.update.edited_message),
-            # telegram.ext.MessageHandler(telegram.ext.Filters.sticker and cringe_filter, iscringe),
-            telegram.ext.CommandHandler('iscringe', iscringe),
-            telegram.ext.CommandHandler('oldfellow', oldfellow),
-            telegram.ext.CommandHandler('kekw', kekw),
-            telegram.ext.CommandHandler('secret', secret),
-        ])
+    set_dispatcher_handlers(cotdbot.updater, [
+        telegram.ext.CommandHandler(
+            'start', start, filters=~telegram.ext.Filters.update.edited_message),
+        telegram.ext.CommandHandler('iscringe', iscringe),
+        telegram.ext.CommandHandler('oldfellow', oldfellow),
+        telegram.ext.CommandHandler('kekw', kekw),
+        telegram.ext.CommandHandler('secret', secret),
+    ])
     cotdbot.logger.info("initialized handlers")
 
     set_bot_commands(cotdbot.updater, [
