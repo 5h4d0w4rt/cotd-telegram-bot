@@ -6,4 +6,5 @@ exports_files([
     "KEKW.mp4",
     "ribnikov.based.mp4",
     "smileyOne512x512.png",
+    "cringe-sniff-dog.jpg",
 ])
