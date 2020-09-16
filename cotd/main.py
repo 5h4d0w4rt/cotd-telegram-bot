@@ -3,13 +3,12 @@ import logging
 import os
 import typing
 
-import cotd.handlers
 import cotd.logger
 import cotd.service
+import cotd.handler
 
 import telegram
 import telegram.ext
-from cotd.handlers import (iscringe, kekw, oldfellow, secret, start)
 
 
 class Options(argparse.Namespace):
@@ -97,13 +96,16 @@ def main():
             if name in set(y.dest for y in _options._group_actions)
         })
 
+    handler_holder = cotd.handler.HandlerHolder(
+        cotd.handler.HandlerHolderConfig(cotd.handler.MediaCacheInMemory()))
+
     handlers = [
         telegram.ext.CommandHandler(
-            'start', start, filters=~telegram.ext.Filters.update.edited_message),
-        telegram.ext.CommandHandler('iscringe', iscringe),
-        telegram.ext.CommandHandler('oldfellow', oldfellow),
-        telegram.ext.CommandHandler('kekw', kekw),
-        telegram.ext.CommandHandler('secret', secret),
+            'start', handler_holder.start, filters=~telegram.ext.Filters.update.edited_message),
+        telegram.ext.CommandHandler('iscringe', handler_holder.iscringe),
+        telegram.ext.CommandHandler('oldfellow', handler_holder.oldfellow),
+        telegram.ext.CommandHandler('kekw', handler_holder.kekw),
+        telegram.ext.CommandHandler('secret', handler_holder.secret),
     ]
 
     commands = [

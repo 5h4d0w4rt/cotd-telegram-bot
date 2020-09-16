@@ -8,7 +8,11 @@ package(
 py_library(
     name = "handlers",
     srcs = ["handlers.py"],
-    deps = ["service"],
+)
+
+py_library(
+    name = "handler",
+    srcs = ["handler.py"],
 )
 
 py_library(
@@ -44,7 +48,7 @@ py_binary(
     deps = [
         requirement("python-telegram-bot"),
         requirement("flask"),
-        "handlers",
+        "handler",
         "logger",
         "service",
     ],
