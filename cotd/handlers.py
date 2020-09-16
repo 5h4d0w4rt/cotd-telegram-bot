@@ -15,9 +15,10 @@ CACHE = MediaCache()
 def is_reply(update):
     try:
         update.message.reply_to_message.message_id
-        return True
     except AttributeError:
         return False
+    else:
+        return True
 
 
 def unknown(
