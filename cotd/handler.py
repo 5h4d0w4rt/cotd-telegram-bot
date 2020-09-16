@@ -35,7 +35,7 @@ class MediaCacheInMemory:
 
 @dataclass
 class HandlerHolderConfig:
-    cache: typing.Type[MediaCache]
+    cache: MediaCacheInMemory
 
 
 class HandlerHolder:
@@ -183,3 +183,21 @@ class HandlerHolder:
         context: telegram.ext.CallbackContext,
     ) -> telegram.Message:
         return context.bot.send_message(chat_id=update.effective_chat.id, text='bit.ly/2Ro39uJ')
+
+    def cotd(
+        self,
+        update: telegram.Update,
+        context: telegram.ext.CallbackContext,
+    ) -> None:
+        print(context.bot.get_chat(chat_id=update.effective_chat.id))
+
+    def cache_users(
+        self,
+        update: telegram.Update,
+        context: telegram.ext.CallbackContext,
+    ) -> None:
+        pass
+        # setattr(self.cache, str(update.effective_chat.title), str(update.effective_chat.id))
+        # setattr(self.cache, str(update.effective_user.username), str(update.effective_user.id))
+        # getattr(self.cache, str(update.effective_chat.title))
+        # getattr(self.cache, str(update.effective_chat.username))

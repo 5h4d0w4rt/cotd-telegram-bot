@@ -13,7 +13,7 @@ class EnvConfig:
 
 @dataclass
 class TGBotMetadata:
-    user: telegram.User
+    user: typing.Union[telegram.User, None]
 
 
 @dataclass
@@ -86,14 +86,14 @@ class COTDBotService(TGBotClient):
     def _init_sticker_set(self) -> telegram.StickerSet:
         return self.updater.bot.create_new_sticker_set(
             png_sticker=open("static/smileyOne512x512.png", 'rb'),
-            name=f"VC_by_{self.metadata.username}",
-            title=f"VC_by_{self.metadata.username}",
+            name=f"VC_by_{self.metadata.user.username}",
+            title=f"VC_by_{self.metadata.user.username}",
             user_id=int(145043750),
             emojis="🙂😊")
 
-    def _fetch_sticker_set(self) -> typing.Tuple[telegram.StickerSet, typing.List[str]]:
+    def _fetch_sticker_set(self) -> typing.Union[telegram.StickerSet, bool, None]:
         try:
-            return self.updater.bot.get_sticker_set(f"VC_by_{self.metadata.username}")
+            return self.updater.bot.get_sticker_set(f"VC_by_{self.metadata.user.username}")
         except telegram.error.BadRequest as err:
             if 'Stickerset_invalid' in str(err):
                 return False

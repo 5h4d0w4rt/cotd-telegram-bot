@@ -6,6 +6,7 @@ import typing
 import cotd.logger
 import cotd.service
 import cotd.handler
+from cotd.service import TGBotMetadata
 
 import telegram
 import telegram.ext
@@ -52,7 +53,7 @@ def cotd_service_factory(
             timeout=5.0,
         ))
 
-    metadata = updater.bot.get_me()
+    metadata = TGBotMetadata(updater.bot.get_me())
 
     logger.setLevel(options.log_level)
 
@@ -103,7 +104,10 @@ def main():
         telegram.ext.CommandHandler(
             'start', handler_holder.start, filters=~telegram.ext.Filters.update.edited_message),
         telegram.ext.CommandHandler('iscringe', handler_holder.iscringe),
+        telegram.ext.MessageHandler(~telegram.ext.Filters.update.edited_message,
+                                    handler_holder.cache_users),
         telegram.ext.CommandHandler('oldfellow', handler_holder.oldfellow),
+        telegram.ext.CommandHandler('cotd', handler_holder.cotd),
         telegram.ext.CommandHandler('kekw', handler_holder.kekw),
         telegram.ext.CommandHandler('secret', handler_holder.secret),
     ]
