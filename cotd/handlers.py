@@ -45,10 +45,10 @@ def iscringe(
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 video=open("static/ribnikov.based.mp4", 'rb'))
         if final_choice == 'cringe':
-            return context.bot.send_message(
+            return context.bot.send_photo(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.reply_to_message.message_id,
-                text=open("static/cringe-sniff-dog.jpg", 'rb'))
+                photo=open("static/cringe-sniff-dog.jpg", 'rb'))
     except AttributeError:
         return context.bot.send_message(
             chat_id=update.effective_chat.id,
