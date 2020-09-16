@@ -1,7 +1,6 @@
 import random
 import telegram
 import telegram.ext
-import logging
 
 
 def unknown(
