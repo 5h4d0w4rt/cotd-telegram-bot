@@ -21,13 +21,6 @@ def is_reply(update):
         return True
 
 
-def unknown(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-) -> telegram.Message:
-    return context.bot.send_message(chat_id=update.effective_chat.id, text="nope")
-
-
 def start(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,

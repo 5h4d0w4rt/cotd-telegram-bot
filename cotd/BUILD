@@ -28,6 +28,8 @@ py_binary(
         "token",
         "--log-level",
         "debug",
+        "--group",
+        "-1001061349179",
     ],
     data = [
         "//static:KEKW.mp4",

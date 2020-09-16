@@ -9,7 +9,7 @@ import cotd.logger
 import cotd.updater
 import telegram
 import telegram.ext
-from cotd.handlers import (iscringe, kekw, oldfellow, secret, start, unknown)
+from cotd.handlers import (iscringe, kekw, oldfellow, secret, start)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -26,6 +26,7 @@ def define_options(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
         type=lambda x: x.upper(),
         choices=['CRITICAL', 'WARNING', 'ERROR', 'INFO', 'DEBUG'],
         default='ERROR')
+    options.add_argument('--group')
     return options
 
 
@@ -44,16 +45,12 @@ def set_dispatcher_handlers(updater: telegram.ext.Updater,
     for handler in handlers:
         updater.dispatcher.add_handler(handler)
 
-    updater.dispatcher.add_handler(
-        telegram.ext.MessageHandler(telegram.ext.Filters.command, unknown))
-
 
 def main():
     argparser = argparse.ArgumentParser(description="cringee-bot")
 
     _flags = define_feature_flags(argparser)
     _options = define_options(argparser)
-
     args = argparser.parse_args()
 
     features = argparse.Namespace(
@@ -93,7 +90,6 @@ def main():
     cotdbot.logger.info("initialized cringe of the day client")
 
     # cringe_filter = CringeFilter(cotdbot.metadata.sticker_set_file_ids, cotdbot.metadata)
-
     set_dispatcher_handlers(cotdbot.updater, [
         telegram.ext.CommandHandler(
             'start', start, filters=~telegram.ext.Filters.update.edited_message),
