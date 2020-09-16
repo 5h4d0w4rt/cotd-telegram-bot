@@ -128,6 +128,7 @@ def main():
     cotdbot.logger.info(f"initialized with startup options {options}")
 
     cotdbot.initialize()
+
     cotdbot.logger.info("initialized cringe of the day client")
 
     # cringe_filter = CringeFilter(cotdbot.metadata.sticker_set_file_ids, cotdbot.metadata)

@@ -17,7 +17,7 @@ class TGBotMetadata:
 
 
 @dataclass
-class COTDBotMetadata(TGBotMetadata):
+class COTDBotStickers:
     sticker_set: telegram.StickerSet
     sticker_set_file_ids: typing.List[str]
 
@@ -60,26 +60,24 @@ class TGBotClient:
         self.updater.start_polling()
         self.updater.idle()
 
+    def initialize(self) -> None:
+        self.set_dispatcher_handlers()
+        self.set_commands()
+
 
 class COTDBotService(TGBotClient):
 
     def __init__(self, config: COTDBotConfig):
         super().__init__(config)
         self.features = config.features
-        self.env = config.env
-        self.options = config.options
-        self.logger = config.logger
-        self.metadata = config.metadata
-        self.updater = config.updater
 
-    def update_metadata(self) -> COTDBotMetadata:
+    def get_stickers(self) -> COTDBotStickers:
         fileids = []
 
         if not (sticker_pack := self._fetch_sticker_set()):
             sticker_pack = self._init_sticker_set()
 
-        return COTDBotMetadata(**{
-            'user': self.metadata,
+        return COTDBotStickers(**{
             'sticker_set': sticker_pack, 'sticker_set_file_ids': fileids.extend(
                 list(sticker.file_id for sticker in sticker_pack.stickers)
             )
@@ -102,7 +100,6 @@ class COTDBotService(TGBotClient):
             else:
                 raise
 
-    def initialize(self) -> None:
-        self.metadata = self.update_metadata()
-        self.set_dispatcher_handlers()
-        self.set_commands()
+    @property
+    def stickers(self):
+        return self.get_stickers()
