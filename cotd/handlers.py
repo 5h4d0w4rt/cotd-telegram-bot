@@ -52,7 +52,8 @@ def iscringe(
                 text=open("static/cringe-sniff-dog.jpg", 'rb'))
     except AttributeError:
         return context.bot.send_message(
-            chat_id=update.effective_chat.id, text='Can"t see cringe though')
+            chat_id=update.effective_chat.id,
+            text='Can"t see cringe though, reply to a cringe post')
 
 
 def oldfellow(
