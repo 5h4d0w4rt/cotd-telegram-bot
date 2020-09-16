@@ -1,8 +1,6 @@
 import argparse
 import os
-import sys
 import typing
-from re import match
 
 import cotd.handlers
 import cotd.logger
@@ -10,6 +8,14 @@ import cotd.updater
 import telegram
 import telegram.ext
 from cotd.handlers import (iscringe, kekw, oldfellow, secret, start)
+
+
+class Options(argparse.Namespace):
+    pass
+
+
+class Flags(argparse.Namespace):
+    pass
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -53,13 +59,13 @@ def main():
     _options = define_options(argparser)
     args = argparser.parse_args()
 
-    features = argparse.Namespace(
+    features = Flags(
         **{
             name: value
             for (name, value) in args._get_kwargs()
             if name in set(y.dest for y in _flags._group_actions)
         })
-    options = argparse.Namespace(
+    options = Options(
         **{
             name: value
             for (name, value) in args._get_kwargs()
