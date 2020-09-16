@@ -8,6 +8,7 @@ package(
 py_library(
     name = "handlers",
     srcs = ["handlers.py"],
+    deps = ["service"],
 )
 
 py_library(
@@ -16,8 +17,8 @@ py_library(
 )
 
 py_library(
-    name = "updater",
-    srcs = ["updater.py"],
+    name = "service",
+    srcs = ["service.py"],
 )
 
 py_binary(
@@ -45,6 +46,6 @@ py_binary(
         requirement("flask"),
         "handlers",
         "logger",
-        "updater",
+        "service",
     ],
 )

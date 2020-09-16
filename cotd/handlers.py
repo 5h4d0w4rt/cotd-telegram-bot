@@ -4,7 +4,6 @@ import telegram
 import telegram.ext
 
 
-@dataclass
 class MediaCache:
     pass
 

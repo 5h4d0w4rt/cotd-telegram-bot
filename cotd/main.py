@@ -1,10 +1,12 @@
 import argparse
+import logging
 import os
 import typing
 
 import cotd.handlers
 import cotd.logger
-import cotd.updater
+import cotd.service
+
 import telegram
 import telegram.ext
 from cotd.handlers import (iscringe, kekw, oldfellow, secret, start)
@@ -36,20 +38,43 @@ def define_options(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     return options
 
 
-def run(updater: telegram.ext.Updater) -> None:
-    updater.start_polling()
-    updater.idle()
+def cotd_service_factory(
+        envs: cotd.service.EnvConfig, features: Flags, options: Options, logger: logging.Logger,
+        commands: typing.List[telegram.BotCommand],
+        handlers: typing.List[telegram.ext.Handler]) -> cotd.service.COTDBotService:
 
+    updater = telegram.ext.Updater(
+        token=envs.token,
+        use_context=True,
+        defaults=telegram.ext.Defaults(
+            parse_mode='HTML',
+            disable_notification=True,
+            disable_web_page_preview=True,
+            timeout=5.0,
+        ))
 
-def set_bot_commands(updater: telegram.ext.Updater,
-                     commands: typing.List[telegram.BotCommand]) -> None:
-    updater.bot.set_my_commands(commands)
+    metadata = updater.bot.get_me()
 
+    logger.setLevel(options.log_level)
 
-def set_dispatcher_handlers(updater: telegram.ext.Updater,
-                            handlers: typing.List[telegram.ext.Handler]):
-    for handler in handlers:
-        updater.dispatcher.add_handler(handler)
+    updater.logger.setLevel(options.log_level)
+    updater.logger.addHandler(logging.StreamHandler())
+
+    updater.dispatcher.logger.setLevel(options.log_level)
+    updater.dispatcher.logger.addHandler(logging.StreamHandler())
+
+    config = cotd.service.COTDBotConfig(
+        env=envs,
+        updater=updater,
+        features=features,
+        options=options,
+        logger=logger,
+        metadata=metadata,
+        handlers=handlers,
+        commands=commands)
+
+    cotdbot = cotd.service.COTDBotService(config)
+    return cotdbot
 
 
 def main():
@@ -72,50 +97,41 @@ def main():
             if name in set(y.dest for y in _options._group_actions)
         })
 
-    envs = cotd.updater.EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN'])
-
-    config = cotd.updater.COTDBotConfig(
-        features=features,
-        env=envs,
-        updater=telegram.ext.Updater(
-            token=envs.token,
-            use_context=True,
-            defaults=telegram.ext.Defaults(
-                parse_mode='HTML',
-                disable_notification=True,
-                disable_web_page_preview=True,
-                timeout=5.0,
-            )),
-        options=options,
-        logger=cotd.logger.get_logger(__name__, level=options.log_level))
-    cotdbot = cotd.updater.COTDBot(config)
-
-    cotdbot.logger.info(f"initialized with feature flags: {features}")
-    cotdbot.logger.info(f"initialized with startup options {options}")
-    cotdbot.logger.info("initialized config")
-    cotdbot.logger.info("initialized cringe of the day client")
-
-    # cringe_filter = CringeFilter(cotdbot.metadata.sticker_set_file_ids, cotdbot.metadata)
-    set_dispatcher_handlers(cotdbot.updater, [
+    handlers = [
         telegram.ext.CommandHandler(
             'start', start, filters=~telegram.ext.Filters.update.edited_message),
         telegram.ext.CommandHandler('iscringe', iscringe),
         telegram.ext.CommandHandler('oldfellow', oldfellow),
         telegram.ext.CommandHandler('kekw', kekw),
         telegram.ext.CommandHandler('secret', secret),
-    ])
-    cotdbot.logger.info("initialized handlers")
+    ]
 
-    set_bot_commands(cotdbot.updater, [
+    commands = [
         telegram.BotCommand("start", "Hello world"),
         telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
         telegram.BotCommand("oldfellow", "Starina siebi nahui"),
         telegram.BotCommand("kekw", "KEKW"),
         telegram.BotCommand("secret", "what's in there?")
-    ])
-    cotdbot.logger.info('initialized list of commands')
+    ]
 
-    run(cotdbot.updater)
+    envs = cotd.service.EnvConfig(token=os.environ['COTD_TELEGRAM_BOT_TOKEN'])
+
+    cotdbot = cotd_service_factory(
+        envs=envs,
+        features=features,
+        options=options,
+        logger=cotd.logger.get_logger('COTDBotService', level=options.log_level),
+        handlers=handlers,
+        commands=commands)
+
+    cotdbot.logger.info(f"initialized with feature flags: {features}")
+    cotdbot.logger.info(f"initialized with startup options {options}")
+
+    cotdbot.initialize()
+    cotdbot.logger.info("initialized cringe of the day client")
+
+    # cringe_filter = CringeFilter(cotdbot.metadata.sticker_set_file_ids, cotdbot.metadata)
+    cotdbot.run()
 
 
 if __name__ == "__main__":
