@@ -74,8 +74,6 @@ def kekw(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> telegram.Message:
-    logger = logging.getLogger('telegram.ext.Dispatcher')
-    logger.debug(f'called {__name__} with telegram.Update {update}')
     try:
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
