@@ -35,7 +35,7 @@ class MediaCacheInMemory:
 
 @dataclass
 class HandlerHolderConfig:
-    cache: MediaCache
+    cache: typing.Type[MediaCacheInMemory]
 
 
 class HandlerHolder:
