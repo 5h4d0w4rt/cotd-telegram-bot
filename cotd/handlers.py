@@ -39,41 +39,62 @@ def iscringe(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> telegram.Message:
-    choices = ["based", "cringe"]
-    final_choice = random.choice(choices)
 
-    try:
-        _ribnikov_file = CACHE.ribnikov
-    except AttributeError:
-        _ribnikov_file = open("static/ribnikov.based.mp4", 'rb')
+    def _process_based(
+        update: telegram.Update,
+        context: telegram.ext.CallbackContext,
+    ) -> telegram.Message:
 
-    try:
-        _sniff_dog_file = CACHE.sniff
-    except AttributeError:
-        _sniff_dog_file = open("static/cringe-sniff-dog.jpg", 'rb')
+        try:
+            _ribnikov_file = CACHE.ribnikov
+        except AttributeError:
+            _ribnikov_file = open("static/ribnikov.based.mp4", 'rb')
 
-    if is_reply(update):
-        if final_choice == 'based':
-            message = context.bot.send_video(
-                chat_id=update.effective_chat.id,
-                reply_to_message_id=update.message.reply_to_message.message_id,
-                video=_ribnikov_file)
+        message = context.bot.send_video(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.reply_to_message.message_id,
+            video=_ribnikov_file)
 
-            if not hasattr(CACHE, 'ribnikov'):
-                CACHE.ribnikov = message.video.file_id
+        try:
+            CACHE.ribnikov
+        except AttributeError:
+            CACHE.ribnikov = message.video.file_id
 
-        if final_choice == 'cringe':
-            message = context.bot.send_photo(
-                chat_id=update.effective_chat.id,
-                reply_to_message_id=update.message.reply_to_message.message_id,
-                photo=_sniff_dog_file)
+        return message
 
-            if not hasattr(CACHE, 'sniff'):
-                CACHE.sniff = message.photo[0].file_id
-    else:
+    def _process_cringe(
+        update: telegram.Update,
+        context: telegram.ext.CallbackContext,
+    ) -> telegram.Message:
+
+        try:
+            _sniff_dog_file = CACHE.sniff
+        except AttributeError:
+            _sniff_dog_file = open("static/cringe-sniff-dog.jpg", 'rb')
+
+        message = context.bot.send_photo(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.reply_to_message.message_id,
+            photo=_sniff_dog_file)
+
+        try:
+            CACHE.sniff
+        except AttributeError:
+            CACHE.sniff = message.photo[0].file_id
+
+        return message
+
+    choice_map = {'based': _process_based, 'cringe': _process_cringe}
+
+    if not is_reply(update):
         message = context.bot.send_message(
             chat_id=update.effective_chat.id,
             text='Can"t see cringe though, reply to a cringe post')
+        context.dispatcher.logger.debug(message)
+        return message
+
+    message = choice_map[random.choice(["based", "cringe"])](update, context)
+
     context.dispatcher.logger.debug(message)
     return message
 
@@ -87,7 +108,7 @@ def oldfellow(
     except AttributeError:
         _oldfellow_file = open("static/oldfellow.mp4", 'rb')
 
-    if is_reply(update):
+    if not is_reply(update):
         message = context.bot.send_video(
             chat_id=update.effective_chat.id,
             reply_to_message_id=update.message.reply_to_message.message_id,
@@ -95,7 +116,9 @@ def oldfellow(
     else:
         message = context.bot.send_video(chat_id=update.effective_chat.id, video=_oldfellow_file)
 
-    if not hasattr(CACHE, 'oldfellow'):
+    try:
+        CACHE.oldfellow
+    except AttributeError:
         CACHE.oldfellow = message.video.file_id
 
     context.dispatcher.logger.debug(message)
@@ -111,13 +134,21 @@ def kekw(
     except AttributeError:
         _kekw_file = open('static/KEKW.mp4', 'rb')
 
-    try:
-        return context.bot.send_video(
+    if not is_reply(update):
+        message = context.bot.send_video(chat_id=update.effective_chat.id, video=_kekw_file)
+    else:
+        message = context.bot.send_video(
             chat_id=update.effective_chat.id,
             reply_to_message_id=update.message.reply_to_message.message_id,
             video=_kekw_file)
+
+    try:
+        CACHE.kekw
     except AttributeError:
-        return context.bot.send_video(chat_id=update.effective_chat.id, video=_kekw_file)
+        CACHE.kekw = message.video.file_id
+
+    context.dispatcher.logger.debug(message)
+    return message
 
 
 def secret(
