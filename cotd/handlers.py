@@ -35,22 +35,6 @@ def start(
     return context.bot.send_message(chat_id=update.effective_chat.id, text="start")
 
 
-def cringe(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-) -> telegram.Message:
-    if is_reply(update):
-        message = context.bot.send_sticker(
-            chat_id=update.effective_chat.id,
-            reply_to_message_id=update.message.reply_to_message.message_id,
-            sticker='CAACAgIAAxUAAV9fnDk1559P8eTSTmr6zhG-51cAA0AAAyYxpQgyTMNtqCOcyxsE')
-    else:
-        message = context.bot.send_sticker(
-            chat_id=update.effective_chat.id,
-            sticker='CAACAgIAAxUAAV9fnDk1559P8eTSTmr6zhG-51cAA0AAAyYxpQgyTMNtqCOcyxsE')
-    return message
-
-
 def iscringe(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
