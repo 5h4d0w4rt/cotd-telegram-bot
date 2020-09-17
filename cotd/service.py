@@ -91,12 +91,12 @@ class COTDBotService(TGBotClient):
             user_id=int(145043750),
             emojis="🙂😊")
 
-    def _fetch_sticker_set(self) -> typing.Union[telegram.StickerSet, bool, None]:
+    def _fetch_sticker_set(self) -> typing.Union[telegram.StickerSet, None]:
         try:
             return self.updater.bot.get_sticker_set(f"VC_by_{self.metadata.user.username}")
         except telegram.error.BadRequest as err:
             if 'Stickerset_invalid' in str(err):
-                return False
+                return None
             else:
                 raise
 

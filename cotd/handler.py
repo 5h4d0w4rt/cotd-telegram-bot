@@ -20,19 +20,16 @@ class MediaCache(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
 
-class MediaCacheInMemory:
+class MediaCacheInMemory(MediaCache):
 
     def __init__(self):
         pass
 
     def __getattribute__(self, name: str) -> typing.Any:
-        return super().__getattribute__(name)
+        return object.__getattribute__(self, name)
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
-MediaCache.register(MediaCacheInMemory)
+        object.__setattr__(self, name, value)
 
 
 @dataclass
