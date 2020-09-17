@@ -5,6 +5,6 @@
   "python.testing.pytestEnabled": true,
   "python.analysis.extraPaths": [
     "bazel-cotd-telegram-bot/external/python_workspace_deps_pypi__python_telegram_bot_12_8/",
-    "bazel-cotd-telegram-bot/external/python_workspace_deps_pypi__Flask_1_1_2"
+    "bazel-cotd-telegram-bot/external/python_workspace_deps_pypi__Flask_1_1_2/"
   ]
 }

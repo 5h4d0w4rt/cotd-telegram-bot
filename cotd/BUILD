@@ -22,6 +22,22 @@ py_library(
 )
 
 py_library(
+    name = "static",
+    srcs = ["static.py"],
+    data = [
+        "//static:KEKW.mp4",
+        "//static:cringe-sniff-dog.jpg",
+        "//static:oldfellow.mp4",
+        "//static:ribnikov.based.mp4",
+        "//static:smileyOne.webp",
+        "//static:smileyOne512x512.png",
+    ],
+    deps = [
+        requirement("python-telegram-bot"),
+    ],
+)
+
+py_library(
     name = "logger",
     srcs = ["logger.py"],
 )
@@ -60,5 +76,6 @@ py_binary(
         "handler",
         "logger",
         "service",
+        "static",
     ],
 )
