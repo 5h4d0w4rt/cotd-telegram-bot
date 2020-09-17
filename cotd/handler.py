@@ -67,7 +67,6 @@ class HandlerHolder:
     ) -> telegram.Message:
 
         def _process_based(
-            self,
             update: telegram.Update,
             context: telegram.ext.CallbackContext,
         ) -> telegram.Message:
@@ -90,7 +89,6 @@ class HandlerHolder:
             return message
 
         def _process_cringe(
-            self,
             update: telegram.Update,
             context: telegram.ext.CallbackContext,
         ) -> telegram.Message:
