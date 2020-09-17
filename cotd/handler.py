@@ -6,7 +6,7 @@ import abc
 import typing
 
 
-class MediaCache(abc.ABCMeta):
+class MediaCache(metaclass=abc.ABCMeta):
 
     def __init__(self):
         pass
@@ -21,7 +21,6 @@ class MediaCache(abc.ABCMeta):
 
 
 class MediaCacheInMemory:
-    __metaclass__ = abc.ABCMeta
 
     def __init__(self):
         pass
@@ -33,9 +32,12 @@ class MediaCacheInMemory:
         super().__setattr__(name, value)
 
 
+MediaCache.register(MediaCacheInMemory)
+
+
 @dataclass
 class HandlerHolderConfig:
-    cache: MediaCacheInMemory
+    cache: typing.Type[MediaCache]
 
 
 class HandlerHolder:
@@ -136,12 +138,12 @@ class HandlerHolder:
 
         if not self._is_reply(update):
             message = context.bot.send_video(
+                chat_id=update.effective_chat.id, video=_oldfellow_file)
+        else:
+            message = context.bot.send_video(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 video=_oldfellow_file)
-        else:
-            message = context.bot.send_video(
-                chat_id=update.effective_chat.id, video=_oldfellow_file)
 
         try:
             self.cache.oldfellow
