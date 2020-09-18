@@ -214,22 +214,29 @@ class HandlerHolder:
         if not self.cache.cringelord:
             self.cache.cringelord = {}
 
-        if self.cache.cringelord.get(datetime.datetime.utcnow().date()):
-            context.dispatcher.logger.debug(self.cache.cringelord)
-            return context.bot.send_message(
+        try:
+            message = context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=self.cache.cringelord.get(datetime.datetime.utcnow().date()))
+                text=self.cache.cringelord[datetime.datetime.utcnow().date()])
+        except KeyError:
+            cringelord_id = random.choice(list(self.cache.users))
 
-        cringelord_id = random.choice(list(self.cache.users))
+            cringelord_text = f"""Cringe lord of the day
+    👑👉 <a href='tg://user?id={cringelord_id}'>@{self.cache.users[cringelord_id].username}</a>"""
 
-        cringelord_text = f"""Cringe lord of the day
-👑👉 <a href='tg://user?id={cringelord_id}'>@{self.cache.users[cringelord_id].username}</a>"""
+            context.dispatcher.logger.debug(cringelord_text)
+            message = context.bot.send_message(
+                chat_id=update.effective_chat.id, text=cringelord_text)
 
-        context.dispatcher.logger.debug(cringelord_text)
-        context.bot.send_message(chat_id=update.effective_chat.id, text=cringelord_text)
+            self.cache.cringelord[datetime.datetime.utcnow().date()] = cringelord_text
+            context.dispatcher.logger.debug(
+                f'serving computed cringelord, updated cache {datetime.datetime.utcnow().date()}:{cringelord_text})'
+            )
+            return message
+        else:
+            context.dispatcher.logger.debug(f'serving from cache: {self.cache.cringelord}')
 
-        self.cache.cringelord[datetime.datetime.utcnow().date()] = cringelord_text
-        context.dispatcher.logger.debug(self.cache.cringelord)
+            return message
 
 
 # TODO handler for handler in module.public_method?
