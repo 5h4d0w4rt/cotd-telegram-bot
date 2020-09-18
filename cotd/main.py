@@ -107,6 +107,7 @@ def main():
         # telegram.ext.MessageHandler(~telegram.ext.Filters.update.edited_message,
         #                             handler_holder.cache_users),
         telegram.ext.CommandHandler('oldfellow', handler_holder.oldfellow),
+        telegram.ext.CommandHandler('goaway', handler_holder.goaway),
         telegram.ext.CommandHandler('cotd', handler_holder.cotd),
         telegram.ext.CommandHandler('kekw', handler_holder.kekw),
         telegram.ext.CommandHandler('secret', handler_holder.secret),
@@ -116,6 +117,7 @@ def main():
         telegram.BotCommand("start", "Hello world"),
         telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
         telegram.BotCommand("oldfellow", "Starina siebi nahui"),
+        telegram.BotCommand("goaway", "helpful reminder"),
         telegram.BotCommand("kekw", "KEKW"),
         telegram.BotCommand("secret", "what's in there?")
     ]

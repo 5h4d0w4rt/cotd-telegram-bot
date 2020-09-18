@@ -174,6 +174,32 @@ class HandlerHolder:
         context.dispatcher.logger.debug(message)
         return message
 
+    def goaway(
+        self,
+        update: telegram.Update,
+        context: telegram.ext.CallbackContext,
+    ) -> telegram.Message:
+        try:
+            _go_away_file = self.cache.go_away
+        except AttributeError:
+            _go_away_file = open('static/go_away.mp4', 'rb')
+
+        if not self._is_reply(update):
+            message = context.bot.send_video(chat_id=update.effective_chat.id, video=_go_away_file)
+        else:
+            message = context.bot.send_video(
+                chat_id=update.effective_chat.id,
+                reply_to_message_id=update.message.reply_to_message.message_id,
+                video=_go_away_file)
+
+        try:
+            self.cache.go_away
+        except AttributeError:
+            self.cache.go_away = message.video.file_id
+
+        context.dispatcher.logger.debug(message)
+        return message
+
     def secret(
         self,
         update: telegram.Update,
