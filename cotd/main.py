@@ -116,9 +116,9 @@ def main():
     commands = [
         telegram.BotCommand("start", "Hello world"),
         telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
-        telegram.BotCommand("oldfellow", "Starina siebi nahui"),
-        telegram.BotCommand("goaway", "helpful reminder"),
-        telegram.BotCommand("kekw", "KEKW"),
+        telegram.BotCommand("oldfellow", "oldfellow, take off!"),
+        telegram.BotCommand("goaway", "Helpful reminder to go on your business"),
+        telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
         telegram.BotCommand("secret", "what's in there?")
     ]
 
