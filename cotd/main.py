@@ -6,6 +6,7 @@ import typing
 import cotd.logger
 import cotd.service
 import cotd.handler
+import cotd.static
 from cotd.service import TGBotMetadata
 
 import telegram
@@ -98,7 +99,7 @@ def main():
         })
 
     handler_holder = cotd.handler.HandlerHolder(
-        cotd.handler.HandlerHolderConfig(cotd.handler.MediaCacheInMemory()))
+        cotd.handler.HandlerHolderConfig(cotd.handler.MediaCacheInMemory(), data=cotd.static.STATIC))
 
     handlers = [
         telegram.ext.CommandHandler(

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 import random
 import abc
 import typing
+import cotd.static
 
 
 class MediaCache(metaclass=abc.ABCMeta):
@@ -35,12 +36,14 @@ class MediaCacheInMemory(MediaCache):
 @dataclass
 class HandlerHolderConfig:
     cache: typing.Type[MediaCache]
+    data: typing.Type[cotd.static.Static]
 
 
 class HandlerHolder:
 
     def __init__(self, config: HandlerHolderConfig):
         self.cache = config.cache
+        self.data = config.data
 
     def _is_reply(self, update):
         try:
@@ -71,7 +74,7 @@ class HandlerHolder:
             try:
                 _ribnikov_file = self.cache.ribnikov
             except AttributeError:
-                _ribnikov_file = open("static/ribnikov.based.mp4", 'rb')
+                _ribnikov_file = self.data.ribnikov
 
             message = context.bot.send_video(
                 chat_id=update.effective_chat.id,
@@ -93,7 +96,7 @@ class HandlerHolder:
             try:
                 _sniff_dog_file = self.cache.sniff
             except AttributeError:
-                _sniff_dog_file = open("static/cringe-sniff-dog.jpg", 'rb')
+                _sniff_dog_file = self.data.sniff_dog
 
             message = context.bot.send_photo(
                 chat_id=update.effective_chat.id,
@@ -129,7 +132,7 @@ class HandlerHolder:
         try:
             _oldfellow_file = self.cache.oldfellow
         except AttributeError:
-            _oldfellow_file = open("static/oldfellow.mp4", 'rb')
+            _oldfellow_file = self.data.oldfellow
 
         if not self._is_reply(update):
             message = context.bot.send_video(
@@ -156,7 +159,7 @@ class HandlerHolder:
         try:
             _kekw_file = self.cache.kekw
         except AttributeError:
-            _kekw_file = open('static/KEKW.mp4', 'rb')
+            _kekw_file = self.data.kekw
 
         if not self._is_reply(update):
             message = context.bot.send_video(chat_id=update.effective_chat.id, video=_kekw_file)
@@ -182,7 +185,7 @@ class HandlerHolder:
         try:
             _go_away_file = self.cache.go_away
         except AttributeError:
-            _go_away_file = open('static/go_away.mp4', 'rb')
+            _go_away_file = self.data.go_away
 
         if not self._is_reply(update):
             message = context.bot.send_video(chat_id=update.effective_chat.id, video=_go_away_file)
