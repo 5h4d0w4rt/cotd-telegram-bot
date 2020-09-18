@@ -103,3 +103,8 @@ class COTDBotService(TGBotClient):
     @property
     def stickers(self):
         return self.get_stickers()
+
+
+class COTDBotServiceBuilder:
+    def __init__(self):
+        pass
