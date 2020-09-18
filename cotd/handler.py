@@ -5,6 +5,7 @@ import random
 import abc
 import typing
 import cotd.static
+import datetime
 
 
 class MediaCache(metaclass=abc.ABCMeta):
@@ -209,14 +210,29 @@ class HandlerHolder:
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
     ) -> None:
+
+        if not self.cache.cringelord:
+            self.cache.cringelord = {}
+
+        if any(self.cache.cringelord.keys()) and (datetime.datetime.utcnow().date()
+                                                  not in self.cache.cringelord):
+            self.cache.cringelord = {}
+
         cringelords_nominees = {id: self.cache.users[id].username for id in self.cache.users}
 
         cringelord_id = random.choice(list(cringelords_nominees.keys()))
 
         cringelord_text = f"""Cringe lord of the day
 👑👉 <a href='tg://user?id={cringelord_id}'>@{cringelords_nominees[cringelord_id]}</a>"""
+
         context.dispatcher.logger.debug(cringelord_text)
-        context.bot.send_message(chat_id=update.effective_chat.id, text=cringelord_text)
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=self.cache.cringelord.get(datetime.datetime.utcnow().date()) or cringelord_text)
+
+        self.cache.cringelord[datetime.datetime.utcnow().date()] = cringelord_text
+        context.dispatcher.logger.debug(self.cache.cringelord)
+
 
 
 # TODO handler for handler in module.public_method?
