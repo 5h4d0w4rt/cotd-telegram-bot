@@ -106,14 +106,14 @@ def main():
         telegram.ext.CommandHandler(
             'start', handler_holder.start, filters=~telegram.ext.Filters.update.edited_message),
         telegram.ext.CommandHandler('iscringe', handler_holder.iscringe),
-        # telegram.ext.MessageHandler(~telegram.ext.Filters.update.edited_message,
-        #                             handler_holder.cache_users),
         telegram.ext.CommandHandler('oldfellow', handler_holder.oldfellow),
         telegram.ext.CommandHandler('cringelord', handler_holder.cringelord),
         telegram.ext.CommandHandler('goaway', handler_holder.goaway),
         telegram.ext.CommandHandler('cotd', handler_holder.cotd),
         telegram.ext.CommandHandler('kekw', handler_holder.kekw),
         telegram.ext.CommandHandler('secret', handler_holder.secret),
+        telegram.ext.MessageHandler(~telegram.ext.Filters.update.edited_message,
+                                    handler_holder.cache_users),
     ]
 
     commands = [

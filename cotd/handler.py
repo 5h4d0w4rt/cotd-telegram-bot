@@ -197,18 +197,23 @@ class HandlerHolder:
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
     ) -> None:
-        pass
-        # setattr(self.cache, str(update.effective_chat.title), str(update.effective_chat.id))
-        # setattr(self.cache, str(update.effective_user.username), str(update.effective_user.id))
-        # getattr(self.cache, str(update.effective_chat.title))
-        # getattr(self.cache, str(update.effective_chat.username))
+        if not self.cache.users:
+            self.cache.users = {}
+
+        if not self.cache.users.get(update.effective_user.id):
+            self.cache.users[update.effective_user.id] = update.effective_user
+        context.dispatcher.logger.debug(self.cache.users)
 
     def cringelord(
         self,
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
     ) -> None:
-        cringelord_text = f"""Cringe lord of the day
-👑👉 <a href='tg://user?id={update.effective_user.id}'>@{update.effective_user.username}</a>"""
+        cringelords_nominees = {id: self.cache.users[id].username for id in self.cache.users}
 
+        cringelord_id = random.choice(list(cringelords_nominees.keys()))
+
+        cringelord_text = f"""Cringe lord of the day
+👑👉 <a href='tg://user?id={cringelord_id}'>@{cringelords_nominees[cringelord_id]}</a>"""
+        context.dispatcher.logger.debug(cringelord_text)
         context.bot.send_message(chat_id=update.effective_chat.id, text=cringelord_text)
