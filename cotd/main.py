@@ -112,8 +112,7 @@ def main():
         telegram.ext.CommandHandler('cotd', handler_holder.cotd),
         telegram.ext.CommandHandler('kekw', handler_holder.kekw),
         telegram.ext.CommandHandler('secret', handler_holder.secret),
-        telegram.ext.MessageHandler(~telegram.ext.Filters.update.edited_message,
-                                    handler_holder.cache_users),
+        telegram.ext.MessageHandler(telegram.ext.Filters.text, handler_holder.cache_users),
     ]
 
     commands = [
