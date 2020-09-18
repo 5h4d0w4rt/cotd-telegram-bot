@@ -99,7 +99,8 @@ def main():
         })
 
     handler_holder = cotd.handler.HandlerHolder(
-        cotd.handler.HandlerHolderConfig(cotd.handler.MediaCacheInMemory(), data=cotd.static.STATIC))
+        cotd.handler.HandlerHolderConfig(
+            cotd.handler.MediaCacheInMemory(), data=cotd.static.STATIC))
 
     handlers = [
         telegram.ext.CommandHandler(

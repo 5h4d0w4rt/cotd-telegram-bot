@@ -39,6 +39,7 @@ py_library(
 py_library(
     name = "service",
     srcs = ["service.py"],
+    data = ["//static:smileyOne512x512.png"],
     deps = [
         requirement("python-telegram-bot"),
     ],
