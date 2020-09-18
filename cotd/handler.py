@@ -26,8 +26,13 @@ class MediaCacheInMemory(MediaCache):
     def __init__(self):
         pass
 
-    def __getattribute__(self, name: str) -> typing.Any:
-        return object.__getattribute__(self, name)
+    def __getattribute__(self, name: str) -> typing.Union[typing.Any, None]:
+        try:
+            result = object.__getattribute__(self, name)
+        except AttributeError:
+            return None
+        else:
+            return result
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
         object.__setattr__(self, name, value)
@@ -71,19 +76,12 @@ class HandlerHolder:
             context: telegram.ext.CallbackContext,
         ) -> telegram.Message:
 
-            try:
-                _ribnikov_file = self.cache.ribnikov
-            except AttributeError:
-                _ribnikov_file = self.data.ribnikov
-
             message = context.bot.send_video(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.reply_to_message.message_id,
-                video=_ribnikov_file)
+                video=self.cache.ribnikov or self.data.ribnikov)
 
-            try:
-                self.cache.ribnikov
-            except AttributeError:
+            if not self.cache.ribnikov:
                 self.cache.ribnikov = message.video.file_id
 
             return message
@@ -93,20 +91,13 @@ class HandlerHolder:
             context: telegram.ext.CallbackContext,
         ) -> telegram.Message:
 
-            try:
-                _sniff_dog_file = self.cache.sniff
-            except AttributeError:
-                _sniff_dog_file = self.data.sniff_dog
-
             message = context.bot.send_photo(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.reply_to_message.message_id,
-                photo=_sniff_dog_file)
+                photo=self.cache.sniff_dog or self.data.sniff_dog)
 
-            try:
-                self.cache.sniff
-            except AttributeError:
-                self.cache.sniff = message.photo[0].file_id
+            if not self.cache.sniff_dog:
+                self.cache.sniff_dog = message.photo[0].file_id
 
             return message
 
@@ -129,23 +120,17 @@ class HandlerHolder:
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
     ) -> telegram.Message:
-        try:
-            _oldfellow_file = self.cache.oldfellow
-        except AttributeError:
-            _oldfellow_file = self.data.oldfellow
 
         if not self._is_reply(update):
             message = context.bot.send_video(
-                chat_id=update.effective_chat.id, video=_oldfellow_file)
+                chat_id=update.effective_chat.id, video=self.cache.oldfellow or self.data.oldfellow)
         else:
             message = context.bot.send_video(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.reply_to_message.message_id,
-                video=_oldfellow_file)
+                video=self.cache.oldfellow or self.data.oldfellow)
 
-        try:
-            self.cache.oldfellow
-        except AttributeError:
+        if not self.cache.oldfellow:
             self.cache.oldfellow = message.video.file_id
 
         context.dispatcher.logger.debug(message)
@@ -156,22 +141,17 @@ class HandlerHolder:
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
     ) -> telegram.Message:
-        try:
-            _kekw_file = self.cache.kekw
-        except AttributeError:
-            _kekw_file = self.data.kekw
 
         if not self._is_reply(update):
-            message = context.bot.send_video(chat_id=update.effective_chat.id, video=_kekw_file)
+            message = context.bot.send_video(
+                chat_id=update.effective_chat.id, video=self.cache.kekw or self.data.kekw)
         else:
             message = context.bot.send_video(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.reply_to_message.message_id,
-                video=_kekw_file)
+                video=self.cache.kekw or self.data.kekw)
 
-        try:
-            self.cache.kekw
-        except AttributeError:
+        if not self.cache.kekw:
             self.cache.kekw = message.video.file_id
 
         context.dispatcher.logger.debug(message)
@@ -182,22 +162,17 @@ class HandlerHolder:
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
     ) -> telegram.Message:
-        try:
-            _go_away_file = self.cache.go_away
-        except AttributeError:
-            _go_away_file = self.data.go_away
 
         if not self._is_reply(update):
-            message = context.bot.send_video(chat_id=update.effective_chat.id, video=_go_away_file)
+            message = context.bot.send_video(
+                chat_id=update.effective_chat.id, video=self.cache.go_away or self.data.go_away)
         else:
             message = context.bot.send_video(
                 chat_id=update.effective_chat.id,
                 reply_to_message_id=update.message.reply_to_message.message_id,
-                video=_go_away_file)
+                video=self.cache.go_away or self.data.go_away)
 
-        try:
-            self.cache.go_away
-        except AttributeError:
+        if not self.cache.go_away:
             self.cache.go_away = message.video.file_id
 
         context.dispatcher.logger.debug(message)
