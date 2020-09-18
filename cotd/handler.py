@@ -220,17 +220,13 @@ class HandlerHolder:
                 chat_id=update.effective_chat.id,
                 text=self.cache.cringelord.get(datetime.datetime.utcnow().date()))
 
-        cringelords_nominees = {id: self.cache.users[id].username for id in self.cache.users}
-
-        cringelord_id = random.choice(list(cringelords_nominees.keys()))
+        cringelord_id = random.choice(list(self.cache.users))
 
         cringelord_text = f"""Cringe lord of the day
-👑👉 <a href='tg://user?id={cringelord_id}'>@{cringelords_nominees[cringelord_id]}</a>"""
+👑👉 <a href='tg://user?id={cringelord_id}'>@{self.cache.users[cringelord_id].username}</a>"""
 
         context.dispatcher.logger.debug(cringelord_text)
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=cringelord_text)
+        context.bot.send_message(chat_id=update.effective_chat.id, text=cringelord_text)
 
         self.cache.cringelord[datetime.datetime.utcnow().date()] = cringelord_text
         context.dispatcher.logger.debug(self.cache.cringelord)
