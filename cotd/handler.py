@@ -214,9 +214,11 @@ class HandlerHolder:
         if not self.cache.cringelord:
             self.cache.cringelord = {}
 
-        if any(self.cache.cringelord.keys()) and (datetime.datetime.utcnow().date()
-                                                  not in self.cache.cringelord):
-            self.cache.cringelord = {}
+        if self.cache.cringelord.get(datetime.datetime.utcnow().date()):
+            context.dispatcher.logger.debug(self.cache.cringelord)
+            return context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=self.cache.cringelord.get(datetime.datetime.utcnow().date()))
 
         cringelords_nominees = {id: self.cache.users[id].username for id in self.cache.users}
 
@@ -228,11 +230,10 @@ class HandlerHolder:
         context.dispatcher.logger.debug(cringelord_text)
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=self.cache.cringelord.get(datetime.datetime.utcnow().date()) or cringelord_text)
+            text=cringelord_text)
 
         self.cache.cringelord[datetime.datetime.utcnow().date()] = cringelord_text
         context.dispatcher.logger.debug(self.cache.cringelord)
-
 
 
 # TODO handler for handler in module.public_method?
