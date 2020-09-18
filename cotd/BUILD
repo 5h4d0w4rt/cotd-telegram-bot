@@ -8,16 +8,9 @@ package(
 py_library(
     name = "handler",
     srcs = ["handler.py"],
-    data = [
-        "//static:KEKW.mp4",
-        "//static:cringe-sniff-dog.jpg",
-        "//static:oldfellow.mp4",
-        "//static:ribnikov.based.mp4",
-        "//static:smileyOne.webp",
-        "//static:smileyOne512x512.png",
-    ],
     deps = [
         requirement("python-telegram-bot"),
+        "static",
     ],
 )
 
