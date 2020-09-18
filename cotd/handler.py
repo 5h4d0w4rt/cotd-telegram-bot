@@ -217,3 +217,6 @@ class HandlerHolder:
 👑👉 <a href='tg://user?id={cringelord_id}'>@{cringelords_nominees[cringelord_id]}</a>"""
         context.dispatcher.logger.debug(cringelord_text)
         context.bot.send_message(chat_id=update.effective_chat.id, text=cringelord_text)
+
+
+# handler for handler in module.public_method?
