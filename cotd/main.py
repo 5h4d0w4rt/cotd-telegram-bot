@@ -109,6 +109,7 @@ def main():
         # telegram.ext.MessageHandler(~telegram.ext.Filters.update.edited_message,
         #                             handler_holder.cache_users),
         telegram.ext.CommandHandler('oldfellow', handler_holder.oldfellow),
+        telegram.ext.CommandHandler('cringelord', handler_holder.cringelord),
         telegram.ext.CommandHandler('goaway', handler_holder.goaway),
         telegram.ext.CommandHandler('cotd', handler_holder.cotd),
         telegram.ext.CommandHandler('kekw', handler_holder.kekw),
@@ -120,6 +121,7 @@ def main():
         telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
         telegram.BotCommand("oldfellow", "oldfellow, take off!"),
         telegram.BotCommand("goaway", "Helpful reminder to go on your business"),
+        telegram.BotCommand("cringelord", "Who's cringelord of the day?"),
         telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
         telegram.BotCommand("secret", "what's in there?")
     ]

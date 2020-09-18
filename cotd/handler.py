@@ -63,7 +63,7 @@ class HandlerHolder:
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
     ) -> telegram.Message:
-        return context.bot.send_message(chat_id=update.effective_chat.id, text="start")
+        return context.bot.send_message(chat_id=update.effective_chat.id, text="hi")
 
     def iscringe(
         self,
@@ -202,3 +202,13 @@ class HandlerHolder:
         # setattr(self.cache, str(update.effective_user.username), str(update.effective_user.id))
         # getattr(self.cache, str(update.effective_chat.title))
         # getattr(self.cache, str(update.effective_chat.username))
+
+    def cringelord(
+        self,
+        update: telegram.Update,
+        context: telegram.ext.CallbackContext,
+    ) -> None:
+        cringelord_text = f"""Cringe lord of the day
+👑👉 <a href='tg://user?id={update.effective_user.id}'>@{update.effective_user.username}</a>"""
+
+        context.bot.send_message(chat_id=update.effective_chat.id, text=cringelord_text)
