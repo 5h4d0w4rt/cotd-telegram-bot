@@ -240,3 +240,5 @@ class HandlerHolder:
 
 
 # TODO handler for handler in module.public_method?
+# TODO pre-process/post-process handlers to simplify logic
+# TODO storage: github private repo
