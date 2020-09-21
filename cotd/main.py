@@ -72,7 +72,6 @@ def cotd_service_factory(
     updater.dispatcher.logger.addHandler(logging.StreamHandler())
 
     config = cotd.service.COTDBotConfig(
-        env=envs,
         updater=updater,
         features=features,
         options=options,
@@ -149,9 +148,7 @@ def main():
                     telegram.ext.CommandHandler(
                         "kekw", functools.partial(kekw, data=data, cache=cache)
                     ),
-                    telegram.ext.CommandHandler(
-                        "secret", functools.partial(secret, data=data)
-                    ),
+                    telegram.ext.CommandHandler("secret", functools.partial(secret, data=data)),
                 ],
             }
         ),

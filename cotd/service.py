@@ -30,7 +30,6 @@ class HandlerGroup:
 
 @dataclass
 class Config:
-    env: EnvConfig
     updater: telegram.ext.Updater
     logger: logging.Logger
     options: argparse.Namespace
@@ -46,7 +45,6 @@ class COTDBotConfig(Config):
 
 class TGBotClient:
     def __init__(self, config: Config):
-        self.env = config.env
         self.options = config.options
         self.logger = config.logger
         self.updater = config.updater
@@ -112,8 +110,3 @@ class COTDBotService(TGBotClient):
     @property
     def stickers(self):
         return self.get_stickers()
-
-
-class COTDBotServiceBuilder:
-    def __init__(self):
-        pass
