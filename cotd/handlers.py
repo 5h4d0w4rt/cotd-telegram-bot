@@ -59,21 +59,17 @@ def start(
 def question_mark(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
-) -> telegram.Message:
-    x = random.randint(0,10) # reduce bot spam rate 
+) -> typing.Union[telegram.Message, None]:
+    roll_map = {1: "???", 2: "слыш ты ебало то завали"}
 
-    if x == 1: 
-        return context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            reply_to_message_id=update.message.message_id,
-            text="???",
-        )
-    elif x == 2:
-        return context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            reply_to_message_id=update.message.message_id,
-            text="слыш ты ты ебало то завали",
-        )
+    decision = roll_map.get(random.randint(0, 10))
+    if not decision:
+        return None
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text=decision,
+    )
 
 
 @logged_context
