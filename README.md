@@ -8,7 +8,7 @@ cringe of the day bot
 2. export `COTD_TELEGRAM_BOT_TOKEN=` and run
 
 ```bash
-    bazel run //cotd_bot:main
+    bazel run //cotd:cotdbot
 ```
 
 ## flow
