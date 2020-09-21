@@ -41,7 +41,6 @@ def cacheable_handler(f, key: typing.Any, path: str):
 
 
 def _is_reply(update: telegram.Update):
-
     try:
         update.message.reply_to_message.message_id
     except AttributeError:
@@ -55,6 +54,26 @@ def start(
     context: telegram.ext.CallbackContext,
 ) -> telegram.Message:
     return context.bot.send_message(chat_id=update.effective_chat.id, text="hi")
+
+
+def question_mark(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
+    x = random.randint(0,10) # reduce bot spam rate 
+
+    if x == 1: 
+        return context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.message_id,
+            text="???",
+        )
+    elif x == 2:
+        return context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.message_id,
+            text="слыш ты ты ебало то завали",
+        )
 
 
 @logged_context
