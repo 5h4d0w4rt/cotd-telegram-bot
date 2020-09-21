@@ -11,19 +11,19 @@ from cotd.static import Static
 def logged_context(f):
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
-        context: telegram.ext.CallbackContext = args[1]
-        context.dispatcher.logger.debug(args)
-        context.dispatcher.logger.debug(kwargs)
+        dispatcher: telegram.ext.Dispatcher = args[1].dispatcher
+        dispatcher.logger.debug(args)
+        dispatcher.logger.debug(kwargs)
 
         result = f(*args, **kwargs)
-        context.dispatcher.logger.debug(f'{f.__name__} : {result}')
+        dispatcher.logger.debug(f"{f.__name__} : {result}")
 
         return result
 
     return wrapper
 
 
-def cacheable_context(f, key: typing.Any, path: str):
+def cacheable_handler(f, key: typing.Any, path: str):
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
 
@@ -71,7 +71,7 @@ def iscringe(
             text='Can"t see cringe though, reply to a cringe post',
         )
 
-    @functools.partial(cacheable_context, key="ribnikov", path="video.file_id")
+    @functools.partial(cacheable_handler, key="ribnikov", path="video.file_id")
     def _process_based(
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
@@ -84,7 +84,7 @@ def iscringe(
             video=cache.ribnikov or data.ribnikov,
         )
 
-    @functools.partial(cacheable_context, key="sniff_dog", path=".photo[0].file_id")
+    @functools.partial(cacheable_handler, key="sniff_dog", path=".photo[0].file_id")
     def _process_cringe(
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
@@ -105,7 +105,7 @@ def iscringe(
 
 
 @logged_context
-@functools.partial(cacheable_context, key="oldfellow", path="video.file_id")
+@functools.partial(cacheable_handler, key="oldfellow", path="video.file_id")
 def oldfellow(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -126,7 +126,7 @@ def oldfellow(
 
 
 @logged_context
-@functools.partial(cacheable_context, key="kekw", path="video.file_id")
+@functools.partial(cacheable_handler, key="kekw", path="video.file_id")
 def kekw(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -147,7 +147,7 @@ def kekw(
 
 
 @logged_context
-@functools.partial(cacheable_context, key="go_away", path="video.file_id")
+@functools.partial(cacheable_handler, key="go_away", path="video.file_id")
 def goaway(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -192,7 +192,7 @@ def cache_users(
 
 
 @logged_context
-# @functools.partial(cacheable_context, key=datetime.datetime.utcnow().date(), path="video.file_id")
+# @functools.partial(cacheable_handler, key=datetime.datetime.utcnow().date(), path="video.file_id")
 # TODO figure out how to implement this
 def cringelord(
     update: telegram.Update,
