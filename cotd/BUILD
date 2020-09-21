@@ -6,10 +6,21 @@ package(
 )
 
 py_library(
-    name = "handler",
-    srcs = ["handler.py"],
+    name = "cacher",
+    srcs = ["cacher.py"],
+)
+
+py_library(
+    name = "repository",
+    srcs = ["repository.py"],
+)
+
+py_library(
+    name = "handlers",
+    srcs = ["handlers.py"],
     deps = [
         requirement("python-telegram-bot"),
+        "cacher",
         "static",
     ],
 )
@@ -68,7 +79,7 @@ py_binary(
     deps = [
         requirement("python-telegram-bot"),
         requirement("flask"),
-        "handler",
+        "handlers",
         "logger",
         "service",
         "static",

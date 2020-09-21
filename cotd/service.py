@@ -23,13 +23,19 @@ class COTDBotStickers:
 
 
 @dataclass
+class HandlerGroup:
+    group_index: int
+    handlers: typing.List[telegram.ext.Handler]
+
+
+@dataclass
 class Config:
     env: EnvConfig
     updater: telegram.ext.Updater
     logger: logging.Logger
     options: argparse.Namespace
     metadata: TGBotMetadata
-    handlers: typing.List[telegram.ext.Handler]
+    handlers: typing.List[HandlerGroup]
     commands: typing.List[telegram.BotCommand]
 
 
@@ -39,7 +45,6 @@ class COTDBotConfig(Config):
 
 
 class TGBotClient:
-
     def __init__(self, config: Config):
         self.env = config.env
         self.options = config.options
@@ -50,8 +55,9 @@ class TGBotClient:
         self.handlers = config.handlers
 
     def set_dispatcher_handlers(self) -> None:
-        for handler in self.handlers:
-            self.updater.dispatcher.add_handler(handler)
+        for handler_group in self.handlers:
+            for handler in handler_group.handlers:
+                self.updater.dispatcher.add_handler(handler, group=handler_group.group_index)
 
     def set_commands(self) -> None:
         self.updater.bot.set_my_commands(self.commands)
@@ -66,7 +72,6 @@ class TGBotClient:
 
 
 class COTDBotService(TGBotClient):
-
     def __init__(self, config: COTDBotConfig):
         super().__init__(config)
         self.features = config.features
@@ -77,25 +82,29 @@ class COTDBotService(TGBotClient):
         if not (sticker_pack := self._fetch_sticker_set()):
             sticker_pack = self._init_sticker_set()
 
-        return COTDBotStickers(**{
-            'sticker_set': sticker_pack, 'sticker_set_file_ids': fileids.extend(
-                list(sticker.file_id for sticker in sticker_pack.stickers)
-            )
-        })
+        return COTDBotStickers(
+            **{
+                "sticker_set": sticker_pack,
+                "sticker_set_file_ids": fileids.extend(
+                    list(sticker.file_id for sticker in sticker_pack.stickers)
+                ),
+            }
+        )
 
     def _init_sticker_set(self) -> telegram.StickerSet:
         return self.updater.bot.create_new_sticker_set(
-            png_sticker=open("static/smileyOne512x512.png", 'rb'),
+            png_sticker=open("static/smileyOne512x512.png", "rb"),
             name=f"VC_by_{self.metadata.user.username}",
             title=f"VC_by_{self.metadata.user.username}",
             user_id=int(145043750),
-            emojis="🙂😊")
+            emojis="🙂😊",
+        )
 
     def _fetch_sticker_set(self) -> typing.Union[telegram.StickerSet, None]:
         try:
             return self.updater.bot.get_sticker_set(f"VC_by_{self.metadata.user.username}")
         except telegram.error.BadRequest as err:
-            if 'Stickerset_invalid' in str(err):
+            if "Stickerset_invalid" in str(err):
                 return None
             else:
                 raise
