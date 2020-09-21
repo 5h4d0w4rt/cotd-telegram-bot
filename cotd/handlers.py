@@ -84,7 +84,7 @@ def iscringe(
             video=cache.ribnikov or data.ribnikov,
         )
 
-    @functools.partial(cacheable_handler, key="sniff_dog", path=".photo[0].file_id")
+    @functools.partial(cacheable_handler, key="sniff_dog", path="photo[0].file_id")
     def _process_cringe(
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
