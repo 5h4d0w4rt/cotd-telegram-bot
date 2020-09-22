@@ -87,6 +87,7 @@ def iscringe(
         )
 
     @functools.partial(cacheable_handler, key="ribnikov", path="video.file_id")
+    @logged_context
     def _process_based(
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
@@ -100,6 +101,7 @@ def iscringe(
         )
 
     @functools.partial(cacheable_handler, key="sniff_dog", path="photo[0].file_id")
+    @logged_context
     def _process_cringe(
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
@@ -114,9 +116,7 @@ def iscringe(
 
     choice_map = {"based": _process_based, "cringe": _process_cringe}
 
-    return choice_map[random.choice(["based", "cringe"])](
-        update=update, context=context, cache=cache, data=data
-    )
+    return choice_map[random.choice(["based", "cringe"])](update, context, cache=cache, data=data)
 
 
 @logged_context
