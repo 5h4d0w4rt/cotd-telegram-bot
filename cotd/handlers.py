@@ -71,6 +71,24 @@ def question_mark(
         text=decision,
     )
 
+@logged_context
+@functools.partial(cacheable_handler, key="voice_spray", path="photo[0].file_id")
+def voice_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[Static] = None,
+) -> telegram.Message:
+    roll_map = {1: true}
+
+    decision = roll_map.get(random.randint(0, 3))
+    if not decision:
+        return None
+    return context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.reply_to_message.message_id,
+        photo=cache.voice_spray or data.voice_spray,
+    )
 
 @logged_context
 def iscringe(
