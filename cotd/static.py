@@ -22,7 +22,7 @@ STATIC = Static(
             "ribnikov": open("static/ribnikov.based.mp4", "rb"),
             "ozon_secret": "bit.ly/2Ro39uJ",
             "sniff_dog": open("static/cringe-sniff-dog.jpg", "rb"),
-            "voice_spray": open("static/voice-spray.jpg", "rb"),
+            "voice_spray": open("static/voice-spray.png", "rb"),
             "go_away": open("static/go_away.mp4", "rb"),
         }
     )
