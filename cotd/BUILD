@@ -36,6 +36,7 @@ py_library(
         "//static:ribnikov.based.mp4",
         "//static:smileyOne.webp",
         "//static:smileyOne512x512.png",
+        "//static:voice-spray.png",
     ],
     deps = [
         requirement("python-telegram-bot"),
@@ -74,6 +75,7 @@ py_binary(
         "//static:ribnikov.based.mp4",
         "//static:smileyOne.webp",
         "//static:smileyOne512x512.png",
+        "//static:voice-spray.png",
     ],
     main = "main.py",
     deps = [

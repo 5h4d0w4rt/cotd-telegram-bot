@@ -8,4 +8,5 @@ exports_files([
     "smileyOne512x512.png",
     "go_away.mp4",
     "cringe-sniff-dog.jpg",
+    "voice-spray.png",
 ])

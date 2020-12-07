@@ -6,7 +6,17 @@ import functools
 import cotd.logger
 import cotd.service
 import cotd.cacher
-from cotd.handlers import cache_users, start, question_mark, voice_reaction, cringelord, kekw, oldfellow, goaway, secret, iscringe
+from cotd.handlers import (
+    cache_users,
+    start,
+    question_mark,
+    cringelord,
+    kekw,
+    oldfellow,
+    goaway,
+    secret,
+    iscringe,
+)
 import cotd.static
 from cotd.service import TGBotMetadata
 
@@ -116,12 +126,8 @@ def main():
                 "group_index": 0,
                 "handlers": [
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(['?', '??', '???']),
+                        telegram.ext.Filters.text(["?", "??", "???"]),
                         functools.partial(question_mark),
-                    ),
-                    telegram.ext.MessageHandler(
-                        telegram.ext.Filters.voice(),
-                        functools.partial(voice_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
