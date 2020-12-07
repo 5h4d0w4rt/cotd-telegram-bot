@@ -1,3 +1,4 @@
 bazel-*
 .pytest-cache
 *pycache*
+.DS_Store
