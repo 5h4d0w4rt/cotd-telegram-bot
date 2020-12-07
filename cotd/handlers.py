@@ -79,7 +79,7 @@ def voice_reaction(
     cache: typing.Type[MediaCache] = None,
     data: typing.Type[Static] = None,
 ) -> telegram.Message:
-    roll_map = {1: true}
+    roll_map = {1: True}
 
     decision = roll_map.get(random.randint(0, 3))
     if not decision:
