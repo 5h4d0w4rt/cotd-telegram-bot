@@ -76,10 +76,13 @@ def leftie_meme_detector(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {1: "опять левацкие мемы постишь...", 3: "TL;DR", 5: "ну и нахуя ты это высрал?", 7: "?"}
-    decision = roll_map.get(random.randint(0, 10))
+    if len(update.message.text) > 150:
+        roll_map = {1: "опять левацкие мемы постишь...", 3: "TL;DR", 5: "ну и нахуя ты это высрал?", 7: "?"}
+        decision = roll_map.get(random.randint(0, 10))
 
-    if len(update.message.text) > 100:
+        if not decision:
+            return None
+
         return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
@@ -96,10 +99,11 @@ def voice_reaction(
     data: typing.Type[Static] = None,
 ) -> typing.Union[telegram.Message, None]:
     roll_map = {1: True}
-
     decision = roll_map.get(random.randint(0, 3))
+
     if not decision:
         return None
+
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.reply_to_message.message_id,
