@@ -3,12 +3,16 @@ import logging
 import os
 import typing
 import functools
+
+from telegram.ext.filters import Filters
 import cotd.logger
 import cotd.service
 import cotd.cacher
 from cotd.handlers import (
     cache_users,
+    leftie_meme_detector,
     start,
+    voice_reaction,
     question_mark,
     cringelord,
     kekw,
@@ -126,8 +130,16 @@ def main():
                 "group_index": 0,
                 "handlers": [
                     telegram.ext.MessageHandler(
+                        telegram.ext.Filters.voice,
+                        functools.partial(voice_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),
                         functools.partial(question_mark),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text,
+                        functools.partial(leftie_meme_detector),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
@@ -162,7 +174,9 @@ def main():
                     telegram.ext.CommandHandler(
                         "kekw", functools.partial(kekw, data=data, cache=cache)
                     ),
-                    telegram.ext.CommandHandler("secret", functools.partial(secret, data=data)),
+                    telegram.ext.CommandHandler(
+                        "secret", functools.partial(secret, data=data, cache=cache)
+                    ),
                 ],
             }
         ),
