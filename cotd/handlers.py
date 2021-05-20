@@ -76,7 +76,7 @@ def leftie_meme_detector(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if len(update.message.text) > 150:
+    if len(update.message.text) > 1024:
         roll_map = {1: "опять левацкие мемы постишь...", 3: "TL;DR", 5: "ну и нахуя ты это высрал?", 7: "?"}
         decision = roll_map.get(random.randint(0, 10))
 
