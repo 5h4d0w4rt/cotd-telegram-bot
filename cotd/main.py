@@ -130,7 +130,7 @@ def main():
                 "group_index": 0,
                 "handlers": [
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.voice,
+                        telegram.ext.Filters.BaseFilter(Filters.audio | Filters.voice),
                         functools.partial(voice_reaction),
                     ),
                     telegram.ext.MessageHandler(
