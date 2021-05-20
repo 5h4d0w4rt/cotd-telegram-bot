@@ -139,11 +139,11 @@ def main():
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
-                        functools.partial(leftie_meme_detector),
+                        functools.partial(cache_users, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
-                        functools.partial(cache_users, cache=cache),
+                        functools.partial(leftie_meme_detector),
                     ),
                 ],
             }
