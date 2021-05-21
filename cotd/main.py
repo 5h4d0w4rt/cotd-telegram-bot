@@ -130,6 +130,17 @@ def main():
                 "group_index": 0,
                 "handlers": [
                     telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text,
+                        functools.partial(cache_users, cache=cache),
+                    ),
+                ],
+            }
+        ),
+        cotd.service.HandlerGroup(
+            **{
+                "group_index": 1,
+                "handlers": [
+                    telegram.ext.MessageHandler(
                         telegram.ext.Filters.audio,
                         functools.partial(voice_reaction),
                     ),
@@ -150,7 +161,7 @@ def main():
         ),
         cotd.service.HandlerGroup(
             **{
-                "group_index": 1,
+                "group_index": 2,
                 "handlers": [
                     telegram.ext.CommandHandler(
                         "start",
