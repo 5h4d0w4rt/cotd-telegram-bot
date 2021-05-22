@@ -98,7 +98,7 @@ def voice_reaction(
     data: typing.Type[Static] = None,
 ) -> telegram.Message:
     roll_map = {1: True}
-    decision = roll_map.get(random.randint(0, 2))
+    decision = roll_map.get(random.randint(0, 1))
 
     if not decision:
         return None
