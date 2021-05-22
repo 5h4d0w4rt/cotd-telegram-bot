@@ -141,16 +141,12 @@ def main():
                 "group_index": 1,
                 "handlers": [
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.audio,
-                        functools.partial(voice_reaction),
+                        telegram.ext.Filters.voice,
+                        functools.partial(voice_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),
                         functools.partial(question_mark),
-                    ),
-                    telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text,
-                        functools.partial(cache_users, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
@@ -169,7 +165,8 @@ def main():
                         filters=~telegram.ext.Filters.update.edited_message,
                     ),
                     telegram.ext.CommandHandler(
-                        "iscringe", functools.partial(iscringe, data=data, cache=cache)
+                        "iscringe",
+                        functools.partial(iscringe, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
                         "oldfellow",
@@ -180,13 +177,16 @@ def main():
                         functools.partial(cringelord, data=data, cache=cache),
                     ),
                     telegram.ext.CommandHandler(
-                        "goaway", functools.partial(goaway, data=data, cache=cache)
+                        "goaway",
+                        functools.partial(goaway, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "kekw", functools.partial(kekw, data=data, cache=cache)
+                        "kekw",
+                        functools.partial(kekw, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "secret", functools.partial(secret, data=data, cache=cache)
+                        "secret",
+                        functools.partial(secret, data=data, cache=cache)
                     ),
                 ],
             }
