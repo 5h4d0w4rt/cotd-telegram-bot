@@ -146,12 +146,12 @@ def main():
                         functools.partial(voice_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(["?", "??", "???"]),
-                        functools.partial(question_mark),
-                    ),
-                    telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["meduza.io", "lenta.ru", "vc.ru"]),
                         functools.partial(journalism),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text(["?", "??", "???"]),
+                        functools.partial(question_mark),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
