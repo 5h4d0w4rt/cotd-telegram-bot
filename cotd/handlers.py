@@ -71,6 +71,26 @@ def question_mark(
         text=decision,
     )
 
+@functools.partial(cacheable_handler, key="journalism", path="photo[0].file_id")
+@logged_context
+def journalism(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[Static] = None,
+) -> typing.Union[telegram.Message, None]:
+    roll_map = {0: "ok"}
+
+    decision = roll_map.get(random.randint(0, 1))
+
+    if not decision:
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        photo=cache.journalism or data.journalism,
+    )
 
 def leftie_meme_detector(
     update: telegram.Update,

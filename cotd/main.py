@@ -14,6 +14,7 @@ from cotd.handlers import (
     start,
     voice_reaction,
     question_mark,
+    journalism,
     cringelord,
     kekw,
     oldfellow,
@@ -147,6 +148,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),
                         functools.partial(question_mark),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text(["meduza.io", "lenta.ru", "vc.ru"]),
+                        functools.partial(journalism),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
