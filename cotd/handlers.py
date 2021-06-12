@@ -1,3 +1,4 @@
+import logging
 import telegram
 import telegram.ext
 import random
@@ -71,33 +72,33 @@ def question_mark(
         text=decision,
     )
 
+
 @logged_context
 def journalism(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
-    cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
-) -> typing.Union[telegram.Message, None]:
+) -> typing.Union[telegram.Message, None]:#
     roll_map = {1: "ok"}
-
     decision = roll_map.get(random.randint(0, 1))
 
     if not decision:
         return None
 
-    return context.bot.send_message(
+    return context.bot.send_photo(
         chat_id=update.effective_chat.id,
-        reply_to_message_id=update.message.message_id,
-        photo=data.journalism,
+        reply_to_message_id=update.effective_message.message_id, 
+        photo=open("static/journalism.jpg", "rb"), #TODO: не смог заставить работать ни с кешем, ни с датой.
     )
 
 def leftie_meme_detector(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if len(update.message.text) > 1024:
-        roll_map = {1: "опять левацкие мемы постишь...", 3: "TL;DR", 5: "ну и нахуя ты это высрал?", 7: "?"}
-        decision = roll_map.get(random.randint(0, 10))
+    if len(update.message.text) < 1024:
+        return None
+    
+    roll_map = {1: "опять левацкие мемы постишь...", 3: "TL;DR", 5: "ну и нахуя ты это высрал?", 7: "?"}
+    decision = roll_map.get(random.randint(0, 10))
 
     if not decision:
         return None
@@ -184,7 +185,6 @@ def oldfellow(
     cache: typing.Type[MediaCache] = None,
     data: typing.Type[Static] = None,
 ) -> telegram.Message:
-
     if not _is_reply(update):
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
@@ -205,7 +205,6 @@ def kekw(
     cache: typing.Type[MediaCache] = None,
     data: typing.Type[Static] = None,
 ) -> telegram.Message:
-
     if not _is_reply(update):
         return context.bot.send_video(
             chat_id=update.effective_chat.id, video=cache.kekw or data.kekw
@@ -226,7 +225,6 @@ def goaway(
     cache: typing.Type[MediaCache] = None,
     data: typing.Type[Static] = None,
 ) -> telegram.Message:
-
     if not _is_reply(update):
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
@@ -245,7 +243,10 @@ def secret(
     context: telegram.ext.CallbackContext,
     data: typing.Type[Static] = None,
 ) -> telegram.Message:
-    return context.bot.send_message(chat_id=update.effective_chat.id, text=data.ozon_secret)
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=data.ozon_secret,
+    )
 
 
 def cache_users(
@@ -253,7 +254,6 @@ def cache_users(
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
 ) -> None:
-
     if not cache.users:
         cache.users = {}
 

@@ -3,8 +3,12 @@ import logging
 import os
 import typing
 import functools
+import re
 
-from telegram.ext.filters import Filters
+import telegram
+import telegram.ext
+
+import cotd.static
 import cotd.logger
 import cotd.service
 import cotd.cacher
@@ -22,11 +26,7 @@ from cotd.handlers import (
     secret,
     iscringe,
 )
-import cotd.static
 from cotd.service import TGBotMetadata
-
-import telegram
-import telegram.ext
 
 
 class Options(argparse.Namespace):
@@ -99,6 +99,8 @@ def cotd_service_factory(
     cotdbot = cotd.service.COTDBotService(config)
     return cotdbot
 
+# a regular expression that matches news from blacklist.
+news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IGNORECASE)
 
 def main():
     argparser = argparse.ArgumentParser(description="cringee-bot")
@@ -146,7 +148,7 @@ def main():
                         functools.partial(voice_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(["meduza.io", "lenta.ru", "vc.ru"]),
+                        telegram.ext.Filters.regex(news_blacklist),
                         functools.partial(journalism),
                     ),
                     telegram.ext.MessageHandler(
