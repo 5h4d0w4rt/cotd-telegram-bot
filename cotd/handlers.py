@@ -148,6 +148,30 @@ def journalism(
         photo=open("static/journalism.jpg", "rb"), #TODO: не смог заставить работать ни с кешем, ни с датой.
     )
 
+
+@logged_context
+def gym_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    roll_map = {
+        0: "CgACAgQAAxkBAAICAWDHwlSbdnzRBerbl8fhV6DppkLCAALMAgACUR4UUv1ixkAlxvRIHwQ",
+        3: "CgACAgIAAxkBAAICBGDHw_5wfo37SOuyP3JNgI6gig6VAALDBwACpoWJSx8qHG1cCcQMHwQ",
+        6: "CgACAgIAAxkBAAICBWDHxCIPQ2aZuEk6RaAm_fCXe0DKAAIXAgAC13S5SH7Or-N7YQh4HwQ",
+    }
+    decision = roll_map.get(random.randint(0, 9))
+
+    if not decision:
+        return None
+
+    return context.bot.sendAnimation(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id, 
+        animation=decision,
+    )
+
+
+@logged_context
 def leftie_meme_detector(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -155,7 +179,13 @@ def leftie_meme_detector(
     if len(update.message.text) < 1024:
         return None
     
-    roll_map = {1: "опять левацкие мемы постишь...", 3: "TL;DR", 5: "ну и нахуя ты это высрал?", 7: "?", 9:"а что сказать то хотел?"}
+    roll_map = {
+        1: "опять левацкие мемы постишь...",
+        3: "TL;DR",
+        5: "ну и нахуя ты это высрал?",
+        7: "?",
+        9:"а что сказать то хотел?",
+    }
     decision = roll_map.get(random.randint(0, 10))
 
     if not decision:

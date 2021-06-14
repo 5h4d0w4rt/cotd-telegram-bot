@@ -22,6 +22,7 @@ from cotd.handlers import (
     yes_reaction,
     stalker_reaction,
     journalism,
+    gym_reaction,
     cringelord,
     kekw,
     oldfellow,
@@ -41,7 +42,8 @@ class Flags(argparse.Namespace):
 
 
 # a regular expression that matches news from blacklist.
-news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IGNORECASE)
+re_news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IGNORECASE)
+re_gym = re.compile(r'.*качалк.*', re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -152,8 +154,12 @@ def main():
                         functools.partial(voice_reaction),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.regex(news_blacklist),
+                        telegram.ext.Filters.regex(re_news_blacklist),
                         functools.partial(journalism),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_gym),
+                        functools.partial(gym_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),
