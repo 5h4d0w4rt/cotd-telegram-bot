@@ -18,6 +18,8 @@ from cotd.handlers import (
     start,
     voice_reaction,
     question_mark,
+    no_reaction,
+    yes_reaction,
     journalism,
     cringelord,
     kekw,
@@ -35,6 +37,10 @@ class Options(argparse.Namespace):
 
 class Flags(argparse.Namespace):
     pass
+
+
+# a regular expression that matches news from blacklist.
+news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -99,9 +105,6 @@ def cotd_service_factory(
     cotdbot = cotd.service.COTDBotService(config)
     return cotdbot
 
-# a regular expression that matches news from blacklist.
-news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IGNORECASE)
-
 def main():
     argparser = argparse.ArgumentParser(description="cringee-bot")
 
@@ -154,6 +157,14 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),
                         functools.partial(question_mark),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text(["Нет.", "Нет", "нет", "нет."]),
+                        functools.partial(no_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text(["Да.", "Да", "да", "да."]),
+                        functools.partial(yes_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,

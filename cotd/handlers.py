@@ -73,6 +73,38 @@ def question_mark(
     )
 
 
+def no_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    roll_map = {0: "пидора ответ"}
+
+    decision = roll_map.get(random.randint(0, 2))
+    if not decision:
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text=decision,
+    )
+
+def yes_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    roll_map = {0: "пизда"}
+
+    decision = roll_map.get(random.randint(0, 2))
+    if not decision:
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text=decision,
+    )
+
 @logged_context
 def journalism(
     update: telegram.Update,
