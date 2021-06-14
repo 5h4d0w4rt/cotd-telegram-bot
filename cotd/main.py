@@ -20,6 +20,7 @@ from cotd.handlers import (
     question_mark,
     no_reaction,
     yes_reaction,
+    stalker_reaction,
     journalism,
     cringelord,
     kekw,
@@ -165,6 +166,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["Да.", "Да", "да", "да."]),
                         functools.partial(yes_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text(["Лол", "лол", "кек", "Кек", "kek", "Kek"]),
+                        functools.partial(stalker_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,

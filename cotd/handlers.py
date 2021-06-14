@@ -57,6 +57,7 @@ def start(
     return context.bot.send_message(chat_id=update.effective_chat.id, text="hi")
 
 
+@logged_context
 def question_mark(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -73,6 +74,7 @@ def question_mark(
     )
 
 
+@logged_context
 def no_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -89,6 +91,8 @@ def no_reaction(
         text=decision,
     )
 
+
+@logged_context
 def yes_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -104,6 +108,28 @@ def yes_reaction(
         reply_to_message_id=update.message.message_id,
         text=decision,
     )
+
+
+@logged_context
+def stalker_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    roll_map = {
+        0: "Ну ты выдал!",
+        3: "Блин, так не смешно же.",
+        6: "А поновее ничего нет?",
+    }
+
+    decision = roll_map.get(random.randint(0, 7))
+    if not decision:
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=decision,
+    )
+
 
 @logged_context
 def journalism(
