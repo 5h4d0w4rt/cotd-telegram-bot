@@ -148,7 +148,7 @@ def main():
                 "handlers": [
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.voice,
-                        functools.partial(voice_reaction, data=data, cache=cache),
+                        functools.partial(voice_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(news_blacklist),

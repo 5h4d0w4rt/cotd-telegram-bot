@@ -109,7 +109,7 @@ def yes_reaction(
 def journalism(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
-) -> typing.Union[telegram.Message, None]:#
+) -> typing.Union[telegram.Message, None]:
     roll_map = {1: "ok"}
     decision = roll_map.get(random.randint(0, 1))
 
@@ -146,19 +146,17 @@ def leftie_meme_detector(
 def voice_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
-    cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
-) -> telegram.Message:
+) -> typing.Union[telegram.Message, None]:
     roll_map = {1: True}
     decision = roll_map.get(random.randint(0, 1))
 
     if not decision:
         return None
 
-    return context.bot.send_photo(
+    return context.bot.sendSticker(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
-        photo=cache.voice_spray or data.voice_spray,
+        sticker="CAACAgIAAxkBAAIBy2DHu6uTHF_uKSwtLRuWcUmHNHejAAI-AQAC39LPAoZ3xK3gRdEhHwQ",
     )
 
 
