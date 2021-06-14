@@ -129,7 +129,7 @@ def leftie_meme_detector(
     if len(update.message.text) < 1024:
         return None
     
-    roll_map = {1: "опять левацкие мемы постишь...", 3: "TL;DR", 5: "ну и нахуя ты это высрал?", 7: "?"}
+    roll_map = {1: "опять левацкие мемы постишь...", 3: "TL;DR", 5: "ну и нахуя ты это высрал?", 7: "?", 9:"а что сказать то хотел?"}
     decision = roll_map.get(random.randint(0, 10))
 
     if not decision:
