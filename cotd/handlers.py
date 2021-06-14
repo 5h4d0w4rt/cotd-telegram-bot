@@ -136,7 +136,9 @@ def journalism(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {1: "ok"}
+    roll_map = {
+        1: "AgACAgIAAxkBAAICBmDHxJUEM9mcS_e7novL5ZHNj2ivAALzsjEbNVs4Skv_V4-J9-kWrEvGoi4AAwEAAwIAA3MAA7y2AwABHwQ",
+    }
     decision = roll_map.get(random.randint(0, 1))
 
     if not decision:
@@ -145,7 +147,7 @@ def journalism(
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id, 
-        photo=open("static/journalism.jpg", "rb"), #TODO: не смог заставить работать ни с кешем, ни с датой.
+        photo=decision,
     )
 
 
