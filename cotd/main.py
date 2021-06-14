@@ -174,7 +174,7 @@ def main():
                         functools.partial(yes_reaction),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(["Лол", "лол", "кек", "Кек", "kek", "Kek"]),
+                        telegram.ext.Filters.text(["Лол", "лол", "кек", "Кек", "kek", "Kek", "Ору", "ору"]),
                         functools.partial(stalker_reaction),
                     ),
                     telegram.ext.MessageHandler(
