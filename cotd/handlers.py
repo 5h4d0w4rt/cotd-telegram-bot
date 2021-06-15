@@ -116,12 +116,20 @@ def stalker_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
     roll_map = {
-        0: "Ну ты выдал!",
+        1: "Ну ты выдал!",
         3: "Блин, так не смешно же.",
         6: "А поновее ничего нет?",
+        9: "Ору!",
+        12: "я плакал",
+        15: "бугага",
+        18: "ха-ха-ха",
+        21: "*выдыхает через нос*",
+        24: "рофл",
+        27: "ржака",
+        30: "спизданул как боженька",
     }
 
-    decision = roll_map.get(random.randint(0, 7))
+    decision = roll_map.get(random.randint(0, 35))
     if not decision:
         return None
 
