@@ -12,7 +12,7 @@ from cotd.static import Static
 class FeatureHandler:
     # Value object for holding handler implementation function and expected handling method
     # So data and  code will be near one another
-    # Example usage: FeatureHandler(implementation_function=question_mark, handler=telegram.CommandHandler(["some","data"]))
+    # Example usage: FeatureHandler(implementation_function=question_mark, handler=telegram.ext.CommandHandler(["some","data"]))
     def __init__(self):
         raise NotImplementedError
 

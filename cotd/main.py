@@ -42,8 +42,8 @@ class Flags(argparse.Namespace):
 
 
 # a regular expression that matches news from blacklist.
-re_news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IGNORECASE)
-re_gym = re.compile(r'.*качалк.*', re.IGNORECASE)
+re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
+re_gym = re.compile(r".*качалк.*", re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -107,6 +107,7 @@ def cotd_service_factory(
 
     cotdbot = cotd.service.COTDBotService(config)
     return cotdbot
+
 
 def main():
     argparser = argparse.ArgumentParser(description="cringee-bot")
@@ -174,7 +175,9 @@ def main():
                         functools.partial(yes_reaction),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(["Лол", "лол", "кек", "Кек", "kek", "Kek", "Ору", "ору"]),
+                        telegram.ext.Filters.text(
+                            ["Лол", "лол", "кек", "Кек", "kek", "Kek", "Ору", "ору"]
+                        ),
                         functools.partial(stalker_reaction),
                     ),
                     telegram.ext.MessageHandler(
@@ -194,8 +197,7 @@ def main():
                         filters=~telegram.ext.Filters.update.edited_message,
                     ),
                     telegram.ext.CommandHandler(
-                        "iscringe",
-                        functools.partial(iscringe, data=data, cache=cache)
+                        "iscringe", functools.partial(iscringe, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
                         "oldfellow",
@@ -206,16 +208,13 @@ def main():
                         functools.partial(cringelord, data=data, cache=cache),
                     ),
                     telegram.ext.CommandHandler(
-                        "goaway",
-                        functools.partial(goaway, data=data, cache=cache)
+                        "goaway", functools.partial(goaway, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "kekw",
-                        functools.partial(kekw, data=data, cache=cache)
+                        "kekw", functools.partial(kekw, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "secret",
-                        functools.partial(secret, data=data, cache=cache)
+                        "secret", functools.partial(secret, data=data, cache=cache)
                     ),
                 ],
             }
