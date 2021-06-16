@@ -5,14 +5,19 @@ from types import MappingProxyType
 
 @dataclass
 class Static:
-    kekw: typing.BinaryIO
-    oldfellow: typing.BinaryIO
-    sniff_dog: typing.BinaryIO
-    journalism: typing.BinaryIO
-    voice_spray: typing.BinaryIO
-    ribnikov: typing.BinaryIO
-    go_away: typing.BinaryIO
+    kekw: typing.Union[typing.BinaryIO, str]
+    oldfellow: typing.Union[typing.BinaryIO, str]
+    sniff_dog: typing.Union[typing.BinaryIO, str]
+    journalism: typing.Union[typing.BinaryIO, str]
+    voice_spray: typing.Union[typing.BinaryIO, str]
+    ribnikov: typing.Union[typing.BinaryIO, str]
+    go_away: typing.Union[typing.BinaryIO, str]
     ozon_secret: str
+
+
+def initialize_static():
+    # function for automated static holder initialization, will expect a list of static files and will return static value object
+    raise NotImplementedError
 
 
 STATIC = Static(

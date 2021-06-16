@@ -9,6 +9,14 @@ from cotd.cacher import MediaCache
 from cotd.static import Static
 
 
+class FeatureHandler:
+    # Value object for holding handler implementation function and expected handling method
+    # So data and  code will be near one another
+    # Example usage: FeatureHandler(implementation_function=question_mark, handler=telegram.CommandHandler(["some","data"]))
+    def __init__(self):
+        raise NotImplementedError
+
+
 def logged_context(f):
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
@@ -154,7 +162,7 @@ def journalism(
 
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
-        reply_to_message_id=update.effective_message.message_id, 
+        reply_to_message_id=update.effective_message.message_id,
         photo=decision,
     )
 
@@ -174,9 +182,9 @@ def gym_reaction(
     if not decision:
         return None
 
-    return context.bot.sendAnimation(
+    return context.bot.send_animation(
         chat_id=update.effective_chat.id,
-        reply_to_message_id=update.effective_message.message_id, 
+        reply_to_message_id=update.effective_message.message_id,
         animation=decision,
     )
 
@@ -188,13 +196,13 @@ def leftie_meme_detector(
 ) -> typing.Union[telegram.Message, None]:
     if len(update.message.text) < 1024:
         return None
-    
+
     roll_map = {
         1: "опять левацкие мемы постишь...",
         3: "TL;DR",
         5: "ну и нахуя ты это высрал?",
         7: "?",
-        9:"а что сказать то хотел?",
+        9: "а что сказать то хотел?",
     }
     decision = roll_map.get(random.randint(0, 10))
 
