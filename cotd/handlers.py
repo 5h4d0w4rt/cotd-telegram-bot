@@ -70,11 +70,15 @@ def question_mark(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {1: "???", 2: "слыш ты ебало то завали"}
+    roll_map = {
+        1: "???",
+        2: "слыш ты ебало то завали",
+    }
 
     decision = roll_map.get(random.randint(0, 10))
     if not decision:
         return None
+
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
@@ -123,21 +127,23 @@ def stalker_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
+    if random.randint(0, 2) != 1:
+        return None
+
     roll_map = {
-        1: "Ну ты выдал!",
-        3: "Блин, так не смешно же.",
-        6: "А поновее ничего нет?",
-        9: "Ору!",
-        12: "я плакал",
-        15: "бугага",
-        18: "ха-ха-ха",
-        21: "*выдыхает через нос*",
-        24: "рофл",
-        27: "ржака",
-        30: "спизданул как боженька",
+        10: "Ну ты выдал!",
+        20: "Блин, так не смешно же.",
+        30: "А поновее ничего нет?",
+        40: "Ору!",
+        50: "я плакал",
+        60: "ха-ха-ха",
+        70: "*выдыхает через нос*",
+        80: "рофл",
+        90: "ржака",
+        100: "спизданул как боженька",
     }
 
-    decision = roll_map.get(random.randint(0, 35))
+    decision = roll_map.get(random.randint(0, 100))
     if not decision:
         return None
 
@@ -146,6 +152,21 @@ def stalker_reaction(
         text=decision,
     )
 
+    
+
+
+@logged_context
+def stuffy_handler(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    # if random.randint(0, 2) != 1:
+    #     return None
+
+    return context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        photo="AgACAgIAAxkBAAICCmDKNJOCFvRIUuB9wa7j2OU1xkyqAAJltTEblBVRSk52h6sZjqN7coLSoi4AAwEAAwIAA3MAA1qcAwABHwQ",
+    )
 
 @logged_context
 def journalism(
