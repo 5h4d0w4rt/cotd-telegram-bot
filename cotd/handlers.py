@@ -73,6 +73,7 @@ def question_mark(
     roll_map = {
         1: "???",
         2: "слыш ты ебало то завали",
+        3: "ты сейчас быканул или мне показалось?",
     }
 
     decision = roll_map.get(random.randint(0, 10))
@@ -91,16 +92,13 @@ def no_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {0: "пидора ответ"}
-
-    decision = roll_map.get(random.randint(0, 2))
-    if not decision:
+    if random.randint(0, 5) != 3:
         return None
 
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
-        text=decision,
+        text="пидора ответ",
     )
 
 
@@ -109,16 +107,13 @@ def yes_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {0: "пизда"}
-
-    decision = roll_map.get(random.randint(0, 2))
-    if not decision:
+    if random.randint(0, 5) != 3:
         return None
 
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
-        text=decision,
+        text="пизда",
     )
 
 
@@ -127,7 +122,7 @@ def stalker_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 2) != 1:
+    if random.randint(0, 5) != 3:
         return None
 
     roll_map = {
@@ -152,16 +147,14 @@ def stalker_reaction(
         text=decision,
     )
 
-    
-
 
 @logged_context
 def stuffy_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    # if random.randint(0, 2) != 1:
-    #     return None
+    if random.randint(0, 5) != 3:
+        return None
 
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
@@ -242,10 +235,7 @@ def voice_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {1: True}
-    decision = roll_map.get(random.randint(0, 1))
-
-    if not decision:
+    if random.randint(0, 5) != 3:
         return None
 
     return context.bot.sendSticker(

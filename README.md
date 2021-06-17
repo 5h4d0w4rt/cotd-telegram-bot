@@ -8,7 +8,8 @@ cringe of the day bot
 2. export `COTD_TELEGRAM_BOT_TOKEN=` and run
 
 ```bash
-    bazel run //cotd:cotdbot
+   bazel build //...
+   bazel run //cotd:cotdbot
 ```
 
 ## flow
@@ -31,4 +32,4 @@ cringe of the day bot
 
 ### deploy
 
-git push heroku master
+by github action
