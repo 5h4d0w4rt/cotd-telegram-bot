@@ -158,6 +158,7 @@ def stuffy_handler(
 
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id,
         photo="AgACAgIAAxkBAAICCmDKNJOCFvRIUuB9wa7j2OU1xkyqAAJltTEblBVRSk52h6sZjqN7coLSoi4AAwEAAwIAA3MAA1qcAwABHwQ",
     )
 
