@@ -31,6 +31,7 @@ py_library(
     data = [
         "//static:KEKW.mp4",
         "//static:cringe-sniff-dog.jpg",
+        "//static:stuffy.jpg",
         "//static:journalism.jpg",
         "//static:go_away.mp4",
         "//static:oldfellow.mp4",
@@ -72,6 +73,7 @@ py_binary(
     data = [
         "//static:KEKW.mp4",
         "//static:cringe-sniff-dog.jpg",
+        "//static:stuffy.jpg",
         "//static:journalism.jpg",
         "//static:oldfellow.mp4",
         "//static:ribnikov.based.mp4",

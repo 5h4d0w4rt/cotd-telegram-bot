@@ -149,9 +149,12 @@ def stalker_reaction(
 
 
 @logged_context
+@functools.partial(cacheable_handler, key="stuffy", path="photo[0].file_id")
 def stuffy_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[Static] = None,
 ) -> typing.Union[telegram.Message, None]:
     if random.randint(0, 5) != 3:
         return None
@@ -159,7 +162,7 @@ def stuffy_handler(
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
-        photo="AgACAgIAAxkBAAICCmDKNJOCFvRIUuB9wa7j2OU1xkyqAAJltTEblBVRSk52h6sZjqN7coLSoi4AAwEAAwIAA3MAA1qcAwABHwQ",
+        photo=cache.stuffy or data.stuffy,
     )
 
 @logged_context

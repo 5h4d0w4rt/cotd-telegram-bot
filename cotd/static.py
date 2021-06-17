@@ -8,6 +8,7 @@ class Static:
     kekw: typing.Union[typing.BinaryIO, str]
     oldfellow: typing.Union[typing.BinaryIO, str]
     sniff_dog: typing.Union[typing.BinaryIO, str]
+    stuffy: typing.Union[typing.BinaryIO, str]
     journalism: typing.Union[typing.BinaryIO, str]
     voice_spray: typing.Union[typing.BinaryIO, str]
     ribnikov: typing.Union[typing.BinaryIO, str]
@@ -28,6 +29,7 @@ STATIC = Static(
             "ribnikov": open("static/ribnikov.based.mp4", "rb"),
             "ozon_secret": "bit.ly/2Ro39uJ",
             "sniff_dog": open("static/cringe-sniff-dog.jpg", "rb"),
+            "stuffy": open("static/stuffy.jpg", "rb"),
             "journalism": open("static/journalism.jpg", "rb"),
             "voice_spray": open("static/voice-spray.png", "rb"),
             "go_away": open("static/go_away.mp4", "rb"),

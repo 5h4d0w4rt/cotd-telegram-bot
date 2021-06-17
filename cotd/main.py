@@ -168,7 +168,7 @@ def main():
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_stuffy_handler),
-                        functools.partial(stuffy_handler),
+                        functools.partial(stuffy_handler, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),
