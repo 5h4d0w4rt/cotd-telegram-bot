@@ -112,7 +112,7 @@ def yes_reaction(
 
     reaction_text = 'пизда'
 
-    if random.randint(0, 1) == 1:
+    if random.randint(0, 5) != 3:
         reaction_text = '1/5, чел'
 
     return context.bot.send_message(
