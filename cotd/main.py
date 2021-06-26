@@ -22,7 +22,7 @@ from cotd.handlers import (
     yes_reaction,
     stalker_reaction,
     stuffy_handler,
-    journalism,
+    journalism_handler,
     gym_reaction,
     cringelord,
     kekw,
@@ -47,7 +47,7 @@ re_news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IG
 # a regular expression that matches gym.
 re_gym = re.compile(r'.*качалк.*', re.IGNORECASE)
 # a regular expression that matches stuffy words.
-re_stuffy_handler = re.compile(r'.*душ(ный|нила|но|ишь|и|ара).*', re.IGNORECASE)
+re_stuffy_handler = re.compile(r'.*душ(ный|нила|но|ишь|ара).*', re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -160,7 +160,7 @@ def main():
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_news_blacklist),
-                        functools.partial(journalism),
+                        functools.partial(journalism_handler, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_gym),

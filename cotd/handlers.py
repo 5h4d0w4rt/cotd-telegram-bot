@@ -110,10 +110,15 @@ def yes_reaction(
     if random.randint(0, 5) != 3:
         return None
 
+    reaction_text = 'пизда'
+
+    if random.randint(0, 1) == 1:
+        reaction_text = '1/5, чел'
+
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
-        text="пизда",
+        text=reaction_text,
     )
 
 
@@ -166,22 +171,20 @@ def stuffy_handler(
     )
 
 @logged_context
-def journalism(
+@functools.partial(cacheable_handler, key="journalism", path="photo[0].file_id")
+def journalism_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[Static] = None,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {
-        1: "AgACAgIAAxkBAAICBmDHxJUEM9mcS_e7novL5ZHNj2ivAALzsjEbNVs4Skv_V4-J9-kWrEvGoi4AAwEAAwIAA3MAA7y2AwABHwQ",
-    }
-    decision = roll_map.get(random.randint(0, 1))
-
-    if not decision:
+    if random.randint(0, 5) != 3:
         return None
 
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
-        photo=decision,
+        photo=cache.journalism or data.journalism,
     )
 
 
