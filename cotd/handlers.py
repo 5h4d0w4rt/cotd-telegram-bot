@@ -112,7 +112,7 @@ def yes_reaction(
 
     reaction_text = 'пизда'
 
-    if random.randint(0, 5) != 3:
+    if random.randint(0, 5) == 3:
         reaction_text = '1/5, чел'
 
     return context.bot.send_message(
@@ -224,8 +224,9 @@ def leftie_meme_detector(
         5: "ну и нахуя ты это высрал?",
         7: "?",
         9: "а что сказать то хотел?",
+        12: "интересное чтиво",
     }
-    decision = roll_map.get(random.randint(0, 10))
+    decision = roll_map.get(random.randint(0, 12))
 
     if not decision:
         return None
