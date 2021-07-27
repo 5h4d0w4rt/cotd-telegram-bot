@@ -21,6 +21,7 @@ from cotd.handlers import (
     no_reaction,
     yes_reaction,
     stalker_reaction,
+    pig_reaction,
     stuffy_handler,
     journalism_handler,
     gym_reaction,
@@ -187,6 +188,12 @@ def main():
                             ["Лол", "лол", "кек", "Кек", "kek", "Kek", "Ору", "ору"]
                         ),
                         functools.partial(stalker_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text(
+                            ["хрюкни"]
+                        ),
+                        functools.partial(pig_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
