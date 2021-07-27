@@ -174,7 +174,9 @@ def manet_reaction(
     title_font = ImageFont.truetype('static/lobster.ttf', 100)
     title_text = "ля как красиво (wip)"
     image_editable = ImageDraw.Draw(my_image)
-    image_editable.text((500,500), title_text, (255, 255, 255), font=title_font)
+    w, h = image_editable.textsize(title_text)
+    W, H = my_image.size  
+    image_editable.text(((W-w)/2,(H-h)/2), title_text, (255, 255, 255), font=title_font)
 
     bio = BytesIO()
     bio.name = 'image.jpeg'
