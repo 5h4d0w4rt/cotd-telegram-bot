@@ -163,9 +163,6 @@ def manet_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(1, 4) != 3:
-        return None
-
     file_info = context.bot.get_file(update.message.photo[-1].file_id)
     io = file_info.download()
 
