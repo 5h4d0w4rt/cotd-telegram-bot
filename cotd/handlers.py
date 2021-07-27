@@ -163,7 +163,7 @@ def manet_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
+    if random.randint(1, 4) != 3:
         return None
 
     file_info = context.bot.get_file(update.message.photo[-1].file_id)
@@ -171,10 +171,10 @@ def manet_reaction(
 
     my_image = Image.open(io)
     
-    title_font = ImageFont.truetype('static/lobster.ttf', 50)
+    title_font = ImageFont.truetype('static/lobster.ttf', 100)
     title_text = "ля как красиво (wip)"
     image_editable = ImageDraw.Draw(my_image)
-    image_editable.text((100,100), title_text, (0, 0, 0), font=title_font)
+    image_editable.text((500,500), title_text, (255, 255, 255), font=title_font)
 
     bio = BytesIO()
     bio.name = 'image.jpeg'
