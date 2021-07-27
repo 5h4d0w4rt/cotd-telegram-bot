@@ -39,6 +39,7 @@ py_library(
         "//static:smileyOne.webp",
         "//static:smileyOne512x512.png",
         "//static:voice-spray.png",
+        "//static:lobster.ttf",
     ],
     deps = [
         requirement("python-telegram-bot"),
@@ -80,6 +81,7 @@ py_binary(
         "//static:smileyOne.webp",
         "//static:smileyOne512x512.png",
         "//static:voice-spray.png",
+        "//static:lobster.ttf",
     ],
     main = "main.py",
     deps = [

@@ -5,8 +5,13 @@ import random
 import typing
 import datetime
 import functools
+
 from cotd.cacher import MediaCache
 from cotd.static import Static
+
+from PIL import Image, ImageFont, ImageDraw
+
+from io import BytesIO
 
 
 class FeatureHandler:
@@ -150,6 +155,36 @@ def stalker_reaction(
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=decision,
+    )
+
+
+@logged_context
+def manet_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    if random.randint(0, 5) != 3:
+        return None
+
+    file_info = context.bot.get_file(update.message.photo[-1].file_id)
+    io = file_info.download()
+
+    my_image = Image.open(io)
+    
+    title_font = ImageFont.truetype('static/lobster.ttf', 50)
+    title_text = "ля как красиво (wip)"
+    image_editable = ImageDraw.Draw(my_image)
+    image_editable.text((100,100), title_text, (0, 0, 0), font=title_font)
+
+    bio = BytesIO()
+    bio.name = 'image.jpeg'
+    my_image.save(bio, 'JPEG')
+    bio.seek(0)
+
+    return context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id,
+        photo=bio,
     )
 
 

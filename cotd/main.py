@@ -21,6 +21,7 @@ from cotd.handlers import (
     no_reaction,
     yes_reaction,
     stalker_reaction,
+    manet_reaction,
     pig_reaction,
     stuffy_handler,
     journalism_handler,
@@ -49,7 +50,8 @@ re_news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IG
 re_gym = re.compile(r'.*качалк.*', re.IGNORECASE)
 # a regular expression that matches stuffy words.
 re_stuffy_handler = re.compile(r'.*душ(ный|нила|но|ишь|ара).*', re.IGNORECASE)
-
+# piggy
+re_piggy = re.compile(r'.*хрюк.*', re.IGNORECASE)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
@@ -159,6 +161,10 @@ def main():
                         telegram.ext.Filters.voice,
                         functools.partial(voice_reaction),
                     ),
+                     telegram.ext.MessageHandler(
+                        telegram.ext.Filters.photo,
+                        functools.partial(manet_reaction),
+                    ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_news_blacklist),
                         functools.partial(journalism_handler, data=data, cache=cache),
@@ -190,9 +196,7 @@ def main():
                         functools.partial(stalker_reaction),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(
-                            ["хрюкни"]
-                        ),
+                        telegram.ext.Filters.regex(re_piggy),
                         functools.partial(pig_reaction),
                     ),
                     telegram.ext.MessageHandler(

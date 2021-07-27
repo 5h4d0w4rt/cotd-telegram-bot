@@ -9,6 +9,7 @@ exports_files([
     "go_away.mp4",
     "cringe-sniff-dog.jpg",
     "stuffy.jpg",
+    "lobster.ttf",
     "journalism.jpg",
     "voice-spray.png",
 ])
