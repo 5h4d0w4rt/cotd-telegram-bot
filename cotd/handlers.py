@@ -1,4 +1,3 @@
-import logging
 import telegram
 import telegram.ext
 import random
@@ -158,41 +157,87 @@ def stalker_reaction(
     )
 
 
+manet_messages = [
+    "ля как красиво",
+    "нет сил наэто смотретб\nслишком кросива",
+    "к паническим атакам готов",
+    "банжур ебать",
+    "ты шо ебанутый\nшо ты там делаешь?",
+    "ебучая сингулярность",
+    "это могли быть мы",
+    "F L E X",
+    "АААААААаааААААААа",
+    "время дрочитб",
+    "*немой крик*",
+    "Любовь в каждом пикселе",
+    "Фото, заряженное на позитив",
+    "Как мало нужно для счастья",
+    "Досадно, но ладно",
+    "Эта лайф в кайф",
+    "Good vibes only",
+    "big mood",
+    "Chilling",
+    "Bon Appetit",
+    "Фотоотчет для мамы",
+    "Фото без подписи",
+    "Неуникальный контент",
+    "Наконец-то, пятница",
+    "Райское место",
+    "Остановись, мгновенье! Ты прекрасно.",
+    "Я смог, значит, и вы сможете",
+    "Все в ваших руках!",
+    "Сегодня, тот самый день.",
+    "Рабочего характера",
+    "Поставлю класс, но это из вежливости",
+    "Заберите меня отсюда(((",
+    "18+",
+    "Натуралов на помойку",
+    "держись, брат",
+    "Работать трудно",
+]
+
+
 @logged_context
 def manet_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    try:
-      file_info = context.bot.get_file(update.message.photo[-1].file_id)
-      io = file_info.download()
+    if random.randint(0, 4) != 2:
+        return None
 
-      my_image = Image.open(io)
-    
-      title_font = ImageFont.truetype('static/lobster.ttf', 100)
-      title_text = "ля как красиво (wip)"
-      image_editable = ImageDraw.Draw(my_image)
-      w, h = image_editable.textsize(title_text)
-      W, H = my_image.size  
-      image_editable.text(((W-w)/2,(H-h)/2), title_text, (255, 255, 255), font=title_font)
+    i = random.randint(0, len(manet_messages)-1)
+    msg = manet_messages[i]
 
-      bio = BytesIO()
-      bio.name = 'image.jpeg'
-      my_image.save(bio, 'JPEG')
-      bio.seek(0)
+    file_info = context.bot.get_file(update.message.photo[-1].file_id)
+    file = file_info.download()
+    image = Image.open(file)
 
-      return context.bot.send_photo(
-          chat_id=update.effective_chat.id,
-          reply_to_message_id=update.effective_message.message_id,
-          photo=bio,
-      )
-    finally:
-      return context.bot.send_message(
+    fontsize = 1  # starting font size
+
+    # portion of image width you want text width to be
+    img_fraction = 0.50
+
+    font = ImageFont.truetype('static/lobster.ttf', fontsize)
+    while font.getsize(msg)[0] < img_fraction*image.size[0]:
+        # iterate until the text size is just larger than the criteria
+        fontsize += 1
+        font = ImageFont.truetype('static/lobster.ttf', fontsize)
+
+    image_editable = ImageDraw.Draw(image)
+    W, H = image.size
+    w, h = image_editable.textsize(msg, font)
+    image_editable.text(((W-w)/2,(H-h)), msg, (255, 255, 255), font=font)
+
+    bio = BytesIO()
+    bio.name = 'image.jpeg'
+    image.save(bio, 'JPEG')
+    bio.seek(0)
+
+    return context.bot.send_photo(
         chat_id=update.effective_chat.id,
-        reply_to_message_id=update.message.message_id,
-        text="пацаны, я обосрался",
+        reply_to_message_id=update.effective_message.message_id,
+        photo=bio,
     )
-  }
 
 
 @logged_context
