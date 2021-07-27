@@ -186,8 +186,8 @@ def manet_reaction(
           reply_to_message_id=update.effective_message.message_id,
           photo=bio,
       )
-  finally:
-    return context.bot.send_message(
+    finally:
+      return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
         text="пацаны, я обосрался",
