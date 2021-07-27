@@ -163,28 +163,36 @@ def manet_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    file_info = context.bot.get_file(update.message.photo[-1].file_id)
-    io = file_info.download()
+    try:
+      file_info = context.bot.get_file(update.message.photo[-1].file_id)
+      io = file_info.download()
 
-    my_image = Image.open(io)
+      my_image = Image.open(io)
     
-    title_font = ImageFont.truetype('static/lobster.ttf', 100)
-    title_text = "ля как красиво (wip)"
-    image_editable = ImageDraw.Draw(my_image)
-    w, h = image_editable.textsize(title_text)
-    W, H = my_image.size  
-    image_editable.text(((W-w)/2,(H-h)/2), title_text, (255, 255, 255), font=title_font)
+      title_font = ImageFont.truetype('static/lobster.ttf', 100)
+      title_text = "ля как красиво (wip)"
+      image_editable = ImageDraw.Draw(my_image)
+      w, h = image_editable.textsize(title_text)
+      W, H = my_image.size  
+      image_editable.text(((W-w)/2,(H-h)/2), title_text, (255, 255, 255), font=title_font)
 
-    bio = BytesIO()
-    bio.name = 'image.jpeg'
-    my_image.save(bio, 'JPEG')
-    bio.seek(0)
+      bio = BytesIO()
+      bio.name = 'image.jpeg'
+      my_image.save(bio, 'JPEG')
+      bio.seek(0)
 
-    return context.bot.send_photo(
+      return context.bot.send_photo(
+          chat_id=update.effective_chat.id,
+          reply_to_message_id=update.effective_message.message_id,
+          photo=bio,
+      )
+  except:
+    return context.bot.send_message(
         chat_id=update.effective_chat.id,
-        reply_to_message_id=update.effective_message.message_id,
-        photo=bio,
+        reply_to_message_id=update.message.message_id,
+        text="пацаны, я обосрался",
     )
+  }
 
 
 @logged_context
