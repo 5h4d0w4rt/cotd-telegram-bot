@@ -233,6 +233,12 @@ def manet_reaction(
     image_editable = ImageDraw.Draw(image)
     W, H = image.size
     w, h = image_editable.textsize(msg, font)
+    # add shadow
+    image_editable.text(((W-w)/2-2, (H-h)), msg, (0, 0, 0), font=font)
+    image_editable.text(((W-w)/2+2, (H-h)), msg, (0, 0, 0), font=font)
+    image_editable.text(((W-w)/2, (H-h)-2), msg, (0, 0, 0), font=font)
+    image_editable.text(((W-w)/2, (H-h)+2), msg, (0, 0, 0), font=font)
+    # add text
     image_editable.text(((W-w)/2,(H-h)), msg, (255, 255, 255), font=font)
 
     bio = BytesIO()
