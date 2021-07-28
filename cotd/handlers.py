@@ -233,14 +233,17 @@ def manet_reaction(
     image_editable = ImageDraw.Draw(image)
     W, H = image.size
     w, h = image_editable.textsize(msg, font)
+    # some color const
+    msg_color = "#FFFFFF"
+    shadow_color = "#121212"
     # add shadow
-    image_editable.text(((W-w)/2-2, (H-h)), msg, (0, 0, 0), font=font)
-    image_editable.text(((W-w)/2+2, (H-h)), msg, (0, 0, 0), font=font)
-    image_editable.text(((W-w)/2, (H-h)-2), msg, (0, 0, 0), font=font)
-    image_editable.text(((W-w)/2, (H-h)+2), msg, (0, 0, 0), font=font)
+    image_editable.text(((W-w)/2-2, (H-h)), msg, font=font, fill=shadow_color)
+    image_editable.text(((W-w)/2+2, (H-h)), msg, font=font, fill=shadow_color)
+    image_editable.text(((W-w)/2, (H-h)-2), msg, font=font, fill=shadow_color)
+    image_editable.text(((W-w)/2, (H-h)+2), msg, font=font, fill=shadow_color)
     # add text
-    image_editable.text(((W-w)/2,(H-h)), msg, (255, 255, 255), font=font)
-
+    image_editable.text(((W-w)/2,(H-h)), msg, font=font, fill=msg_color)
+    # fake save
     bio = BytesIO()
     bio.name = 'image.jpeg'
     image.save(bio, 'JPEG')
