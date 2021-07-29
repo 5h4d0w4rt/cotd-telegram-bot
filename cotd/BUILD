@@ -38,7 +38,6 @@ py_library(
         "//static:ribnikov.based.mp4",
         "//static:smileyOne.webp",
         "//static:smileyOne512x512.png",
-        "//static:voice-spray.png",
         "//static:lobster.ttf",
     ],
     deps = [
@@ -80,7 +79,6 @@ py_binary(
         "//static:ribnikov.based.mp4",
         "//static:smileyOne.webp",
         "//static:smileyOne512x512.png",
-        "//static:voice-spray.png",
         "//static:lobster.ttf",
     ],
     main = "main.py",

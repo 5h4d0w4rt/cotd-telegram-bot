@@ -11,5 +11,4 @@ exports_files([
     "stuffy.jpg",
     "lobster.ttf",
     "journalism.jpg",
-    "voice-spray.png",
 ])
