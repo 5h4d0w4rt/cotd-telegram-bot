@@ -235,7 +235,7 @@ def manet_reaction(
     w, h = image_editable.textsize(msg, font)
 
     width = (W-w)/2
-    heigh = (H-h)/1.25
+    heigh = (H-h)/1.1
     # some color const
     msg_color = "#FFFFFF"
     shadow_color = "#121212"
