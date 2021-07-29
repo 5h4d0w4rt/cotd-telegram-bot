@@ -235,17 +235,17 @@ def manet_reaction(
     w, h = image_editable.textsize(msg, font)
 
     width = (W-w)/2
-    heigh = H-h
+    heigh = (H-h)/1.25
     # some color const
     msg_color = "#FFFFFF"
     shadow_color = "#121212"
     # add shadow
-    image_editable.text((width-2, heigh-150), msg, font=font, fill=shadow_color)
-    image_editable.text((width+2, heigh-150), msg, font=font, fill=shadow_color)
-    image_editable.text((width, heigh-152), msg, font=font, fill=shadow_color)
-    image_editable.text((width, heigh+152), msg, font=font, fill=shadow_color)
+    image_editable.text((width-2, heigh), msg, font=font, fill=shadow_color)
+    image_editable.text((width+2, heigh), msg, font=font, fill=shadow_color)
+    image_editable.text((width, heigh-2), msg, font=font, fill=shadow_color)
+    image_editable.text((width, heigh+2), msg, font=font, fill=shadow_color)
     # add text
-    image_editable.text((width,heigh-150), msg, font=font, fill=msg_color)
+    image_editable.text((width,heigh), msg, font=font, fill=msg_color)
     # fake save
     bio = BytesIO()
     bio.name = 'image.jpeg'
