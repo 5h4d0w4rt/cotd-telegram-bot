@@ -242,7 +242,7 @@ def manet_reaction(
     image_editable.text(((W-w)/2, (H-h)-2), msg, font=font, fill=shadow_color)
     image_editable.text(((W-w)/2, (H-h)+2), msg, font=font, fill=shadow_color)
     # add text
-    image_editable.text(((W-w)/2,(H-h)), msg, font=font, fill=msg_color)
+    image_editable.text(((W-w)/2,(H-h)-100), msg, font=font, fill=msg_color)
     # fake save
     bio = BytesIO()
     bio.name = 'image.jpeg'
