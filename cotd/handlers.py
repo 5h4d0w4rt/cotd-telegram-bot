@@ -159,10 +159,10 @@ def stalker_reaction(
 
 manet_messages = [
     "ля как красиво",
-    "нет сил наэто смотретб\nслишком кросива",
+    "нет сил наэто смотретб слишком кросива",
     "к паническим атакам готов",
     "банжур ебать",
-    "ты шо ебанутый\nшо ты там делаешь?",
+    "ты шо ебанутый шо ты там делаешь?",
     "ебучая сингулярность",
     "это могли быть мы",
     "F L E X",
@@ -183,7 +183,7 @@ manet_messages = [
     "Неуникальный контент",
     "Наконец-то, пятница",
     "Райское место",
-    "Остановись, мгновенье! Ты прекрасно.",
+    "Остановись, мгновенье!",
     "Я смог, значит, и вы сможете",
     "Все в ваших руках!",
     "Сегодня, тот самый день.",
@@ -195,6 +195,12 @@ manet_messages = [
     "держись, брат",
     "Работать трудно",
     "Военные преступления",
+    "Haters gonna hate",
+    "так и живем",
+    "автор - мудак",
+    "кладмен - мудак",
+    "узнали? согласны?",
+    "nice",
 ]
 
 
@@ -227,8 +233,17 @@ def manet_reaction(
     image_editable = ImageDraw.Draw(image)
     W, H = image.size
     w, h = image_editable.textsize(msg, font)
-    image_editable.text(((W-w)/2,(H-h)), msg, (255, 255, 255), font=font)
-
+    # some color const
+    msg_color = "#FFFFFF"
+    shadow_color = "#121212"
+    # add shadow
+    image_editable.text(((W-w)/2-2, (H-h)), msg, font=font, fill=shadow_color)
+    image_editable.text(((W-w)/2+2, (H-h)), msg, font=font, fill=shadow_color)
+    image_editable.text(((W-w)/2, (H-h)-2), msg, font=font, fill=shadow_color)
+    image_editable.text(((W-w)/2, (H-h)+2), msg, font=font, fill=shadow_color)
+    # add text
+    image_editable.text(((W-w)/2,(H-h)), msg, font=font, fill=msg_color)
+    # fake save
     bio = BytesIO()
     bio.name = 'image.jpeg'
     image.save(bio, 'JPEG')
