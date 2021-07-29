@@ -348,15 +348,30 @@ def leftie_meme_detector(
         text=decision,
     )
 
+voice_messages = [
+    "как болезнь называется?",
+    "пацаны, тут человеку руки оторвало!",
+    "слова красивые, но ты пидор",
+    "ничего не понял",
+]
 
 @logged_context
 def voice_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    # if random.randint(0, 5) != 3:
-    #     return None
-    # крутим рандом для дефа.
+    if random.randint(0, 5) != 3:
+        return None
+
+    if random.randint(0, 5) != 3:
+        msg = manet_messages[random.randint(0, len(voice_messages)-1)]
+
+        return context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.message_id,
+            text=msg,
+        )
+    
     return context.bot.sendSticker(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
@@ -371,7 +386,6 @@ def iscringe(
     cache: typing.Type[MediaCache] = None,
     data: typing.Type[Static] = None,
 ) -> telegram.Message:
-
     if not _is_reply(update):
         return context.bot.send_message(
             chat_id=update.effective_chat.id,
