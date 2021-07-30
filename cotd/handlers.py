@@ -201,6 +201,7 @@ manet_messages = [
     "кладмен - мудак",
     "узнали? согласны?",
     "nice",
+    "refuse to elaborate further",
 ]
 
 
@@ -235,7 +236,7 @@ def manet_reaction(
     w, h = image_editable.textsize(msg, font)
 
     width = (W-w)/2
-    heigh = (H-h)/1.1
+    heigh = (H-h)/1.03
     # some color const
     msg_color = "#FFFFFF"
     shadow_color = "#121212"
