@@ -202,6 +202,7 @@ manet_messages = [
     "узнали? согласны?",
     "nice",
     "refuse to elaborate further",
+    "CUM",
 ]
 
 
@@ -381,9 +382,6 @@ def voice_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
-        return None
-
     if random.randint(0, 5) != 3:
         msg = manet_messages[random.randint(0, len(voice_messages)-1)]
 
