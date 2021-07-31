@@ -203,6 +203,8 @@ manet_messages = [
     "nice",
     "refuse to elaborate further",
     "CUM",
+    "кринж",
+    ")))",
 ]
 
 
