@@ -204,6 +204,8 @@ manet_messages = [
     "refuse to elaborate further",
     "CUM",
     "сестра где твой хиджаб?",
+    "кринж",
+    ")))",
 ]
 
 
