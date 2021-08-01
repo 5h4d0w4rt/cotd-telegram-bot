@@ -237,7 +237,7 @@ def main():
                         "secret", functools.partial(secret, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "pol", functools.partial(pol_handler, data=data, cache=cache)
+                        "pol", functools.partial(pol_handler, cache=cache)
                     ),
                 ],
             }
