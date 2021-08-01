@@ -252,6 +252,7 @@ def main():
         telegram.BotCommand("cringelord", "Who's cringelord of the day?"),
         telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
         telegram.BotCommand("secret", "what's in there?"),
+        telegram.BotCommand("pol", "what's behind this command?"),
     ]
 
     envs = cotd.service.EnvConfig(token=os.environ["COTD_TELEGRAM_BOT_TOKEN"])
