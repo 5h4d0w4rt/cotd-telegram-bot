@@ -519,6 +519,17 @@ def secret(
     )
 
 
+@logged_context
+def pol_handler(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="A Fucking Leaf",
+    )
+
+
 def cache_users(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,

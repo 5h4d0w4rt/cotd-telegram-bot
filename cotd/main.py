@@ -32,6 +32,7 @@ from cotd.handlers import (
     goaway,
     secret,
     iscringe,
+    pol_handler,
 )
 from cotd.service import TGBotMetadata
 
@@ -234,6 +235,9 @@ def main():
                     ),
                     telegram.ext.CommandHandler(
                         "secret", functools.partial(secret, data=data, cache=cache)
+                    ),
+                    telegram.ext.CommandHandler(
+                        "pol", functools.partial(pol_handler, data=data, cache=cache)
                     ),
                 ],
             }
