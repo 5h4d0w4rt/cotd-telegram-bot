@@ -214,7 +214,7 @@ def manet_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 4) == 2:
+    if random.randint(0, 2) != 1:
         return None
 
     i = random.randint(0, len(manet_messages)-1)
@@ -275,7 +275,7 @@ def pig_reaction(
         3: "🐖",
     }
 
-    decision = roll_map.get(random.randint(0, 10))
+    decision = roll_map.get(random.randint(0, 5))
     if not decision:
         return None
 
