@@ -208,16 +208,38 @@ manet_messages = [
     ")))",
 ]
 
+manet_max = 0
+manet_chances = {}
+
 
 @logged_context
 def manet_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 2) != 1:
+    if random.randint(0, 1) == 0:
         return None
 
-    i = random.randint(0, len(manet_messages)-1)
+    x = 0
+    i = 0
+
+    global manet_max
+
+    # correct the frequency of using phrases
+    while x == 0:
+        i = random.randint(0, len(manet_messages)-1)
+
+        chance = manet_chances.get(i, -1)
+
+        if chance <= manet_max:
+            manet_chances[i] = chance+1
+
+            if chance == manet_max:
+                manet_max = manet_max + 1
+
+            break
+
+
     msg = manet_messages[i]
 
     file_info = context.bot.get_file(update.message.photo[-1].file_id)
