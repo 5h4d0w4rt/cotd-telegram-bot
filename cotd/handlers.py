@@ -175,7 +175,6 @@ manet_messages = [
     "Досадно, но ладно",
     "Эта лайф в кайф",
     "Good vibes only",
-    "big mood",
     "Chilling",
     "Bon Appetit",
     "Фотоотчет для мамы",
@@ -189,7 +188,6 @@ manet_messages = [
     "Сегодня, тот самый день.",
     "Рабочего характера",
     "Поставлю класс, но это из вежливости",
-    "Заберите меня отсюда(((",
     "18+",
     "Натуралов на помойку",
     "держись, брат",
@@ -206,9 +204,11 @@ manet_messages = [
     "сестра где твой хиджаб?",
     "кринж",
     ")))",
+    "big mood",
+    "Заберите меня отсюда(((",
 ]
 
-manet_max = 0
+manet_max = 1
 manet_chances = {}
 
 
@@ -218,7 +218,7 @@ def manet_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
     # 33.3% chance to react
-    if random.randint(0, 2) != 0:
+    if random.randint(0, 2) == 1:
         return None
 
     x = 0
@@ -232,12 +232,16 @@ def manet_reaction(
 
         chance = manet_chances.get(i, -1)
 
-        if chance <= manet_max:
+        if chance == manet_max:
+            manet_max = manet_max + 1
+            continue
+            
+        if chance > manet_max:
+            manet_max = chance
+            continue
+        
+        if chance < manet_max:
             manet_chances[i] = chance+1
-
-            if chance == manet_max:
-                manet_max = manet_max + 1
-
             break
 
 
