@@ -217,7 +217,7 @@ def manet_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 1) == 0:
+    if random.randint(0, 3) == 0:
         return None
 
     x = 0
