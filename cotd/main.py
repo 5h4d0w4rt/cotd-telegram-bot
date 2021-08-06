@@ -33,6 +33,7 @@ from cotd.handlers import (
     secret,
     iscringe,
     pol_handler,
+    watermelon_reaction,
 )
 from cotd.service import TGBotMetadata
 
@@ -53,6 +54,8 @@ re_gym = re.compile(r'.*качалк.*', re.IGNORECASE)
 re_stuffy_handler = re.compile(r'.*душ(ный|нила|но|ишь|ара).*', re.IGNORECASE)
 # piggy
 re_piggy = re.compile(r'.*хрю.*', re.IGNORECASE)
+# watermelon
+re_watermelon = re.compile(r'.*арбуз.*', re.IGNORECASE)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
@@ -199,6 +202,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_piggy),
                         functools.partial(pig_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_watermelon),
+                        functools.partial(watermelon_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
