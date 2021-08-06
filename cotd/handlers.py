@@ -313,6 +313,16 @@ def pig_reaction(
     )
 
 
+@logged_context
+def watermelon_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text="🔪",
+    )
 
 @logged_context
 @functools.partial(cacheable_handler, key="stuffy", path="photo[0].file_id")
