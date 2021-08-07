@@ -218,7 +218,7 @@ def manet_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
     # 33.3% chance to react
-    if random.randint(0, 2) == 1:
+    if random.randint(0, 2) != 0:
         return None
 
     x = 0
