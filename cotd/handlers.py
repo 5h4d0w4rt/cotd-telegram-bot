@@ -126,6 +126,20 @@ def yes_reaction(
     )
 
 
+def 300_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    if random.randint(0, 5) != 3:
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text="отсоси у тракториста",
+    )
+
+
 @logged_context
 def stalker_reaction(
     update: telegram.Update,
