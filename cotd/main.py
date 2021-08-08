@@ -58,7 +58,7 @@ re_piggy = re.compile(r'.*хрю.*', re.IGNORECASE)
 # watermelon
 re_watermelon = re.compile(r'.*арбуз.*', re.IGNORECASE)
 # 300
-re_300 = re.compile(r'.* 300 .*', re.IGNORECASE)
+re_300 = re.compile(r'.* 300 .*|.* триста .*', re.IGNORECASE)
 #
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
