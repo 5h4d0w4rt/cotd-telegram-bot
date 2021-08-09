@@ -126,7 +126,7 @@ def yes_reaction(
     )
 
 
-def 300_reaction(
+def trista_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
@@ -137,37 +137,6 @@ def 300_reaction(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
         text="отсоси у тракториста",
-    )
-
-
-@logged_context
-def stalker_reaction(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
-        return None
-
-    roll_map = {
-        10: "Ну ты выдал!",
-        20: "Блин, так не смешно же.",
-        30: "А поновее ничего нет?",
-        40: "Ору!",
-        50: "я плакал",
-        60: "ха-ха-ха",
-        70: "*выдыхает через нос*",
-        80: "рофл",
-        90: "ржака",
-        100: "спизданул как боженька",
-    }
-
-    decision = roll_map.get(random.randint(0, 100))
-    if not decision:
-        return None
-
-    return context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=decision,
     )
 
 
@@ -195,13 +164,11 @@ manet_messages = [
     "Фото без подписи",
     "Неуникальный контент",
     "Наконец-то, пятница",
-    "Райское место",
     "Остановись, мгновенье!",
     "Я смог, значит, и вы сможете",
     "Все в ваших руках!",
     "Сегодня, тот самый день.",
     "Рабочего характера",
-    "Поставлю класс, но это из вежливости",
     "18+",
     "Натуралов на помойку",
     "держись, брат",
@@ -220,6 +187,8 @@ manet_messages = [
     ")))",
     "big mood",
     "Заберите меня отсюда(((",
+    "Райское место",
+    "Поставлю класс, но это из вежливости",
 ]
 
 manet_max = 1

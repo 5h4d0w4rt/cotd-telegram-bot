@@ -20,7 +20,6 @@ from cotd.handlers import (
     question_mark,
     no_reaction,
     yes_reaction,
-    stalker_reaction,
     manet_reaction,
     pig_reaction,
     stuffy_handler,
@@ -34,7 +33,7 @@ from cotd.handlers import (
     iscringe,
     pol_handler,
     watermelon_reaction,
-    300_reaction,
+    trista_reaction,
 )
 from cotd.service import TGBotMetadata
 
@@ -198,12 +197,6 @@ def main():
                         functools.partial(yes_reaction),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(
-                            ["Лол", "лол", "кек", "Кек", "kek", "Kek", "Ору", "ору"]
-                        ),
-                        functools.partial(stalker_reaction),
-                    ),
-                    telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_piggy),
                         functools.partial(pig_reaction),
                     ),
@@ -213,7 +206,7 @@ def main():
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_300),
-                        functools.partial(300_reaction),
+                        functools.partial(trista_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
