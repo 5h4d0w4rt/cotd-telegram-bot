@@ -378,8 +378,9 @@ def leftie_meme_detector(
         7: "?",
         9: "а что сказать то хотел?",
         12: "интересное чтиво",
+        14: "Разумеется, на приведённое выше рассуждение есть что возразить. Но назвать сказанное идиотизмом всё-таки нельзя: это вполне корректно выстроенная модель.",
     }
-    decision = roll_map.get(random.randint(0, 12))
+    decision = roll_map.get(random.randint(0, 16))
 
     if not decision:
         return None
