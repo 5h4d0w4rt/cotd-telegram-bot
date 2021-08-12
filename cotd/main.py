@@ -56,7 +56,7 @@ re_stuffy_handler = re.compile(r'.*душ(ный|нила|но|ишь|ара).*'
 # piggy
 re_piggy = re.compile(r'.*хрю.*', re.IGNORECASE)
 # watermelon
-re_watermelon = re.compile(r'.*арбуз.*', re.IGNORECASE)
+re_watermelon = re.compile(r'.*арбуз.*|🍉*.', re.IGNORECASE)
 # 300
 re_300 = re.compile(r'.* 300 .*|.* триста .*|^300$|^300 .*|^триста$|^триста .*', re.IGNORECASE)
 # massacre
