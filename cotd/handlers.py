@@ -126,6 +126,17 @@ def yes_reaction(
     )
 
 
+def massacre_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text="🍉",
+    )
+
+
 def trista_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
