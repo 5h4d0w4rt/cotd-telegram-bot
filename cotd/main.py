@@ -202,10 +202,10 @@ def main():
                         telegram.ext.Filters.regex(re_piggy),
                         functools.partial(pig_reaction),
                     ),
-                    telegram.ext.MessageHandler(
-                        telegram.ext.Filters.regex(re_watermelon),
-                        functools.partial(watermelon_reaction),
-                    ),
+                    # telegram.ext.MessageHandler(
+                    #     telegram.ext.Filters.regex(re_watermelon),
+                    #     functools.partial(watermelon_reaction),
+                    # ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_massacre),
                         functools.partial(massacre_reaction),
