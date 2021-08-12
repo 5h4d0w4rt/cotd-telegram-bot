@@ -35,6 +35,7 @@ from cotd.handlers import (
     watermelon_reaction,
     trista_reaction,
     massacre_reaction,
+    version_reaction,
 )
 from cotd.service import TGBotMetadata
 
@@ -45,7 +46,6 @@ class Options(argparse.Namespace):
 
 class Flags(argparse.Namespace):
     pass
-
 
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IGNORECASE)
@@ -202,10 +202,14 @@ def main():
                         telegram.ext.Filters.regex(re_piggy),
                         functools.partial(pig_reaction),
                     ),
-                    # telegram.ext.MessageHandler(
-                    #     telegram.ext.Filters.regex(re_watermelon),
-                    #     functools.partial(watermelon_reaction),
-                    # ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text("--version"),
+                        functools.partial(version_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_watermelon),
+                        functools.partial(watermelon_reaction),
+                    ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_massacre),
                         functools.partial(massacre_reaction),

@@ -12,6 +12,8 @@ from PIL import Image, ImageFont, ImageDraw
 
 from io import BytesIO
 
+# version
+ver = "1.0.0"
 
 class FeatureHandler:
     # Value object for holding handler implementation function and expected handling method
@@ -315,6 +317,18 @@ def watermelon_reaction(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
         text="🔪",
+    )
+
+
+@logged_context
+def version_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text=ver,
     )
 
 @logged_context
