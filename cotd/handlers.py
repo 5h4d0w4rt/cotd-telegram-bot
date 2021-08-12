@@ -141,7 +141,7 @@ def trista_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
+    if random.randint(0, 1) == 0:
         return None
 
     return context.bot.send_message(
