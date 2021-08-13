@@ -13,7 +13,7 @@ from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 
 # version
-ver = "1.0.0"
+ver = "1.0.1"
 
 class FeatureHandler:
     # Value object for holding handler implementation function and expected handling method
@@ -154,6 +154,7 @@ def trista_reaction(
 
 
 manet_messages = [
+    "прости если трахнул",
     "ля как красиво",
     "нет сил наэто смотретб слишком кросива",
     "к паническим атакам готов",
@@ -213,7 +214,7 @@ def manet_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
+    if random.randint(0, 3) != 2:
         return None
 
     x = 0
@@ -262,7 +263,7 @@ def manet_reaction(
     w, h = image_editable.textsize(msg, font)
 
     width = (W-w)/2
-    heigh = (H-h)/1.03
+    heigh = (H-h)/1.01
     # some color const
     msg_color = "#FFFFFF"
     shadow_color = "#121212"
