@@ -154,6 +154,7 @@ def trista_reaction(
 
 
 manet_messages = [
+    "найди работу еблан",
     "прости если трахнул",
     "ля как красиво",
     "нет сил наэто смотретб слишком кросива",
@@ -162,7 +163,6 @@ manet_messages = [
     "ты шо ебанутый шо ты там делаешь?",
     "ебучая сингулярность",
     "это могли быть мы",
-    "F L E X",
     "АААААААаааААААААа",
     "время дрочитб",
     "*немой крик*",
@@ -203,6 +203,7 @@ manet_messages = [
     "Райское место",
     "Поставлю класс, но это из вежливости",
     "CUM",
+    "F L E X",
 ]
 
 manet_max = 1
@@ -417,7 +418,8 @@ def leftie_meme_detector(
         text=decision,
     )
 
-voice_messages = [
+
+e_messages = [
     "как болезнь называется?",
     "пацаны, тут человеку руки оторвало!",
     "слова красивые, но ты пидор",
@@ -432,7 +434,7 @@ def voice_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
     if random.randint(0, 5) != 3:
-        msg = manet_messages[random.randint(0, len(voice_messages)-1)]
+        msg = voice_messages[random.randint(0, len(voice_messages)-1)]
 
         return context.bot.send_message(
             chat_id=update.effective_chat.id,
