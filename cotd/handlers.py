@@ -154,6 +154,7 @@ def trista_reaction(
 
 
 manet_messages = [
+    "за мат извени",
     "What Zero Pussy Does to a MF",              
     "сколько жмешь?",
     "у кого то будет секс...",
