@@ -155,7 +155,7 @@ def trista_reaction(
 
 manet_messages = [
     "за мат извени",
-    "What Zero Pussy Does to a MF",              
+    "What Zero Pussy Does to a MF",
     "сколько жмешь?",
     "у кого то будет секс...",
     "найди работу еблан",
@@ -171,7 +171,6 @@ manet_messages = [
     "время дрочитб",
     "*немой крик*",
     "Любовь в каждом пикселе",
-    "Фото, заряженное на позитив",
     "Как мало нужно для счастья",
     "Досадно, но ладно",
     "Эта лайф в кайф",
@@ -208,6 +207,7 @@ manet_messages = [
     "Поставлю класс, но это из вежливости",
     "CUM",
     "F L E X",
+    "Фото, заряженное на позитив",
 ]
 
 manet_max = 1
@@ -353,6 +353,22 @@ def stuffy_handler(
         reply_to_message_id=update.effective_message.message_id,
         photo=cache.stuffy or data.stuffy,
     )
+
+
+@logged_context
+@functools.partial(cacheable_handler, key="music", path="photo[0].file_id")
+def music_handler(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[Static] = None,
+) -> typing.Union[telegram.Message, None]:
+    return context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id,
+        photo=cache.music or data.music,
+    )
+
 
 @logged_context
 @functools.partial(cacheable_handler, key="journalism", path="photo[0].file_id")

@@ -35,6 +35,7 @@ from cotd.handlers import (
     watermelon_reaction,
     trista_reaction,
     massacre_reaction,
+    music_handler,
     version_reaction,
 )
 from cotd.service import TGBotMetadata
@@ -61,6 +62,8 @@ re_watermelon = re.compile(r'.*арбуз.*', re.IGNORECASE)
 re_300 = re.compile(r'.* 300 .*|.* триста .*|^300$|^300 .*|^триста$|^триста .*', re.IGNORECASE)
 # massacre
 re_massacre = re.compile(r'.*резня.*', re.IGNORECASE)
+# music
+re_music = re.compile(r'.*open.spotify.com.*', re.IGNORECASE)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
@@ -185,6 +188,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_stuffy_handler),
                         functools.partial(stuffy_handler, data=data, cache=cache),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_music),
+                        functools.partial(music_handler, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),
