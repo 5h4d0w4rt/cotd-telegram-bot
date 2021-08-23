@@ -586,6 +586,23 @@ def secret(
         text=data.ozon_secret,
     )
 
+@logged_context
+@functools.partial(cacheable_handler, key="sf", path="photo[0].file_id")
+def dead_inside_handler(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[Static] = None,
+) -> typing.Union[telegram.Message, None]:
+    if random.randint(0, 1) != 0:
+        return None
+
+    return context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id,
+        photo=cache.sf or data.sf,
+    )
+
 
 @logged_context
 def pol_handler(

@@ -10,6 +10,7 @@ exports_files([
     "cringe-sniff-dog.jpg",
     "stuffy.jpg",
     "music.jpg",
+    "deadinside.jpg",
     "lobster.ttf",
     "journalism.jpg",
 ])

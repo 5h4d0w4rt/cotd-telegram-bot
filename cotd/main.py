@@ -36,6 +36,7 @@ from cotd.handlers import (
     trista_reaction,
     massacre_reaction,
     music_handler,
+    dead_inside_handler,
     version_reaction,
 )
 from cotd.service import TGBotMetadata
@@ -64,6 +65,8 @@ re_300 = re.compile(r'.* 300 .*|.* триста .*|^300$|^300 .*|^триста$|
 re_massacre = re.compile(r'.*резня.*', re.IGNORECASE)
 # music
 re_music = re.compile(r'.*open.spotify.com.*', re.IGNORECASE)
+# dead inside
+re_dead_inside = re.compile(r'похуй|мне похуй', re.IGNORECASE)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
@@ -224,6 +227,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_300),
                         functools.partial(trista_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_dead_inside),
+                        functools.partial(dead_inside_handler, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
