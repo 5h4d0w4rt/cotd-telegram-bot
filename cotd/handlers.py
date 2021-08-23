@@ -13,7 +13,7 @@ from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 
 # version
-ver = "1.0.1"
+ver = "1.1.0"
 
 class FeatureHandler:
     # Value object for holding handler implementation function and expected handling method
