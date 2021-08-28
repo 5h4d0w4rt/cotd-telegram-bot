@@ -626,7 +626,39 @@ def pol_handler(
         text="A Fucking Leaf",
     )
 
-@logged_context
+
+
+# def inlinequery(update: Update, context: CallbackContext) -> None:
+#     """Handle the inline query."""
+#     query = update.inline_query.query
+
+#     if query == "":
+#         return
+
+#     results = [
+#         InlineQueryResultArticle(
+#             id=str(uuid4()),
+#             title="Caps",
+#             input_message_content=InputTextMessageContent(query.upper()),
+#         ),
+#         InlineQueryResultArticle(
+#             id=str(uuid4()),
+#             title="Bold",
+#             input_message_content=InputTextMessageContent(
+#                 f"*{escape_markdown(query)}*", parse_mode=ParseMode.MARKDOWN
+#             ),
+#         ),
+#         InlineQueryResultArticle(
+#             id=str(uuid4()),
+#             title="Italic",
+#             input_message_content=InputTextMessageContent(
+#                 f"_{escape_markdown(query)}_", parse_mode=ParseMode.MARKDOWN
+#             ),
+#         ),
+#     ]
+
+#     update.inline_query.answer(results)
+
 def motivation_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -637,14 +669,14 @@ def motivation_handler(
             text="да забей, чел",
         )
 
-    msg = update.effective_message.text[12:]
+    msg = " ".join(context.args)
 
-    if len(msg) == 0:
+    if msg == "":
         return None
 
     image = Image.open("static/motivator.jpg")
 
-    fontsize = 5 # starting font size
+    fontsize = 1 # starting font size
 
     # portion of image width you want text width to be
     img_fraction = 0.50
