@@ -31,14 +31,13 @@ from cotd.handlers import (
     goaway,
     secret,
     iscringe,
-    pol_handler,
     motivation_handler,
     watermelon_reaction,
     trista_reaction,
     massacre_reaction,
     music_handler,
     dead_inside_handler,
-    version_reaction,
+    version_handler,
 )
 from cotd.service import TGBotMetadata
 
@@ -214,10 +213,6 @@ def main():
                         functools.partial(pig_reaction),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text("--version"),
-                        functools.partial(version_reaction),
-                    ),
-                    telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_watermelon),
                         functools.partial(watermelon_reaction),
                     ),
@@ -250,7 +245,12 @@ def main():
                         filters=~telegram.ext.Filters.update.edited_message,
                     ),
                     telegram.ext.CommandHandler(
-                        "iscringe", functools.partial(iscringe, data=data, cache=cache)
+                        "version",
+                        functools.partial(version_handler)
+                    ),
+                    telegram.ext.CommandHandler(
+                        "iscringe",
+                        functools.partial(iscringe, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
                         "oldfellow",
@@ -261,19 +261,20 @@ def main():
                         functools.partial(cringelord, data=data, cache=cache),
                     ),
                     telegram.ext.CommandHandler(
-                        "goaway", functools.partial(goaway, data=data, cache=cache)
+                        "goaway",
+                        functools.partial(goaway, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "kekw", functools.partial(kekw, data=data, cache=cache)
+                        "kekw",
+                        functools.partial(kekw, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "secret", functools.partial(secret, data=data, cache=cache)
+                        "secret",
+                        functools.partial(secret, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "pol", functools.partial(pol_handler)
-                    ),
-                    telegram.ext.CommandHandler(
-                        "motivation", functools.partial(motivation_handler)
+                        "motivation",
+                        functools.partial(motivation_handler)
                     ),
                 ],
             }
@@ -281,15 +282,42 @@ def main():
     ]
 
     commands = [
-        telegram.BotCommand("start", "Hello world"),
-        telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
-        telegram.BotCommand("oldfellow", "oldfellow, take off!"),
-        telegram.BotCommand("goaway", "Helpful reminder to go on your business"),
-        telegram.BotCommand("cringelord", "Who's cringelord of the day?"),
-        telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
-        telegram.BotCommand("secret", "what's in there?"),
-        telegram.BotCommand("pol", "what's behind this command?"),
-        telegram.BotCommand("motivation", "get motivation!"),
+        telegram.BotCommand(
+            "start",
+            "Hello world"
+        ),
+        telegram.BotCommand(
+            "version",
+            "Show version of the bot."
+        ),
+        telegram.BotCommand(
+            "iscringe",
+            "Determines if post you reply to is cringe or based"
+        ),
+        telegram.BotCommand(
+            "oldfellow",
+            "oldfellow, take off!"
+        ),
+        telegram.BotCommand(
+            "goaway",
+            "Helpful reminder to go on your business"
+        ),
+        telegram.BotCommand(
+            "cringelord",
+            "Who's cringelord of the day?"
+        ),
+        telegram.BotCommand(
+            "kekw",
+            "E TU BRUTE? :DDD"
+        ),
+        telegram.BotCommand(
+            "motivation",
+            "get motivation! example: /motivation text"
+        ),
+        telegram.BotCommand(
+            "secret",
+            "what's in there?"
+        ),
     ]
 
     envs = cotd.service.EnvConfig(token=os.environ["COTD_TELEGRAM_BOT_TOKEN"])

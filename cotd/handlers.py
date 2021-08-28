@@ -13,7 +13,7 @@ from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 
 # version
-ver = "1.2.0"
+ver = "1.2.2"
 
 class FeatureHandler:
     # Value object for holding handler implementation function and expected handling method
@@ -338,8 +338,7 @@ def watermelon_reaction(
     )
 
 
-@logged_context
-def version_reaction(
+def version_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> telegram.Message:
@@ -616,59 +615,16 @@ def dead_inside_handler(
     )
 
 
-@logged_context
-def pol_handler(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-) -> telegram.Message:
-    return context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text="A Fucking Leaf",
-    )
-
-
-
-# def inlinequery(update: Update, context: CallbackContext) -> None:
-#     """Handle the inline query."""
-#     query = update.inline_query.query
-
-#     if query == "":
-#         return
-
-#     results = [
-#         InlineQueryResultArticle(
-#             id=str(uuid4()),
-#             title="Caps",
-#             input_message_content=InputTextMessageContent(query.upper()),
-#         ),
-#         InlineQueryResultArticle(
-#             id=str(uuid4()),
-#             title="Bold",
-#             input_message_content=InputTextMessageContent(
-#                 f"*{escape_markdown(query)}*", parse_mode=ParseMode.MARKDOWN
-#             ),
-#         ),
-#         InlineQueryResultArticle(
-#             id=str(uuid4()),
-#             title="Italic",
-#             input_message_content=InputTextMessageContent(
-#                 f"_{escape_markdown(query)}_", parse_mode=ParseMode.MARKDOWN
-#             ),
-#         ),
-#     ]
-
-#     update.inline_query.answer(results)
-
 def motivation_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) == 6:
+    if random.randint(0, 4) == 1:
         return context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="да забей, чел",
         )
-
+    
     msg = " ".join(context.args)
 
     if msg == "":
@@ -772,13 +728,3 @@ def cringelord(
         context.dispatcher.logger.debug(f"serving from cache: {cache.cringelord}")
 
         return message
-
-
-# TODO pre-process/post-process handlers to simplify logic
-# TODO cacheable decorator
-# TODO storage: github private repo
-# TODO cringe_poster_factor = rate(cringe posts(those marked by cringe bot) / all posts)
-# to determine cringelord of the day
-# store all cringelords of the day in a list
-# and store all cringeposts in a list
-# make histogram out of data
