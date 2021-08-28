@@ -13,7 +13,7 @@ from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 
 # version
-ver = "1.1.0"
+ver = "1.2.0"
 
 class FeatureHandler:
     # Value object for holding handler implementation function and expected handling method
@@ -624,6 +624,63 @@ def pol_handler(
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="A Fucking Leaf",
+    )
+
+@logged_context
+def motivation_handler(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+    if random.randint(0, 5) == 6:
+        return context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="да забей, чел",
+        )
+
+    msg = update.effective_message.text[12:]
+
+    if len(msg) == 0:
+        return None
+
+    image = Image.open("static/motivator.jpg")
+
+    fontsize = 5 # starting font size
+
+    # portion of image width you want text width to be
+    img_fraction = 0.50
+
+    font = ImageFont.truetype('static/lobster.ttf', fontsize)
+    while font.getsize(msg)[0] < img_fraction*image.size[0]:
+        # iterate until the text size is just larger than the criteria
+        fontsize += 1
+        font = ImageFont.truetype('static/lobster.ttf', fontsize)
+
+    image_editable = ImageDraw.Draw(image)
+    W, H = image.size
+    w, h = image_editable.textsize(msg, font)
+
+    width = (W-w)/2
+    heigh = h/5
+    # some color const
+    msg_color = "#FFFFFF"
+    shadow_color = "#121212"
+    # add shadow
+    image_editable.text((width-2, heigh), msg, font=font, fill=shadow_color)
+    image_editable.text((width+2, heigh), msg, font=font, fill=shadow_color)
+    image_editable.text((width, heigh-2), msg, font=font, fill=shadow_color)
+    image_editable.text((width, heigh+2), msg, font=font, fill=shadow_color)
+    # add text
+    image_editable.text((width,heigh), msg, font=font, fill=msg_color)
+    # fake save
+    bio = BytesIO()
+    bio.name = 'image.jpeg'
+    image.save(bio, 'JPEG')
+    bio.seek(0)
+
+    return context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id,
+        photo=bio,
     )
 
 

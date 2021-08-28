@@ -32,6 +32,7 @@ from cotd.handlers import (
     secret,
     iscringe,
     pol_handler,
+    motivation_handler,
     watermelon_reaction,
     trista_reaction,
     massacre_reaction,
@@ -271,6 +272,9 @@ def main():
                     telegram.ext.CommandHandler(
                         "pol", functools.partial(pol_handler)
                     ),
+                    telegram.ext.CommandHandler(
+                        "motivation", functools.partial(motivation_handler)
+                    ),
                 ],
             }
         ),
@@ -285,6 +289,7 @@ def main():
         telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
         telegram.BotCommand("secret", "what's in there?"),
         telegram.BotCommand("pol", "what's behind this command?"),
+        telegram.BotCommand("motivation", "get motivation!"),
     ]
 
     envs = cotd.service.EnvConfig(token=os.environ["COTD_TELEGRAM_BOT_TOKEN"])

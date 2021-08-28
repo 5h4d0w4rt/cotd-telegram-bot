@@ -40,6 +40,7 @@ py_library(
         "//static:smileyOne512x512.png",
         "//static:music.jpg",
         "//static:deadinside.jpg",
+        "//static:motivator.jpg",
         "//static:lobster.ttf",
     ],
     deps = [
@@ -83,6 +84,7 @@ py_binary(
         "//static:smileyOne512x512.png",
         "//static:music.jpg",
         "//static:deadinside.jpg",
+        "//static:motivator.jpg",
         "//static:lobster.ttf",
     ],
     main = "main.py",

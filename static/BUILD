@@ -13,4 +13,5 @@ exports_files([
     "deadinside.jpg",
     "lobster.ttf",
     "journalism.jpg",
+    "motivator.jpg",
 ])
