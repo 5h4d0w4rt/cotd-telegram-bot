@@ -4,6 +4,7 @@ import random
 import typing
 import datetime
 import functools
+import datetime
 
 from cotd.cacher import MediaCache
 from cotd.static import Static
@@ -13,7 +14,7 @@ from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 
 # version
-ver = "1.2.2"
+ver = "1.2.3"
 
 class FeatureHandler:
     # Value object for holding handler implementation function and expected handling method
@@ -154,6 +155,7 @@ def trista_reaction(
 
 
 manet_messages = [
+    "Наконец-то!",
     "выбери жизнь",
     "yea...",
     "с подвохом",
@@ -193,7 +195,6 @@ manet_messages = [
     "Фотоотчет для мамы",
     "Фото без подписи",
     "Неуникальный контент",
-    "Наконец-то, пятница",
     "Остановись, мгновенье!",
     "Я смог, значит, и вы сможете",
     "Все в ваших руках!",
@@ -236,6 +237,7 @@ def manet_reaction(
 
     x = 0
     i = 0
+    msg = ""
 
     global manet_max
 
@@ -255,10 +257,14 @@ def manet_reaction(
         
         if chance < manet_max:
             manet_chances[i] = chance+1
+
+            msg = manet_messages[i]
+
+            # ахаха, что ты мне сделаешь, я в другом городе
+            if i == 0:
+                msg = "Наконец-то, " + dow() + "!"
+
             break
-
-
-    msg = manet_messages[i]
 
     file_info = context.bot.get_file(update.message.photo[-1].file_id)
     file = file_info.download()
@@ -728,3 +734,7 @@ def cringelord(
         context.dispatcher.logger.debug(f"serving from cache: {cache.cringelord}")
 
         return message
+
+def dow():
+    days=["понедельник","вторник","среда","четверг","пятница","суббота","воскресенье"]
+    return days[datetime.datetime.today().weekday()]
