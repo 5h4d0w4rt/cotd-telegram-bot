@@ -18,7 +18,7 @@
         "--max-line-length=100"
     ],
     "python.analysis.extraPaths": [
-        "bazel-cotd-telegram-bot/external/python_workspace_deps_pypi__python_telegram_bot_13_6",
-        "bazel-cotd-telegram-bot/external/python_workspace_deps_pypi__Flask_1_1_2/"
+        "bazel-cotd-telegram-bot/external/python_workspace_deps/pypi__python_telegram_bot",
+        "bazel-cotd-telegram-bot/external/python_workspace_deps/pypi__pillow",
     ]
 }
