@@ -250,11 +250,11 @@ def manet_reaction(
         if chance == manet_max:
             manet_max = manet_max + 1
             continue
-            
+
         if chance > manet_max:
             manet_max = chance
             continue
-        
+
         if chance < manet_max:
             manet_chances[i] = chance+1
 
@@ -478,7 +478,7 @@ def voice_reaction(
             reply_to_message_id=update.message.message_id,
             text=msg,
         )
-    
+
     return context.bot.sendSticker(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
@@ -630,7 +630,7 @@ def motivation_handler(
             chat_id=update.effective_chat.id,
             text="да забей, чел",
         )
-    
+
     msg = " ".join(context.args)
 
     if msg == "":

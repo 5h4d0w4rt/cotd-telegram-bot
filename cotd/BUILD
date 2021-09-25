@@ -91,7 +91,6 @@ py_binary(
     main = "main.py",
     deps = [
         requirement("python-telegram-bot"),
-        requirement("flask"),
         "handlers",
         "logger",
         "service",

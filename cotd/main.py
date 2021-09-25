@@ -49,24 +49,26 @@ class Options(argparse.Namespace):
 class Flags(argparse.Namespace):
     pass
 
+
 # a regular expression that matches news from blacklist.
-re_news_blacklist = re.compile(r'.*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*', re.IGNORECASE)
+re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
 # a regular expression that matches gym.
-re_gym = re.compile(r'.*качалк.*', re.IGNORECASE)
+re_gym = re.compile(r".*качалк.*", re.IGNORECASE)
 # a regular expression that matches stuffy words.
-re_stuffy_handler = re.compile(r'.*душ(ный|нила|но|ишь|ара).*', re.IGNORECASE)
+re_stuffy_handler = re.compile(r".*душ(ный|нила|но|ишь|ара).*", re.IGNORECASE)
 # piggy
-re_piggy = re.compile(r'.*хрю.*', re.IGNORECASE)
+re_piggy = re.compile(r".*хрю.*", re.IGNORECASE)
 # watermelon
-re_watermelon = re.compile(r'.*арбуз.*', re.IGNORECASE)
+re_watermelon = re.compile(r".*арбуз.*", re.IGNORECASE)
 # 300
-re_300 = re.compile(r'.* 300 .*|.* триста .*|^300$|^300 .*|^триста$|^триста .*', re.IGNORECASE)
+re_300 = re.compile(r".* 300 .*|.* триста .*|^300$|^300 .*|^триста$|^триста .*", re.IGNORECASE)
 # massacre
-re_massacre = re.compile(r'.*резня.*', re.IGNORECASE)
+re_massacre = re.compile(r".*резня.*", re.IGNORECASE)
 # music
-re_music = re.compile(r'.*open.spotify.com.*', re.IGNORECASE)
+re_music = re.compile(r".*open.spotify.com.*", re.IGNORECASE)
 # dead inside
-re_dead_inside = re.compile(r'похуй|мне похуй', re.IGNORECASE)
+re_dead_inside = re.compile(r"похуй|мне похуй", re.IGNORECASE)
+
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
@@ -176,7 +178,7 @@ def main():
                         telegram.ext.Filters.voice,
                         functools.partial(voice_reaction),
                     ),
-                     telegram.ext.MessageHandler(
+                    telegram.ext.MessageHandler(
                         telegram.ext.Filters.photo,
                         functools.partial(manet_reaction),
                     ),
@@ -244,13 +246,9 @@ def main():
                         start,
                         filters=~telegram.ext.Filters.update.edited_message,
                     ),
+                    telegram.ext.CommandHandler("version", functools.partial(version_handler)),
                     telegram.ext.CommandHandler(
-                        "version",
-                        functools.partial(version_handler)
-                    ),
-                    telegram.ext.CommandHandler(
-                        "iscringe",
-                        functools.partial(iscringe, data=data, cache=cache)
+                        "iscringe", functools.partial(iscringe, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
                         "oldfellow",
@@ -261,20 +259,16 @@ def main():
                         functools.partial(cringelord, data=data, cache=cache),
                     ),
                     telegram.ext.CommandHandler(
-                        "goaway",
-                        functools.partial(goaway, data=data, cache=cache)
+                        "goaway", functools.partial(goaway, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "kekw",
-                        functools.partial(kekw, data=data, cache=cache)
+                        "kekw", functools.partial(kekw, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "secret",
-                        functools.partial(secret, data=data, cache=cache)
+                        "secret", functools.partial(secret, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "motivation",
-                        functools.partial(motivation_handler)
+                        "motivation", functools.partial(motivation_handler)
                     ),
                 ],
             }
@@ -282,42 +276,15 @@ def main():
     ]
 
     commands = [
-        telegram.BotCommand(
-            "start",
-            "Hello world"
-        ),
-        telegram.BotCommand(
-            "version",
-            "Show version of the bot."
-        ),
-        telegram.BotCommand(
-            "iscringe",
-            "Determines if post you reply to is cringe or based"
-        ),
-        telegram.BotCommand(
-            "oldfellow",
-            "oldfellow, take off!"
-        ),
-        telegram.BotCommand(
-            "goaway",
-            "Helpful reminder to go on your business"
-        ),
-        telegram.BotCommand(
-            "cringelord",
-            "Who's cringelord of the day?"
-        ),
-        telegram.BotCommand(
-            "kekw",
-            "E TU BRUTE? :DDD"
-        ),
-        telegram.BotCommand(
-            "motivation",
-            "get motivation! example: /motivation text"
-        ),
-        telegram.BotCommand(
-            "secret",
-            "what's in there?"
-        ),
+        telegram.BotCommand("start", "Hello world"),
+        telegram.BotCommand("version", "Show version of the bot."),
+        telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
+        telegram.BotCommand("oldfellow", "oldfellow, take off!"),
+        telegram.BotCommand("goaway", "Helpful reminder to go on your business"),
+        telegram.BotCommand("cringelord", "Who's cringelord of the day?"),
+        telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
+        telegram.BotCommand("motivation", "get motivation! example: /motivation text"),
+        telegram.BotCommand("secret", "what's in there?"),
     ]
 
     envs = cotd.service.EnvConfig(token=os.environ["COTD_TELEGRAM_BOT_TOKEN"])
