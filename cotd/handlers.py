@@ -28,6 +28,7 @@ def logged_context(f):
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
         dispatcher: telegram.ext.Dispatcher = args[1].dispatcher
+
         dispatcher.logger.debug(args)
         dispatcher.logger.debug(kwargs)
 

@@ -41,15 +41,6 @@ from cotd.handlers import (
 )
 from cotd.service import TGBotMetadata
 
-
-class Options(argparse.Namespace):
-    pass
-
-
-class Flags(argparse.Namespace):
-    pass
-
-
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
 # a regular expression that matches gym.
@@ -89,50 +80,6 @@ def define_options(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     return options
 
 
-def cotd_service_factory(
-    envs: cotd.service.EnvConfig,
-    features: Flags,
-    options: Options,
-    logger: logging.Logger,
-    commands: typing.List[telegram.BotCommand],
-    handlers: typing.List[cotd.service.HandlerGroup],
-) -> cotd.service.COTDBotService:
-
-    updater = telegram.ext.Updater(
-        token=envs.token,
-        use_context=True,
-        defaults=telegram.ext.Defaults(
-            parse_mode="HTML",
-            disable_notification=True,
-            disable_web_page_preview=True,
-            timeout=5.0,
-        ),
-    )
-
-    metadata = TGBotMetadata(updater.bot.get_me())
-
-    logger.setLevel(options.log_level)
-
-    updater.logger.setLevel(options.log_level)
-    updater.logger.addHandler(logging.StreamHandler())
-
-    updater.dispatcher.logger.setLevel(options.log_level)
-    updater.dispatcher.logger.addHandler(logging.StreamHandler())
-
-    config = cotd.service.COTDBotConfig(
-        updater=updater,
-        features=features,
-        options=options,
-        logger=logger,
-        metadata=metadata,
-        handlers=handlers,
-        commands=commands,
-    )
-
-    cotdbot = cotd.service.COTDBotService(config)
-    return cotdbot
-
-
 def main():
     argparser = argparse.ArgumentParser(description="cringee-bot")
 
@@ -140,14 +87,14 @@ def main():
     _options = define_options(argparser)
     args = argparser.parse_args()
 
-    features = Flags(
+    features = cotd.service.Flags(
         **{
             name: value
             for (name, value) in args._get_kwargs()
             if name in set(y.dest for y in _flags._group_actions)
         }
     )
-    options = Options(
+    options = cotd.service.Options(
         **{
             name: value
             for (name, value) in args._get_kwargs()
@@ -289,11 +236,12 @@ def main():
 
     envs = cotd.service.EnvConfig(token=os.environ["COTD_TELEGRAM_BOT_TOKEN"])
 
-    cotdbot = cotd_service_factory(
+    cotdbot = cotd.service.factory(
         envs=envs,
         features=features,
         options=options,
-        logger=cotd.logger.get_logger("COTDBotService", level=options.log_level),
+        client_logger=cotd.logger.get_logger('TGBotClient', level=options.log_level),
+        cotd_logger=cotd.logger.get_logger("COTDBotService", level=options.log_level),
         handlers=handlers,
         commands=commands,
     )
@@ -301,11 +249,11 @@ def main():
     cotdbot.logger.info(f"initialized with feature flags: {features}")
     cotdbot.logger.info(f"initialized with startup options {options}")
 
-    cotdbot.initialize()
+    cotdbot.client.initialize()
 
     cotdbot.logger.info("initialized cringe of the day client")
 
-    cotdbot.run()
+    cotdbot.client.run()
 
 
 if __name__ == "__main__":

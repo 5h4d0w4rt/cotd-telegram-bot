@@ -4,6 +4,15 @@ import logging
 import argparse
 import typing
 from dataclasses import dataclass
+import cotd.logger
+
+
+class Options(argparse.Namespace):
+    ...
+
+
+class Flags(argparse.Namespace):
+    ...
 
 
 @dataclass
@@ -29,9 +38,8 @@ class HandlerGroup:
 
 
 @dataclass
-class Config:
+class TGBotConfig:
     updater: telegram.ext.Updater
-    logger: logging.Logger
     options: argparse.Namespace
     metadata: TGBotMetadata
     handlers: typing.List[HandlerGroup]
@@ -39,14 +47,14 @@ class Config:
 
 
 @dataclass
-class COTDBotConfig(Config):
+class COTDBotConfig:
     features: argparse.Namespace
+    logger: logging.Logger
 
 
 class TGBotClient:
-    def __init__(self, config: Config):
+    def __init__(self, config: TGBotConfig):
         self.options = config.options
-        self.logger = config.logger
         self.updater = config.updater
         self.metadata = config.metadata
         self.commands = config.commands
@@ -69,16 +77,18 @@ class TGBotClient:
         self.set_commands()
 
 
-class COTDBotService(TGBotClient):
-    def __init__(self, config: COTDBotConfig):
-        super().__init__(config)
+class COTDBotService:
+    def __init__(self, client: TGBotClient, config: COTDBotConfig):
+        self.client = client
+        self.logger = config.logger
         self.features = config.features
 
     def get_stickers(self) -> COTDBotStickers:
         fileids = []
 
         if not (sticker_pack := self._fetch_sticker_set()):
-            sticker_pack = self._init_sticker_set()
+            self._init_sticker_set()
+            sticker_pack = self._fetch_sticker_set()
 
         return COTDBotStickers(
             **{
@@ -89,24 +99,67 @@ class COTDBotService(TGBotClient):
             }
         )
 
-    def _init_sticker_set(self) -> telegram.StickerSet:
-        return self.updater.bot.create_new_sticker_set(
+    def _init_sticker_set(self) -> bool:
+        assert self.client.metadata.user is not None
+
+        return self.client.updater.bot.create_new_sticker_set(
             png_sticker=open("static/smileyOne512x512.png", "rb"),
-            name=f"VC_by_{self.metadata.user.username}",
-            title=f"VC_by_{self.metadata.user.username}",
+            name=f"VC_by_{self.client.metadata.user.username}",
+            title=f"VC_by_{self.client.metadata.user.username}",
             user_id=int(145043750),
             emojis="🙂😊",
         )
 
-    def _fetch_sticker_set(self) -> typing.Union[telegram.StickerSet, None]:
+    def _fetch_sticker_set(self) -> telegram.StickerSet:
+        assert self.client.metadata.user is not None
+
         try:
-            return self.updater.bot.get_sticker_set(f"VC_by_{self.metadata.user.username}")
+            return self.client.updater.bot.get_sticker_set(
+                f"VC_by_{self.client.metadata.user.username}"
+            )
         except telegram.error.BadRequest as err:
-            if "Stickerset_invalid" in str(err):
-                return None
-            else:
-                raise
+            raise err
 
     @property
     def stickers(self):
         return self.get_stickers()
+
+
+def factory(
+    envs: EnvConfig,
+    features: Flags,
+    options: Options,
+    client_logger: logging.Logger,
+    cotd_logger: logging.Logger,
+    commands: typing.List[telegram.BotCommand],
+    handlers: typing.List[HandlerGroup],
+) -> COTDBotService:
+
+    updater = telegram.ext.Updater(
+        token=envs.token,
+        use_context=True,
+        defaults=telegram.ext.Defaults(
+            parse_mode="HTML",
+            disable_notification=True,
+            disable_web_page_preview=True,
+            timeout=5.0,
+        ),
+    )
+
+    updater.logger = client_logger
+    updater.dispatcher.logger = client_logger
+
+    metadata = TGBotMetadata(updater.bot.get_me())
+
+    tg_bot_client = TGBotClient(
+        TGBotConfig(
+            updater=updater,
+            options=options,
+            metadata=metadata,
+            handlers=handlers,
+            commands=commands,
+        )
+    )
+    return COTDBotService(
+        tg_bot_client, config=COTDBotConfig(features=features, logger=cotd_logger)
+    )
