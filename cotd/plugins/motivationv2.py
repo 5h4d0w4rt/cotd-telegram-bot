@@ -19,7 +19,7 @@ def motivation_handler_v2(
         telegram.InlineQueryResultArticle(
             id=str(uuid.uuid4()),
             title="pososi)",
-            input_message_content=telegram.InputTextMessageContent(query.upper()),
+            input_message_content=telegram.InputTextMessageContent(query + " еблан"),
         ),
     ]
     update.inline_query.answer(results)
