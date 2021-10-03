@@ -1,13 +1,10 @@
 import telegram
 import telegram.ext
 import ratelimit
-import random
 import typing
 from PIL import Image, ImageFont, ImageDraw
 import io
 import uuid
-import re
-import time
 from cotd.handlers import logged_context
 
 ONE_SECOND = 1
@@ -52,7 +49,9 @@ def make_picture(text):
 
 
 @ratelimit.sleep_and_retry
-@ratelimit.limits(calls=5, period=ONE_SECOND)
+@ratelimit.limits(
+    calls=1, period=ONE_SECOND
+)  # recommended per https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this
 def motivation_handler_v2(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
