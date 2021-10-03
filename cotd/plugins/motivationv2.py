@@ -67,10 +67,11 @@ def motivation_handler_v2(
         bio.seek(0)
 
         msg = context.bot.send_photo(
-            chat_id=-517092184,
+            chat_id=-1001530261511,
             photo=bio,
         )
         photo_id = msg.photo[0].file_id
+        context.bot.delete_message(chat_id=-1001530261511, message_id=msg.message_id)
 
         results.append(
             telegram.InlineQueryResultCachedPhoto(
