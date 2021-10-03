@@ -43,6 +43,7 @@ from cotd.handlers import (
 )
 
 from cotd.plugins.motivationv2 import motivation_handler_v2
+from cotd.plugins.security import check_allowed_sources
 
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
@@ -81,7 +82,7 @@ def define_options(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
         default="ERROR",
     )
     options.add_argument("--group")
-    options.add_argument("--db") # chat group that work as a database
+    options.add_argument("--db")  # chat group that work as a database
     return options
 
 
@@ -130,7 +131,18 @@ def main():
     handlers = [
         cotd.service.HandlerGroup(
             **{
-                "group_index": 0,
+                "group_index": -100,
+                "handlers": [
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.all,
+                        functools.partial(check_allowed_sources),
+                    ),
+                ],
+            }
+        ),
+        cotd.service.HandlerGroup(
+            **{
+                "group_index": -2,
                 "handlers": [
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,

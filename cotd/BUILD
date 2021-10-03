@@ -102,5 +102,6 @@ py_binary(
         "static",
         "storage",
         "//cotd/plugins:motivationv2",
+        "//cotd/plugins:security",
     ],
 )

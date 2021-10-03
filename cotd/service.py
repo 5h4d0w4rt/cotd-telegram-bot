@@ -78,7 +78,12 @@ class TGBotClient:
         self.updater.start_polling()
         self.updater.idle()
 
+    def set_secure_sources(self) -> None:
+        self.updater.dispatcher._cotd_db = int(self.options.db)
+        self.updater.dispatcher._cotd_group = int(self.options.group)
+
     def initialize(self) -> None:
+        self.set_secure_sources()
         self.set_dispatcher_handlers()
         self.set_commands()
 

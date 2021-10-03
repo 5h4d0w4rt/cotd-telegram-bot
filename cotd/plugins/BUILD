@@ -14,3 +14,11 @@ py_library(
         requirement("ratelimit"),
     ],
 )
+
+py_library(
+    name = "security",
+    srcs = ["security.py"],
+    deps = [
+        requirement("python-telegram-bot"),
+    ],
+)
