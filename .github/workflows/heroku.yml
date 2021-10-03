@@ -17,14 +17,16 @@ on:
 jobs:
   build-ubuntu:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-
       - name: build
+      - uses: actions/checkout@v2
         run: bazel build //... && bazel test //...
 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: push to heroku
+      - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: "${{secrets.HEROKU_API_KEY}}"
