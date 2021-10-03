@@ -5,7 +5,7 @@ import typing
 import telegram
 import telegram.ext
 from cotd.cacher import MediaCache
-from cotd.plugins.helpers import cacheable_handler, logged_context
+from cotd.plugins.helpers import cacheable_handler, logged_context, is_reply
 from cotd.static import StaticReader
 
 
@@ -16,7 +16,7 @@ def iscringe(
     cache: typing.Type[MediaCache] = None,
     data: typing.Type[StaticReader] = None,
 ) -> telegram.Message:
-    if not _is_reply(update):
+    if not is_reply(update):
         return context.bot.send_message(
             chat_id=update.effective_chat.id,
             text='Can"t see cringe though, reply to a cringe post',

@@ -63,7 +63,6 @@ re_dead_inside = re.compile(r"похуй|мне похуй", re.IGNORECASE)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
-    flags.add_argument("--feature-enable-persistence", action="store_true", default=False)
     return flags
 
 

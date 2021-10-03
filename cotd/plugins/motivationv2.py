@@ -17,7 +17,7 @@ ONE_SECOND = 1
 def motivation_handler_v2(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
-) -> typing.Union[telegram.Message, None]:
+) -> None:
     db = context.dispatcher._cotd_db
     results = []
     query = update.inline_query.query
