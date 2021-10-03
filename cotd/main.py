@@ -81,6 +81,7 @@ def define_options(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
         default="ERROR",
     )
     options.add_argument("--group")
+    options.add_argument("--db") # chat group that work as a database
     return options
 
 

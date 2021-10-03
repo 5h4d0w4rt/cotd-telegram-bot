@@ -13,6 +13,7 @@ class Options(argparse.Namespace):
     version: str
     group: int
     mode: str
+    db: int
 
 
 @dataclass
