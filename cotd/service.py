@@ -18,7 +18,7 @@ class Options(argparse.Namespace):
 
 @dataclass
 class Flags(argparse.Namespace):
-    enable_persistence: bool
+    feature_enable_persistence: bool
 
 
 @dataclass
@@ -47,6 +47,7 @@ class HandlerGroup:
 class TGBotConfig:
     updater: telegram.ext.Updater
     options: argparse.Namespace
+    persistence: telegram.ext.DictPersistence
     metadata: TGBotMetadata
     handlers: typing.List[HandlerGroup]
     commands: typing.List[telegram.BotCommand]
@@ -65,6 +66,7 @@ class TGBotClient:
         self.metadata = config.metadata
         self.commands = config.commands
         self.handlers = config.handlers
+        self.persistence = config.persistence
 
     def set_dispatcher_handlers(self) -> None:
         for handler_group in self.handlers:
@@ -147,7 +149,7 @@ def factory(
     storage: cotd.storage.TelegramSavedMessagesStorage,
 ) -> COTDBotService:
 
-    if features.enable_persistence:
+    if features.feature_enable_persistence:
         updater = telegram.ext.Updater(
             token=envs.token,
             use_context=True,
@@ -183,6 +185,7 @@ def factory(
             metadata=metadata,
             handlers=handlers,
             commands=commands,
+            persistence=telegram.ext.DictPersistence()
         )
     )
     return COTDBotService(

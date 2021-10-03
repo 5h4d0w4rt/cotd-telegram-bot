@@ -1,1 +1,1 @@
-worker: python3 cotd/main.py --log-level debug --mode token --group -1001061349179 --version 1.3 --db -1001530261511
+worker: python3 cotd/main.py --log-level debug --mode token --group -1001061349179 --version 1.3 --db -1001530261511 --feature-enable-persistence

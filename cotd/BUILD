@@ -78,6 +78,7 @@ py_binary(
         "1.3",
         "--db",
         "-1001530261511",
+        "--feature-enable-persistence",
     ],
     data = [
         "//static:KEKW.mp4",
