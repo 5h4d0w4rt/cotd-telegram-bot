@@ -14,6 +14,7 @@ class SourceNotAllowedError(telegram.error.TelegramError):
 @logged_context
 def check_allowed_sources(update: telegram.Update, context: telegram.ext.CallbackContext):
     """security plugin to check if message is coming from trusted sources"""
+    # TODO: add check if user that writes inline message is in trusted group
     try:
         if update.effective_chat:
             assert update.effective_message.chat.id in (
