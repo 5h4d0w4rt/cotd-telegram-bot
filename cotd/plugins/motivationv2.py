@@ -1,5 +1,6 @@
 import telegram
 import telegram.ext
+import ratelimit
 import random
 import typing
 from PIL import Image, ImageFont, ImageDraw
@@ -7,6 +8,9 @@ import io
 import uuid
 import re
 import time
+from cotd.handlers import logged_context
+
+ONE_SECOND = 1
 
 
 def make_picture(text):
@@ -47,6 +51,8 @@ def make_picture(text):
     return bio
 
 
+@ratelimit.sleep_and_retry
+@ratelimit.limits(calls=5, period=ONE_SECOND)
 def motivation_handler_v2(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -65,9 +71,6 @@ def motivation_handler_v2(
     )
     photo_id = msg.photo[0].file_id
     context.bot.delete_message(chat_id=db, message_id=msg.message_id)
-
-    # some dumb rate limit for now
-    time.sleep(1)
 
     results.append(
         telegram.InlineQueryResultCachedPhoto(

@@ -11,5 +11,6 @@ py_library(
     deps = [
         requirement("python-telegram-bot"),
         requirement("pillow"),
+        requirement("ratelimit"),
     ],
 )
