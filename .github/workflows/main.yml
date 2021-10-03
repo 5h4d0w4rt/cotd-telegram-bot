@@ -1,0 +1,15 @@
+name: main
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  call-build:
+    uses: 5h4d0w4rt/cotd-telegram-bot/.github/workflows/build.yml
+  call-deploy:
+    uses: 5h4d0w4rt/cotd-telegram-bot/.github/workflows/heroku.yml

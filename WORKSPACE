@@ -12,6 +12,11 @@ http_archive(
 load("@rules_python//python:pip.bzl", "pip_install")
 
 pip_install(
-    name = "python_workspace_deps",
+    name = "python_runtime_deps",
     requirements = "//:requirements.txt",
+)
+
+pip_install(
+    name = "python_test_deps",
+    requirements = "//:requirements_testing.txt",
 )

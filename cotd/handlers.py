@@ -6,7 +6,7 @@ import datetime
 import functools
 
 from cotd.cacher import MediaCache
-from cotd.static import Static
+from cotd.static import StaticReader
 
 from PIL import Image, ImageFont, ImageDraw
 
@@ -362,7 +362,7 @@ def stuffy_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> typing.Union[telegram.Message, None]:
     if random.randint(0, 5) != 3:
         return None
@@ -380,7 +380,7 @@ def music_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> typing.Union[telegram.Message, None]:
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
@@ -395,7 +395,7 @@ def journalism_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> typing.Union[telegram.Message, None]:
     if random.randint(0, 5) != 3:
         return None
@@ -494,7 +494,7 @@ def iscringe(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> telegram.Message:
     if not _is_reply(update):
         return context.bot.send_message(
@@ -508,7 +508,7 @@ def iscringe(
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
         cache: typing.Type[MediaCache] = None,
-        data: typing.Type[Static] = None,
+        data: typing.Type[StaticReader] = None,
     ) -> telegram.Message:
         return context.bot.send_video(
             chat_id=update.effective_chat.id,
@@ -522,7 +522,7 @@ def iscringe(
         update: telegram.Update,
         context: telegram.ext.CallbackContext,
         cache: typing.Type[MediaCache] = None,
-        data: typing.Type[Static] = None,
+        data: typing.Type[StaticReader] = None,
     ) -> telegram.Message:
         return context.bot.send_photo(
             chat_id=update.effective_chat.id,
@@ -541,7 +541,7 @@ def oldfellow(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> telegram.Message:
     if not _is_reply(update):
         return context.bot.send_video(
@@ -561,11 +561,12 @@ def kekw(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> telegram.Message:
     if not _is_reply(update):
         return context.bot.send_video(
-            chat_id=update.effective_chat.id, video=cache.kekw or data.kekw
+            chat_id=update.effective_chat.id,
+            video=cache.kekw or data.kekw,
         )
 
     return context.bot.send_video(
@@ -581,7 +582,7 @@ def goaway(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> telegram.Message:
     if not _is_reply(update):
         return context.bot.send_video(
@@ -599,7 +600,7 @@ def goaway(
 def secret(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> telegram.Message:
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -613,7 +614,7 @@ def dead_inside_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> typing.Union[telegram.Message, None]:
     if random.randint(0, 1) != 0:
         return None
@@ -703,7 +704,7 @@ def cringelord(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
     cache: typing.Type[MediaCache] = None,
-    data: typing.Type[Static] = None,
+    data: typing.Type[StaticReader] = None,
 ) -> None:
     def __cringelord_text(id: int, username: str):
         return "Cringe lord of the day" f"👑👉 <a href='tg://user?id={id}'>@{username}</a>"

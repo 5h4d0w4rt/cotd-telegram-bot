@@ -1,3 +1,5 @@
+**/bazel-*/**/*
+bazel-*/**/*
 bazel-*
 .pytest-cache
 *pycache*

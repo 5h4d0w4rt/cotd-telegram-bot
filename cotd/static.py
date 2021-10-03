@@ -1,40 +1,44 @@
 from dataclasses import dataclass
+from os import path
 import typing
 from types import MappingProxyType
+
+import pathlib
+import operator
+import abc
 
 
 @dataclass
 class Static:
-    kekw: typing.Union[typing.BinaryIO, str]
-    oldfellow: typing.Union[typing.BinaryIO, str]
-    sniff_dog: typing.Union[typing.BinaryIO, str]
-    stuffy: typing.Union[typing.BinaryIO, str]
-    music: typing.Union[typing.BinaryIO, str]
-    journalism: typing.Union[typing.BinaryIO, str]
-    sf: typing.Union[typing.BinaryIO, str]
-    ribnikov: typing.Union[typing.BinaryIO, str]
-    go_away: typing.Union[typing.BinaryIO, str]
-    ozon_secret: str
+    files: MappingProxyType
+
+    def __post_init__(self):
+        """make all instantiated attributes with relative-path-strings to absolute paths"""
+        for meme in self.files:
+            object.__setattr__(self, meme, pathlib.Path(pathlib.Path(self.files[meme]).resolve()))
+        del self.files
 
 
-def initialize_static():
-    # function for automated static holder initialization, will expect a list of static files and will return static value object
-    raise NotImplementedError
+class BaseStaticReader(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def __getattribute__(self, name: str) -> typing.BinaryIO:
+        raise NotImplementedError
 
 
-STATIC = Static(
-    **MappingProxyType(
-        {
-            "kekw": open("static/KEKW.mp4", "rb"),
-            "oldfellow": open("static/oldfellow.mp4", "rb"),
-            "ribnikov": open("static/ribnikov.based.mp4", "rb"),
-            "ozon_secret": "bit.ly/2Ro39uJ",
-            "sniff_dog": open("static/cringe-sniff-dog.jpg", "rb"),
-            "stuffy": open("static/stuffy.jpg", "rb"),
-            "music": open("static/music.jpg", "rb"),
-            "journalism": open("static/journalism.jpg", "rb"),
-            "sf": open("static/deadinside.jpg", "rb"),
-            "go_away": open("static/go_away.mp4", "rb"),
-        }
-    )
-)
+class StaticReader(BaseStaticReader):
+    static: Static
+
+    def __init__(self, static) -> None:
+        self.static = static
+        super().__init__()
+
+    def __getattribute__(self, name: str) -> typing.BinaryIO:
+        """access static holder and make it's attributes readable objects"""
+        # access subattribute by making curried attrgetter function call
+        path_to_file: pathlib.Path = operator.attrgetter(name)(
+            object.__getattribute__(self, "static")
+        )
+        return open(path_to_file, "rb")
+
+
+# # "ozon_secret": "bit.ly/2Ro39uJ" is forgotten here

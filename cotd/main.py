@@ -4,7 +4,7 @@ import os
 import typing
 import functools
 import re
-
+import types
 import telegram
 import telegram.ext
 
@@ -102,7 +102,24 @@ def main():
         }
     )
 
-    data = cotd.static.STATIC
+    data = cotd.static.StaticReader(
+        cotd.static.Static(
+            files=types.MappingProxyType(
+                dict(
+                    kekw="static/KEKW.mp4",
+                    oldfellow="static/oldfellow.mp4",
+                    ribnikov="static/ribnikov.based.mp4",
+                    sniff_dog="static/cringe-sniff-dog.jpg",
+                    stuffy="static/stuffy.jpg",
+                    music="static/music.jpg",
+                    journalism="static/journalism.jpg",
+                    sf="static/deadinside.jpg",
+                    go_away="static/go_away.mp4",
+                )
+            )
+        )
+    )
+
     cache = cotd.cacher.MediaCacheInMemory()
 
     handlers = [
@@ -240,7 +257,7 @@ def main():
         envs=envs,
         features=features,
         options=options,
-        client_logger=cotd.logger.get_logger('TGBotClient', level=options.log_level),
+        client_logger=cotd.logger.get_logger("TGBotClient", level=options.log_level),
         cotd_logger=cotd.logger.get_logger("COTDBotService", level=options.log_level),
         handlers=handlers,
         commands=commands,

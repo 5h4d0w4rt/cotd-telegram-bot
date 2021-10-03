@@ -1,5 +1,5 @@
 load("@rules_python//python:defs.bzl", "py_binary", "py_library")
-load("@python_workspace_deps//:requirements.bzl", "requirement")
+load("@python_runtime_deps//:requirements.bzl", "requirement")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -11,8 +11,8 @@ py_library(
 )
 
 py_library(
-    name = "repository",
-    srcs = ["repository.py"],
+    name = "storage",
+    srcs = ["storage.py"],
 )
 
 py_library(
