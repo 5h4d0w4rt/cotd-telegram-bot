@@ -17,16 +17,18 @@ def motivation_handler_v2(
     if query == "":
         return
 
-    if random.randint(0, 4) == 1:
-        results = [
-            telegram.InlineQueryResultArticle(
-                id=str(uuid.uuid4()),
-                title="👮‍♀️",
-                input_message_content=telegram.InputTextMessageContent("да забей, чел)"),
-            ),
-        ]
-        update.inline_query.answer(results)
-        return
+    # TODO: remove, does not work with inline flow
+    # if random.randint(0, 4) == 1:
+    #     results = [
+    #         telegram.InlineQueryResultArticle(
+    #             id=str(uuid.uuid4()),
+    #             title="👮‍♀️",
+    #             input_message_content=telegram.InputTextMessageContent("да забей, чел)"),
+    #         ),
+    #     ]
+    #     update.inline_query.answer(results)
+    #     results = []
+    #     return
 
     if re.search("мотивация\s\S+", query):
         query = query.split("мотивация ")[1]
