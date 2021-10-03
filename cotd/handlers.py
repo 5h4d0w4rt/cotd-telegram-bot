@@ -624,7 +624,7 @@ def dead_inside_handler(
     )
 
 
-def motivation_handler(
+def motivation_handler_v1(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:

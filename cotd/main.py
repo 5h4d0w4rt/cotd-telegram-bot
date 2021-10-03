@@ -33,7 +33,7 @@ from cotd.handlers import (
     goaway,
     secret,
     iscringe,
-    motivation_handler,
+    motivation_handler_v1,
     watermelon_reaction,
     trista_reaction,
     massacre_reaction,
@@ -41,6 +41,8 @@ from cotd.handlers import (
     dead_inside_handler,
     version_handler,
 )
+
+from cotd.plugins.motivationv2 import motivation_handler_v2
 
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
@@ -234,8 +236,16 @@ def main():
                         "secret", functools.partial(secret, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "motivation", functools.partial(motivation_handler)
+                        "motivationv1", functools.partial(motivation_handler_v1)
                     ),
+                ],
+            }
+        ),
+        cotd.service.HandlerGroup(
+            **{
+                "group_index": 3,
+                "handlers": [
+                    telegram.ext.InlineQueryHandler(functools.partial(motivation_handler_v2))
                 ],
             }
         ),
