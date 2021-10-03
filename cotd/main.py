@@ -1,45 +1,32 @@
 import argparse
+import functools
 import logging
 import os
-import typing
-import functools
 import re
 import types
+import typing
+
 import telegram
 import telegram.ext
 
-import cotd.static
+import cotd.cacher
 import cotd.logger
 import cotd.service
-import cotd.cacher
+import cotd.static
 import cotd.storage
-
-from cotd.plugins.motivationv2 import motivation_handler_v2
-from cotd.plugins.security import check_allowed_sources
-from cotd.plugins.cringelord import cringelord
-from cotd.plugins.manet import manet_reaction
-from cotd.plugins.prospector import cache_users
-from cotd.plugins.cringer import iscringe
 from cotd.plugins.anti_voice import voice_reaction
-from cotd.plugins.misc import (
-    oldfellow,
-    kekw,
-    goaway,
-    gym_reaction,
-    pig_reaction,
-    stuffy_reaction,
-    watermelon_reaction,
-    journalism_reaction,
-    music_reaction,
-    question_mark,
-    leftie_meme_detector,
-    no_reaction,
-    trista_reaction,
-    dead_inside_handler,
-    yes_reaction,
-    massacre_reaction,
-    secret,
-)
+from cotd.plugins.cringelord import cringelord
+from cotd.plugins.cringer import iscringe
+from cotd.plugins.manet import manet_reaction
+from cotd.plugins.misc import (dead_inside_handler, goaway, gym_reaction,
+                               journalism_reaction, kekw, leftie_meme_detector,
+                               massacre_reaction, music_reaction, no_reaction,
+                               oldfellow, pig_reaction, question_mark, secret,
+                               stuffy_reaction, trista_reaction,
+                               watermelon_reaction, yes_reaction)
+from cotd.plugins.motivationv2 import motivation_handler_v2
+from cotd.plugins.prospector import cache_users
+from cotd.plugins.security import check_allowed_sources
 
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)

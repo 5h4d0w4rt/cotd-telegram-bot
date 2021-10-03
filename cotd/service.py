@@ -1,9 +1,11 @@
-import telegram
-import telegram.ext
-import logging
 import argparse
+import logging
 import typing
 from dataclasses import dataclass
+
+import telegram
+import telegram.ext
+
 import cotd.storage
 
 

@@ -1,11 +1,12 @@
+import io
+import typing
+import uuid
+
+import ratelimit
 import telegram
 import telegram.ext
-import ratelimit
-import typing
-from PIL import Image, ImageFont, ImageDraw
-import io
-import uuid
 from cotd.plugins.helpers import logged_context, make_image
+from PIL import Image, ImageDraw, ImageFont
 
 ONE_SECOND = 1
 

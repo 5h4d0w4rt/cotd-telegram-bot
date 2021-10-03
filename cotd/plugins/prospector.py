@@ -1,7 +1,8 @@
+import typing
+
 import telegram
 import telegram.ext
 from cotd.cacher import MediaCache
-import typing
 
 
 def cache_users(

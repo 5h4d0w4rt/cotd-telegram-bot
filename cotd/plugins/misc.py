@@ -1,11 +1,12 @@
-from cotd.plugins.helpers import logged_context, cacheable_handler, is_reply
+import functools
+import random
+import typing
+
 import telegram
 import telegram.ext
-import typing
 from cotd.cacher import MediaCache
+from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context
 from cotd.static import StaticReader
-import random
-import functools
 
 
 @logged_context

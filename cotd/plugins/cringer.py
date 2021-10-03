@@ -5,7 +5,7 @@ import typing
 import telegram
 import telegram.ext
 from cotd.cacher import MediaCache
-from cotd.plugins.helpers import cacheable_handler, logged_context, is_reply
+from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context
 from cotd.static import StaticReader
 
 

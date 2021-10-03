@@ -1,10 +1,11 @@
+import datetime
 import random
 import typing
+
 import telegram
 import telegram.ext
 from cotd.plugins.helpers import logged_context, make_image
 from PIL import Image
-import datetime
 
 
 def dow():

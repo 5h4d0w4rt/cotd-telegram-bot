@@ -1,11 +1,10 @@
+import abc
+import operator
+import pathlib
+import typing
 from dataclasses import dataclass
 from os import path
-import typing
 from types import MappingProxyType
-
-import pathlib
-import operator
-import abc
 
 
 @dataclass

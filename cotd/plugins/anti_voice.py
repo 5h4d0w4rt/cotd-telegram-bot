@@ -1,8 +1,9 @@
-from cotd.plugins.helpers import logged_context
-import telegram
-import telegram.ext
 import random
 import typing
+
+import telegram
+import telegram.ext
+from cotd.plugins.helpers import logged_context
 
 
 @logged_context

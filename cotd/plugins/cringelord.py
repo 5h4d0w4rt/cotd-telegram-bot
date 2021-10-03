@@ -1,11 +1,12 @@
+import datetime
+import random
+import typing
+
 import telegram
 import telegram.ext
-from cotd.static import StaticReader
 from cotd.cacher import MediaCache
-import typing
-import random
-import datetime
 from cotd.plugins.helpers import logged_context
+from cotd.static import StaticReader
 
 
 @logged_context
