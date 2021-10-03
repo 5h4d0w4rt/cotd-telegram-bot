@@ -24,10 +24,10 @@ jobs:
         run: |
           bazel build //...
           bazel test //...
-          cat /home/runner/work/cotd-telegram-bot/bazel-testlogs/test.log
+          ls .
 
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: "${{secrets.HEROKU_API_KEY}}"
-          heroku_app_name: "cotd-telegram-bot" #Must be unique in Heroku
-          heroku_email: "5h4d0w4rt@gmail.com"
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
