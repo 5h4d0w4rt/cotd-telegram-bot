@@ -29,6 +29,10 @@ def logged_context(f):
         dispatcher.logger.debug(args)
         dispatcher.logger.debug(kwargs)
 
+        dispatcher.logger.debug(dispatcher.bot_data)
+        dispatcher.logger.debug(dispatcher.chat_data)
+        dispatcher.logger.debug(dispatcher.user_data)
+
         result = f(*args, **kwargs)
         dispatcher.logger.debug(f"{f.__name__} : {result}")
 
