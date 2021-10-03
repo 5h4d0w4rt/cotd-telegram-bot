@@ -1,14 +1,9 @@
 import abc
 from abc import ABCMeta
-import typing
-import json
+from typing import Dict
+from telegram.ext import DictPersistence
 
 
-class Storage(metaclass=ABCMeta):
-    def __init__(self):
-        raise NotImplementedError
-
-
-class TelegramSavedMessagesStorage(Storage):
+class TelegramSavedMessagesStorage(DictPersistence):
     def __init__(self):
         ...

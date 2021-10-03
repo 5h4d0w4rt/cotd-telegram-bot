@@ -12,6 +12,8 @@ import cotd.static
 import cotd.logger
 import cotd.service
 import cotd.cacher
+import cotd.storage
+
 from cotd.handlers import (
     cache_users,
     leftie_meme_detector,
@@ -39,7 +41,6 @@ from cotd.handlers import (
     dead_inside_handler,
     version_handler,
 )
-from cotd.service import TGBotMetadata
 
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
@@ -63,13 +64,14 @@ re_dead_inside = re.compile(r"похуй|мне похуй", re.IGNORECASE)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
-    flags.add_argument("--stub-feature-flag")
+    flags.add_argument("--enable-persistence", action="store_true", default=False)
     return flags
 
 
 def define_options(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     options = parser.add_argument_group("options")
     options.add_argument("--mode", choices=["token", "webhook"])
+    options.add_argument("--version")
     options.add_argument(
         "--log-level",
         type=lambda x: x.upper(),
@@ -261,6 +263,7 @@ def main():
         cotd_logger=cotd.logger.get_logger("COTDBotService", level=options.log_level),
         handlers=handlers,
         commands=commands,
+        storage=cotd.storage.TelegramSavedMessagesStorage(),
     )
 
     cotdbot.logger.info(f"initialized with feature flags: {features}")

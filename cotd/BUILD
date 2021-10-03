@@ -60,6 +60,7 @@ py_library(
     data = ["//static:smileyOne512x512.png"],
     deps = [
         requirement("python-telegram-bot"),
+        "storage",
     ],
 )
 
@@ -73,6 +74,8 @@ py_binary(
         "debug",
         "--group",
         "-1001061349179",
+        "--version",
+        "1.3",
     ],
     data = [
         "//static:KEKW.mp4",
@@ -95,5 +98,6 @@ py_binary(
         "logger",
         "service",
         "static",
+        "storage",
     ],
 )

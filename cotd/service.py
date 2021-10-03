@@ -4,15 +4,20 @@ import logging
 import argparse
 import typing
 from dataclasses import dataclass
-import cotd.logger
+import cotd.storage
 
 
+@dataclass
 class Options(argparse.Namespace):
-    ...
+    log_level: str
+    version: str
+    group: int
+    mode: str
 
 
+@dataclass
 class Flags(argparse.Namespace):
-    ...
+    enable_persistence: bool
 
 
 @dataclass
@@ -133,18 +138,32 @@ def factory(
     cotd_logger: logging.Logger,
     commands: typing.List[telegram.BotCommand],
     handlers: typing.List[HandlerGroup],
+    storage: cotd.storage.TelegramSavedMessagesStorage,
 ) -> COTDBotService:
 
-    updater = telegram.ext.Updater(
-        token=envs.token,
-        use_context=True,
-        defaults=telegram.ext.Defaults(
-            parse_mode="HTML",
-            disable_notification=True,
-            disable_web_page_preview=True,
-            timeout=5.0,
-        ),
-    )
+    if features.enable_persistence:
+        updater = telegram.ext.Updater(
+            token=envs.token,
+            use_context=True,
+            persistence=storage,
+            defaults=telegram.ext.Defaults(
+                parse_mode="HTML",
+                disable_notification=True,
+                disable_web_page_preview=True,
+                timeout=5.0,
+            ),
+        )
+    else:
+        updater = telegram.ext.Updater(
+            token=envs.token,
+            use_context=True,
+            defaults=telegram.ext.Defaults(
+                parse_mode="HTML",
+                disable_notification=True,
+                disable_web_page_preview=True,
+                timeout=5.0,
+            ),
+        )
 
     updater.logger = client_logger
     updater.dispatcher.logger = client_logger

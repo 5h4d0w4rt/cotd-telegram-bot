@@ -12,9 +12,6 @@ from PIL import Image, ImageFont, ImageDraw
 
 from io import BytesIO
 
-# version
-ver = "1.2.3"
-
 
 class FeatureHandler:
     # Value object for holding handler implementation function and expected handling method
@@ -349,10 +346,11 @@ def version_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> telegram.Message:
+    updater: telegram.ext.Updater
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
-        text=ver,
+        text="666",
     )
 
 
