@@ -102,7 +102,6 @@ py_binary(
         "service",
         "static",
         "storage",
-        "//cotd/plugins:motivationv2",
-        "//cotd/plugins:security",
+        "//cotd/plugins:all",
     ],
 )

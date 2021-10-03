@@ -1,7 +1,7 @@
 import telegram
 import telegram.ext
 import telegram.error
-from cotd.handlers import logged_context
+from cotd.plugins.helpers import logged_context
 
 
 class SourceNotAllowedError(telegram.error.TelegramError):
@@ -22,4 +22,5 @@ def check_allowed_sources(update: telegram.Update, context: telegram.ext.Callbac
                 context.dispatcher._cotd_group,
             )
     except AssertionError:
+        context.dispatcher.logger.debug("Message was sent from untrusted source and stopped from handling")
         raise telegram.ext.DispatcherHandlerStop

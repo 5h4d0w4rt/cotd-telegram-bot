@@ -6,19 +6,32 @@ package(
 )
 
 py_library(
-    name = "motivationv2",
-    srcs = ["motivationv2.py"],
+    name = "helpers",
+    srcs = ["helpers.py"],
     deps = [
         requirement("python-telegram-bot"),
         requirement("pillow"),
-        requirement("ratelimit"),
     ],
 )
 
 py_library(
-    name = "security",
-    srcs = ["security.py"],
+    name = "all",
+    srcs = [
+        "anti_voice.py",
+        "cringelord.py",
+        "cringer.py",
+        "manet.py",
+        "misc.py",
+        "motivationv2.py",
+        "prospector.py",
+        "security.py",
+    ],
     deps = [
         requirement("python-telegram-bot"),
+        requirement("pillow"),
+        requirement("ratelimit"),
+        "helpers",
+        "//cotd:cacher",
+        "//cotd:static",
     ],
 )

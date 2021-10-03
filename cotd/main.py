@@ -14,36 +14,32 @@ import cotd.service
 import cotd.cacher
 import cotd.storage
 
-from cotd.handlers import (
-    cache_users,
-    leftie_meme_detector,
-    start,
-    voice_reaction,
-    question_mark,
-    no_reaction,
-    yes_reaction,
-    manet_reaction,
-    pig_reaction,
-    stuffy_handler,
-    journalism_handler,
-    gym_reaction,
-    cringelord,
-    kekw,
-    oldfellow,
-    goaway,
-    secret,
-    iscringe,
-    motivation_handler_v1,
-    watermelon_reaction,
-    trista_reaction,
-    massacre_reaction,
-    music_handler,
-    dead_inside_handler,
-    version_handler,
-)
-
 from cotd.plugins.motivationv2 import motivation_handler_v2
 from cotd.plugins.security import check_allowed_sources
+from cotd.plugins.cringelord import cringelord
+from cotd.plugins.manet import manet_reaction
+from cotd.plugins.prospector import cache_users
+from cotd.plugins.cringer import iscringe
+from cotd.plugins.anti_voice import voice_reaction
+from cotd.plugins.misc import (
+    oldfellow,
+    kekw,
+    goaway,
+    gym_reaction,
+    pig_reaction,
+    stuffy_reaction,
+    watermelon_reaction,
+    journalism_reaction,
+    music_reaction,
+    question_mark,
+    leftie_meme_detector,
+    no_reaction,
+    trista_reaction,
+    dead_inside_handler,
+    yes_reaction,
+    massacre_reaction,
+    secret,
+)
 
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
@@ -165,7 +161,7 @@ def main():
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_news_blacklist),
-                        functools.partial(journalism_handler, data=data, cache=cache),
+                        functools.partial(journalism_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_gym),
@@ -173,11 +169,11 @@ def main():
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_stuffy_handler),
-                        functools.partial(stuffy_handler, data=data, cache=cache),
+                        functools.partial(stuffy_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_music),
-                        functools.partial(music_handler, data=data, cache=cache),
+                        functools.partial(music_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),
@@ -223,12 +219,6 @@ def main():
                 "group_index": 2,
                 "handlers": [
                     telegram.ext.CommandHandler(
-                        "start",
-                        start,
-                        filters=~telegram.ext.Filters.update.edited_message,
-                    ),
-                    telegram.ext.CommandHandler("version", functools.partial(version_handler)),
-                    telegram.ext.CommandHandler(
                         "iscringe", functools.partial(iscringe, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
@@ -247,9 +237,6 @@ def main():
                     ),
                     telegram.ext.CommandHandler(
                         "secret", functools.partial(secret, data=data, cache=cache)
-                    ),
-                    telegram.ext.CommandHandler(
-                        "motivationv1", functools.partial(motivation_handler_v1)
                     ),
                 ],
             }

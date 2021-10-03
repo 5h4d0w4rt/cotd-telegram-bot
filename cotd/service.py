@@ -28,7 +28,7 @@ class EnvConfig:
 
 @dataclass
 class TGBotMetadata:
-    user: typing.Union[telegram.User, None]
+    user: telegram.User
 
 
 @dataclass
@@ -46,7 +46,7 @@ class HandlerGroup:
 @dataclass
 class TGBotConfig:
     updater: telegram.ext.Updater
-    options: argparse.Namespace
+    options: Options
     persistence: telegram.ext.DictPersistence
     metadata: TGBotMetadata
     handlers: typing.List[HandlerGroup]
@@ -55,7 +55,7 @@ class TGBotConfig:
 
 @dataclass
 class COTDBotConfig:
-    features: argparse.Namespace
+    features: Flags
     logger: logging.Logger
 
 
@@ -81,8 +81,8 @@ class TGBotClient:
         self.updater.idle()
 
     def set_secure_sources(self) -> None:
-        self.updater.dispatcher._cotd_db = int(self.options.db)
-        self.updater.dispatcher._cotd_group = int(self.options.group)
+        self.updater.dispatcher._cotd_db = self.options.db
+        self.updater.dispatcher._cotd_group = self.options.group
 
     def initialize(self) -> None:
         self.set_secure_sources()
@@ -113,8 +113,6 @@ class COTDBotService:
         )
 
     def _init_sticker_set(self) -> bool:
-        assert self.client.metadata.user is not None
-
         return self.client.updater.bot.create_new_sticker_set(
             png_sticker=open("static/smileyOne512x512.png", "rb"),
             name=f"VC_by_{self.client.metadata.user.username}",
@@ -124,8 +122,6 @@ class COTDBotService:
         )
 
     def _fetch_sticker_set(self) -> telegram.StickerSet:
-        assert self.client.metadata.user is not None
-
         try:
             return self.client.updater.bot.get_sticker_set(
                 f"VC_by_{self.client.metadata.user.username}"
@@ -185,7 +181,7 @@ def factory(
             metadata=metadata,
             handlers=handlers,
             commands=commands,
-            persistence=telegram.ext.DictPersistence()
+            persistence=telegram.ext.DictPersistence(),
         )
     )
     return COTDBotService(
