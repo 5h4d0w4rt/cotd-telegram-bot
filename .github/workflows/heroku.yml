@@ -31,3 +31,9 @@ jobs:
           heroku_api_key: "${{secrets.HEROKU_API_KEY}}"
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
+
+      - name: send default message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_DEV_CHANNEL_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN_DEV_BOT }}
