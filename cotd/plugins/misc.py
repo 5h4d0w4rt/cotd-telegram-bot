@@ -1,12 +1,21 @@
 import functools
 import random
 import typing
-
+import uuid
 import telegram
 import telegram.ext
 from cotd.cacher import MediaCache
 from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context
 from cotd.static import StaticReader
+
+
+def oldfellowinline():
+    """create old fellow result in inline"""
+    telegram.InlineQueryResultCachedMpeg4Gif(
+        id=str(uuid.uuid4()),
+        title="oldfellow",
+        mpeg4_file_id="BAACAgIAAx0EWzXwBwADzmFbOYcigkO1a86PuRRltm8-uq3xAALOEAACie_YSvltYRn4WOcsIQQ",
+    )
 
 
 @logged_context
