@@ -18,12 +18,25 @@ from cotd.plugins.anti_voice import voice_reaction
 from cotd.plugins.cringelord import cringelord
 from cotd.plugins.cringer import iscringe
 from cotd.plugins.manet import manet_reaction
-from cotd.plugins.misc import (dead_inside_handler, goaway, gym_reaction,
-                               journalism_reaction, kekw, leftie_meme_detector,
-                               massacre_reaction, music_reaction, no_reaction,
-                               oldfellow, pig_reaction, question_mark, secret,
-                               stuffy_reaction, trista_reaction,
-                               watermelon_reaction, yes_reaction)
+from cotd.plugins.misc import (
+    dead_inside_handler,
+    goaway,
+    gym_reaction,
+    journalism_reaction,
+    kekw,
+    leftie_meme_detector,
+    massacre_reaction,
+    music_reaction,
+    no_reaction,
+    oldfellow,
+    pig_reaction,
+    question_mark,
+    secret,
+    stuffy_reaction,
+    trista_reaction,
+    watermelon_reaction,
+    yes_reaction,
+)
 from cotd.plugins.motivationv2 import motivation_handler_v2
 from cotd.plugins.prospector import cache_users
 from cotd.plugins.security import check_allowed_sources
@@ -50,6 +63,7 @@ re_dead_inside = re.compile(r"похуй|мне похуй", re.IGNORECASE)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
+    flags.add_argument("--feature-enable-security", action="store_true", default=False)
     return flags
 
 
@@ -116,15 +130,16 @@ def main():
                 "group_index": -100,
                 "handlers": [
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.all,
-                        functools.partial(check_allowed_sources),
+                        telegram.ext.Filters.all, functools.partial(check_allowed_sources)
                     ),
-                ],
+                ]
+                if features.feature_enable_security is True
+                else [],
             }
         ),
         cotd.service.HandlerGroup(
             **{
-                "group_index": -2,
+                "group_index": -99,
                 "handlers": [
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
@@ -238,15 +253,11 @@ def main():
     ]
 
     commands = [
-        telegram.BotCommand("start", "Hello world"),
-        telegram.BotCommand("version", "Show version of the bot."),
         telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
         telegram.BotCommand("oldfellow", "oldfellow, take off!"),
         telegram.BotCommand("goaway", "Helpful reminder to go on your business"),
         telegram.BotCommand("cringelord", "Who's cringelord of the day?"),
         telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
-        telegram.BotCommand("motivation", "get motivation! example: /motivation text"),
-        telegram.BotCommand("secret", "what's in there?"),
     ]
 
     envs = cotd.service.EnvConfig(token=os.environ["COTD_TELEGRAM_BOT_TOKEN"])

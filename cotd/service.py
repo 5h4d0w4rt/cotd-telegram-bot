@@ -20,7 +20,7 @@ class Options(argparse.Namespace):
 
 @dataclass
 class Flags(argparse.Namespace):
-    ...
+    feature_enable_security: bool
 
 
 @dataclass
