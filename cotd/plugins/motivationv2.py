@@ -32,14 +32,3 @@ def _motivation_impl(
         title="CachedPhoto",
         photo_file_id=photo_id,
     )
-
-
-@ratelimit.sleep_and_retry
-@ratelimit.limits(
-    calls=1, period=ONE_SECOND
-)  # recommended per https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this
-def motivation_handler_v2(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-) -> None:
-    update.inline_query.answer([_motivation_impl(update, context)])
