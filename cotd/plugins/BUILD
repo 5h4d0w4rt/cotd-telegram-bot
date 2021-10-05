@@ -20,6 +20,7 @@ py_library(
         "anti_voice.py",
         "cringelord.py",
         "cringer.py",
+        "inliner.py",
         "manet.py",
         "misc.py",
         "motivationv2.py",
