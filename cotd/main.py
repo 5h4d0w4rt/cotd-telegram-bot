@@ -38,7 +38,7 @@ from cotd.plugins.misc import (
     watermelon_reaction,
     yes_reaction,
 )
-from cotd.plugins.motivationv2 import motivation_handler_v2
+
 from cotd.plugins.prospector import cache_users
 from cotd.plugins.security import check_allowed_sources
 from cotd.plugins.inliner import menu
@@ -247,14 +247,6 @@ def main():
         cotd.service.HandlerGroup(
             **{
                 "group_index": 3,
-                "handlers": [
-                    # telegram.ext.InlineQueryHandler(functools.partial(motivation_handler_v2))
-                ],
-            }
-        ),
-        cotd.service.HandlerGroup(
-            **{
-                "group_index": 4,
                 "handlers": [telegram.ext.InlineQueryHandler(functools.partial(menu))],
             }
         ),

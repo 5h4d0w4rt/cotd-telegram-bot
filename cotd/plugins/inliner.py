@@ -12,5 +12,6 @@ from cotd.static import StaticReader
 
 
 def menu(update: telegram.Update, context: telegram.ext.CallbackContext):
-    results = [_oldfellowinline_impl(update, context), _motivation_impl(update, context)]
-    update.inline_query.answer(results)
+    update.inline_query.answer(
+        [_motivation_impl(update, context), _oldfellowinline_impl(update, context)]
+    )
