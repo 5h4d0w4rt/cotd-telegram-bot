@@ -1,10 +1,8 @@
 import argparse
 import functools
-import logging
 import os
 import re
 import types
-import typing
 
 import telegram
 import telegram.ext
@@ -18,8 +16,8 @@ from cotd.plugins.anti_voice import voice_reaction
 from cotd.plugins.cringelord import cringelord
 from cotd.plugins.cringer import iscringe
 from cotd.plugins.manet import manet_reaction
+from cotd.plugins.cuno import cuno_handler
 from cotd.plugins.misc import (
-    dead_inside_handler,
     goaway,
     gym_reaction,
     journalism_reaction,
@@ -29,7 +27,6 @@ from cotd.plugins.misc import (
     music_reaction,
     no_reaction,
     oldfellow,
-    oldfellowinline,
     pig_reaction,
     question_mark,
     secret,
@@ -57,10 +54,10 @@ re_watermelon = re.compile(r".*арбуз.*", re.IGNORECASE)
 re_300 = re.compile(r".* 300 .*|.* триста .*|^300$|^300 .*|^триста$|^триста .*", re.IGNORECASE)
 # massacre
 re_massacre = re.compile(r".*резня.*", re.IGNORECASE)
-# music
-re_music = re.compile(r".*open.spotify.com.*", re.IGNORECASE)
-# dead inside
-re_dead_inside = re.compile(r"похуй|мне похуй", re.IGNORECASE)
+# spotify
+re_spotify = re.compile(r".*open\.spotify\.com.*", re.IGNORECASE)
+# Fuck does Cuno care?
+re_cuno = re.compile(r"похуй|мне похуй", re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -175,7 +172,7 @@ def main():
                         functools.partial(stuffy_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.regex(re_music),
+                        telegram.ext.Filters.regex(re_spotify),
                         functools.partial(music_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
@@ -207,8 +204,8 @@ def main():
                         functools.partial(trista_reaction),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.regex(re_dead_inside),
-                        functools.partial(dead_inside_handler, data=data, cache=cache),
+                        telegram.ext.Filters.regex(re_cuno),
+                        functools.partial(cuno_handler, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
