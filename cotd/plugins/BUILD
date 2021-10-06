@@ -22,7 +22,7 @@ py_library(
         "cringer.py",
         "cuno.py",
         "inliner.py",
-        "manet.py",
+        "kandinsky.py",
         "misc.py",
         "motivationv2.py",
         "prospector.py",

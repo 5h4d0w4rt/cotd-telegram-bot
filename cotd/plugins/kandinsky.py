@@ -7,13 +7,14 @@ import telegram.ext
 from cotd.plugins.helpers import logged_context, make_image
 from PIL import Image
 
-
+# dow - return current day of the week.
 def dow():
     days = ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье"]
     return days[datetime.datetime.today().weekday()]
 
 
-manet_messages = [
+# kandinsky_handler - list of reactions.
+kandinsky_messages = [
     "Наконец-то!",
     "выбери жизнь",
     "yea...",
@@ -82,42 +83,42 @@ manet_messages = [
     "Фото, заряженное на позитив",
 ]
 
-manet_max = 1
-manet_chances = {}
+kandinsky_max = 1      # TODO: rename
+kandinsky_chances = {} # TODO: rename
 
 
 @logged_context
-def manet_reaction(
+def kandinsky_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 3) != 2:
-        return None
+    # if random.randint(0, 3) != 2:
+    #     return None
 
     x = 0
     i = 0
     msg = ""
 
-    global manet_max
+    global kandinsky_max
 
     # correct the frequency of using phrases
     while x == 0:
-        i = random.randint(0, len(manet_messages) - 1)
+        i = random.randint(0, len(kandinsky_messages) - 1)
 
-        chance = manet_chances.get(i, -1)
+        chance = kandinsky_chances.get(i, -1)
 
-        if chance == manet_max:
-            manet_max = manet_max + 1
+        if chance == kandinsky_max:
+            kandinsky_max = kandinsky_max + 1
             continue
 
-        if chance > manet_max:
-            manet_max = chance
+        if chance > kandinsky_max:
+            kandinsky_max = chance
             continue
 
-        if chance < manet_max:
-            manet_chances[i] = chance + 1
+        if chance < kandinsky_max:
+            kandinsky_chances[i] = chance + 1
 
-            msg = manet_messages[i]
+            msg = kandinsky_messages[i]
 
             # ахаха, что ты мне сделаешь, я в другом городе
             if i == 0:
@@ -130,5 +131,5 @@ def manet_reaction(
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
-        photo=make_image(Image.open(file_info.download()), msg),
+        photo=make_image(Image.open(file_info.download()), msg, "bottom"), # TODO: move to const.
     )

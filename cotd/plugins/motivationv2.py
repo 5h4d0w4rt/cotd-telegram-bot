@@ -5,8 +5,8 @@ import uuid
 import ratelimit
 import telegram
 import telegram.ext
-from cotd.plugins.helpers import logged_context, make_image
-from PIL import Image, ImageDraw, ImageFont
+from cotd.plugins.helpers import make_image
+from PIL import Image
 
 ONE_SECOND = 1
 
@@ -19,7 +19,7 @@ def _motivation_impl(
     if query == "":
         return
 
-    motivation_image = make_image(Image.open("static/motivator.jpg"), query)
+    motivation_image = make_image(Image.open("static/motivator.jpg"), query, "top")
 
     msg = context.bot.send_photo(
         chat_id=db,

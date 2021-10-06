@@ -15,7 +15,7 @@ import cotd.storage
 from cotd.plugins.anti_voice import voice_reaction
 from cotd.plugins.cringelord import cringelord
 from cotd.plugins.cringer import iscringe
-from cotd.plugins.manet import manet_reaction
+from cotd.plugins.kandinsky import kandinsky_handler
 from cotd.plugins.cuno import cuno_handler
 from cotd.plugins.misc import (
     goaway,
@@ -157,7 +157,7 @@ def main():
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.photo,
-                        functools.partial(manet_reaction),
+                        functools.partial(kandinsky_handler),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_news_blacklist),
