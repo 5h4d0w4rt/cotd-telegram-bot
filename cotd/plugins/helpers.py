@@ -1,7 +1,8 @@
 import functools
+import logging
 import telegram
 import telegram.ext
-
+import logging
 import typing
 import io
 from PIL import Image, ImageDraw, ImageFont
@@ -10,17 +11,25 @@ from PIL import Image, ImageDraw, ImageFont
 def logged_context(f):
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
+        old_factory = logging.getLogRecordFactory()
+
+        def _record_factory(*args, **kwargs):
+            """Make function print wrapped function's name instead of a wrapper"""
+            record = old_factory(*args, **kwargs)
+            record.funcName = f.__name__
+            return record
+
         dispatcher: telegram.ext.Dispatcher = args[1].dispatcher
 
+        logging.setLogRecordFactory(_record_factory)
         dispatcher.logger.debug(args)
         dispatcher.logger.debug(kwargs)
-
         dispatcher.logger.debug(dispatcher.bot_data)
         dispatcher.logger.debug(dispatcher.chat_data)
         dispatcher.logger.debug(dispatcher.user_data)
-
         result = f(*args, **kwargs)
         dispatcher.logger.debug(f"{f.__name__} : {result}")
+        logging.setLogRecordFactory(old_factory)
 
         return result
 
