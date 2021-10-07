@@ -9,22 +9,17 @@ from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context
 from cotd.static import StaticReader
 
 
-def _oldfellowinline_impl(update: telegram.Update, context: telegram.ext.CallbackContext) -> telegram.InlineQueryResultCachedVideo:
+def oldfellow_inline_impl(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+):
+    """create old fellow result in inline mode"""
     return telegram.InlineQueryResultCachedVideo(
         id=str(uuid.uuid4()),
         title="oldfellow",
         # TODO: make this reliable by adding database with cached files
         video_file_id="BAACAgIAAx0EWzXwBwACAQNhXIIZ6wX4ji5nZIf6g1Q7nBOw3gACZxEAAsFp4Upg6GrkPvVSfCEE",
     )
-
-
-def oldfellowinline(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-):
-    """create old fellow result in inline"""
-
-    update.inline_query.answer([_oldfellowinline_impl(update, context)])
 
 
 @logged_context

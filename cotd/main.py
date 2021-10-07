@@ -129,7 +129,8 @@ def main():
                 "group_index": -100,
                 "handlers": [
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.all, functools.partial(check_allowed_sources)
+                        telegram.ext.Filters.all,
+                        functools.partial(check_allowed_sources),
                     ),
                 ]
                 if features.feature_enable_security is True

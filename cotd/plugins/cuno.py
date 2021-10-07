@@ -7,6 +7,7 @@ from cotd.cacher import MediaCache
 from cotd.plugins.helpers import cacheable_handler, logged_context
 from cotd.static import StaticReader
 
+
 @logged_context
 @functools.partial(cacheable_handler, key="sf", path="photo[0].file_id")
 def cuno_handler(

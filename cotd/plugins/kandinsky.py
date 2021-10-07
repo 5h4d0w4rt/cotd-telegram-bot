@@ -9,7 +9,15 @@ from PIL import Image
 
 # dow - return current day of the week.
 def dow():
-    days = ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье"]
+    days = [
+        "понедельник",
+        "вторник",
+        "среда",
+        "четверг",
+        "пятница",
+        "суббота",
+        "воскресенье",
+    ]
     return days[datetime.datetime.today().weekday()]
 
 
@@ -83,8 +91,8 @@ kandinsky_messages = [
     "Фото, заряженное на позитив",
 ]
 
-kandinsky_max = 1      # TODO: rename
-kandinsky_chances = {} # TODO: rename
+kandinsky_max = 1  # TODO: rename
+kandinsky_chances = {}  # TODO: rename
 
 
 @logged_context
@@ -131,5 +139,5 @@ def kandinsky_handler(
     return context.bot.send_photo(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
-        photo=make_image(Image.open(file_info.download()), msg, "bottom"), # TODO: move to const.
+        photo=make_image(Image.open(file_info.download()), msg, "bottom"),  # TODO: move to const.
     )

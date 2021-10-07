@@ -61,35 +61,34 @@ def is_reply(update: telegram.Update):
     else:
         return True
 
+
 # TODO: fontsize for small text
 def make_image(image, text: str, pos: str) -> io.BytesIO:
-    width, heigh = 0, 0 # init
-    fontsize     = 10   # starting font size
-    img_fraction = 0.50 # portion of image width you want text width to be
+    width, heigh = 0, 0  # init
+    fontsize = 10  # starting font size
+    img_fraction = 0.50  # portion of image width you want text width to be
 
-    font = ImageFont.truetype("static/lobster.ttf", fontsize)
+    font = ImageFont.truetype("static/lobster.ttf", fontsize, encoding="unic")
     while font.getsize(text)[0] < img_fraction * image.size[0]:
         # iterate until the text size is just larger than the criteria
         fontsize += 1
-        font = ImageFont.truetype("static/lobster.ttf", fontsize)
+        font = ImageFont.truetype("static/lobster.ttf", fontsize, encoding="unic")
 
     image_editable = ImageDraw.Draw(image)
 
     W, H = image.size
     w, h = image_editable.textsize(text, font)
 
-
     if pos == "bottom":
-        width = (W-w)/2
-        heigh = (H-h)/1.01
+        width = (W - w) / 2
+        heigh = (H - h) / 1.01
     else:
         width = (W - w) / 2
         heigh = h / 5
 
-
     # some color const
     # TODO: move out to const
-    msg_color    = "#FFFFFF"
+    msg_color = "#FFFFFF"
     shadow_color = "#121212"
     # add shadow
     image_editable.text((width - 2, heigh), text, font=font, fill=shadow_color)

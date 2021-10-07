@@ -28,6 +28,7 @@ py_library(
         "prospector.py",
         "security.py",
     ],
+    data = ["//static:lobster.ttf"],
     deps = [
         requirement("python-telegram-bot"),
         requirement("pillow"),
