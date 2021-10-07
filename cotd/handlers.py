@@ -1,10 +1,12 @@
+import functools
+import typing
+
 import telegram
 import telegram.ext
-import typing
+
 import cotd.cacher
-import cotd.static
 import cotd.service
-import functools
+import cotd.static
 
 
 class FeatureHandler:

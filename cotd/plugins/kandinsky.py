@@ -7,6 +7,7 @@ import telegram.ext
 from cotd.plugins.helpers import logged_context, make_image
 from PIL import Image
 
+
 # dow - return current day of the week.
 def dow():
     days = [

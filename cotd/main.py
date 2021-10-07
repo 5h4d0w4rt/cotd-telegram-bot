@@ -15,8 +15,9 @@ import cotd.storage
 from cotd.plugins.anti_voice import voice_reaction
 from cotd.plugins.cringelord import cringelord
 from cotd.plugins.cringer import iscringe
-from cotd.plugins.kandinsky import kandinsky_handler
 from cotd.plugins.cuno import cuno_handler
+from cotd.plugins.inliner import menu
+from cotd.plugins.kandinsky import kandinsky_handler
 from cotd.plugins.misc import (
     goaway,
     gym_reaction,
@@ -35,10 +36,8 @@ from cotd.plugins.misc import (
     watermelon_reaction,
     yes_reaction,
 )
-
 from cotd.plugins.prospector import cache_users
 from cotd.plugins.security import check_allowed_sources
-from cotd.plugins.inliner import menu
 
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)

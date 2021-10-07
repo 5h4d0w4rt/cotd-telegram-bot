@@ -2,6 +2,7 @@ import functools
 import random
 import typing
 import uuid
+
 import telegram
 import telegram.ext
 from cotd.cacher import MediaCache
