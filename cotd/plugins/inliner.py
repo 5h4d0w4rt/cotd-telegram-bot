@@ -17,4 +17,4 @@ def menu(update: telegram.Update, context: telegram.ext.CallbackContext):
         case "меню":
             return update.inline_query.answer([oldfellow_inline_impl(update, context)])
         case _:
-            update.inline_query.answer([motivation_inline_impl(update, context), oldfellow_inline_impl(update, context)])
+            update.inline_query.answer([motivation_inline_impl(update, context)])
