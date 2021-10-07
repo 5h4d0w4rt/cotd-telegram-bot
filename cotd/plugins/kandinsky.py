@@ -92,8 +92,8 @@ def kandinsky_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    # if random.randint(0, 3) != 2:
-    #     return None
+    if random.randint(0, 3) != 2:
+        return None
 
     x = 0
     i = 0
