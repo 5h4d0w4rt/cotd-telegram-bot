@@ -21,6 +21,7 @@ class Options(argparse.Namespace):
 @dataclass
 class Flags(argparse.Namespace):
     feature_enable_security: bool
+    feature_enable_persistence: bool
 
 
 @dataclass
@@ -144,8 +145,10 @@ def factory(
     cotd_logger: logging.Logger,
     commands: typing.List[telegram.BotCommand],
     handlers: typing.List[HandlerGroup],
-    storage: cotd.storage.TelegramSavedMessagesStorage,
+    storage: typing.Union[cotd.storage.TelegramSavedMessagesStorage | telegram.ext.DictPersistence],
 ) -> COTDBotService:
+
+    storage = storage if features.feature_enable_persistence else telegram.ext.DictPersistence()
 
     updater = telegram.ext.Updater(
         token=envs.token,
@@ -155,7 +158,7 @@ def factory(
             parse_mode="HTML",
             disable_notification=True,
             disable_web_page_preview=True,
-            timeout=5.0,
+            timeout=1.0,
         ),
     )
 
@@ -171,7 +174,7 @@ def factory(
             metadata=metadata,
             handlers=handlers,
             commands=commands,
-            persistence=telegram.ext.DictPersistence(),
+            persistence=storage,
         )
     )
     return COTDBotService(

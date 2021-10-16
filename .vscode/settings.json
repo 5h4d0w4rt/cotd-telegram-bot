@@ -20,4 +20,6 @@
     ],
     "python.analysis.cacheFolderPath": "${workspaceFolder}/.pyanalysis",
     "python.analysis.diagnosticMode": "openFilesOnly",
+    "bazel.buildifierFixOnFormat": true,
+    "bazel.enableCodeLens": true,
 }

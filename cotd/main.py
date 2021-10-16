@@ -62,6 +62,7 @@ re_cuno = re.compile(r"похуй|мне похуй", re.IGNORECASE)
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
     flags.add_argument("--feature-enable-security", action="store_true", default=False)
+    flags.add_argument("--feature-enable-persistence", action="store_true", default=False)
     return flags
 
 
@@ -267,7 +268,7 @@ def main():
         cotd_logger=cotd.logger.get_logger("COTDBotService", level=options.log_level),
         handlers=handlers,
         commands=commands,
-        storage=cotd.storage.TelegramSavedMessagesStorage(),
+        storage=cotd.storage.TelegramSavedMessagesStorage(db=options.db),
     )
 
     cotdbot.logger.info(f"initialized with feature flags: {features}")
