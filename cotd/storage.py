@@ -15,6 +15,7 @@ class TelegramSavedMessagesStorage(DictPersistence):
     def __init__(self, db, *args, **kwargs):
         self._db = db
         self._data = None
+        self._cache = None
         super().__init__(*args, **kwargs)
 
     def flush(self) -> None:
@@ -38,10 +39,13 @@ class TelegramSavedMessagesStorage(DictPersistence):
             chat_id=self._db, description=f"{self.bot.id}::{doc.document.file_id}"
         )
 
-    def _load(self):
+    @property
+    def cache(self, data):
+        if not self._cache:
+            self._cache = data
+        return self._cache
 
-        if self._data:
-            return self._data
+    def _load(self):
 
         chat = self.bot.get_chat(self._db)
         file_id = chat.description.split("::")
@@ -49,19 +53,16 @@ class TelegramSavedMessagesStorage(DictPersistence):
             out = json.loads(self.bot.get_file(file_id).download_as_bytearray())
         except telegram.error.BadRequest as err:
             if err.message == "Invalid file_id":
-                default_out = {
+                return {
                     "user_data": None,
                     "chat_data": None,
                     "bot_data": None,
                 }
-                self._data = default_out
-                return default_out
         else:
-            self._data = out
             return out
 
-    def load(self) -> typing.Dict:
-        return self._load()
+    def load(self):
+        return self.cache(self._load())
 
     def get_user_data(self):
         """"""
