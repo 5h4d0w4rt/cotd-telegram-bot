@@ -138,4 +138,20 @@ class TelegramSavedMessagesStorageDev(DictPersistence):
         super().__init__(*args, **kwargs)
 
     def flush(self) -> None:
-        ...
+        data_to_save = zlib.compress(
+            json.dumps(
+                {
+                    "db_metadata": self.bot.get_chat(chat_id=self._db).to_dict(),
+                    "bot_metadata": self.bot.get_me().to_dict(),
+                    "bot_data": self.bot_data,
+                    "user_data": self.user_data,
+                    "chat_data": self.chat_data,
+                }
+            ).encode("utf-8"),
+            level=9,
+        )
+
+        with io.BytesIO(data_to_save) as f:
+            doc = self.bot.send_document(
+                chat_id=self._db, document=f, filename=f"{self.bot.username}_db.zip"
+            )

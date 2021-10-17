@@ -145,10 +145,14 @@ def factory(
     cotd_logger: logging.Logger,
     commands: typing.List[telegram.BotCommand],
     handlers: typing.List[HandlerGroup],
-    storage: typing.Union[cotd.storage.TelegramSavedMessagesStorage | telegram.ext.DictPersistence],
+    storage: cotd.storage.TelegramSavedMessagesStorage,
 ) -> COTDBotService:
 
-    storage = storage if features.feature_enable_persistence else telegram.ext.DictPersistence()
+    storage: cotd.storage.TelegramSavedMessagesStorage | cotd.storage.TelegramSavedMessagesStorageDev = (
+        storage
+        if features.feature_enable_persistence
+        else cotd.storage.TelegramSavedMessagesStorageDev(options.db)
+    )
 
     updater = telegram.ext.Updater(
         token=envs.token,
