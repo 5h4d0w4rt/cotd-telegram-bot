@@ -154,11 +154,12 @@ def factory(
         token=envs.token,
         use_context=True,
         persistence=storage,
+        workers=1,
         defaults=telegram.ext.Defaults(
             parse_mode="HTML",
             disable_notification=True,
             disable_web_page_preview=True,
-            timeout=1.0,
+            timeout=5.0,
         ),
     )
 

@@ -143,7 +143,7 @@ def main():
                 "handlers": [
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
-                        functools.partial(cache_users, cache=cache),
+                        functools.partial(cache_users),
                     ),
                 ],
             }
@@ -258,10 +258,8 @@ def main():
         telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
     ]
 
-    envs = cotd.service.EnvConfig(token=os.environ["COTD_TELEGRAM_BOT_TOKEN"])
-
     cotdbot = cotd.service.factory(
-        envs=envs,
+        envs=cotd.service.EnvConfig(token=os.environ["COTD_TELEGRAM_BOT_TOKEN"]),
         features=features,
         options=options,
         client_logger=cotd.logger.get_logger("TGBotClient", level=options.log_level),
