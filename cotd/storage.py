@@ -50,6 +50,11 @@ class TelegramSavedMessagesStorage(DictPersistence):
 
     def _extract_bot_data_from_db(self, loaded_bot_data):
         out = defaultdict(dict)
+        if "cache" in loaded_bot_data:
+            out |= loaded_bot_data
+            return out
+
+        # make all dumped integers that became string integers again
         for top_level_key in loaded_bot_data:
             proper_top_level_key = int(top_level_key)
             out[proper_top_level_key] = {}
