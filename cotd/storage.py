@@ -52,6 +52,7 @@ class TelegramSavedMessagesStorage(DictPersistence):
         out = defaultdict(dict)
         for top_level_key in loaded_bot_data:
             proper_top_level_key = int(top_level_key)
+            out[proper_top_level_key] = {}
             for nested_key in loaded_bot_data[top_level_key]:
                 proper_nested_level_key = int(nested_key)
                 out[proper_top_level_key][proper_nested_level_key] = loaded_bot_data[top_level_key][
@@ -85,26 +86,26 @@ class TelegramSavedMessagesStorage(DictPersistence):
 
     def get_user_data(self):
         """"""
-        res = self.load()["user_data"]
+        res = self.load()
         if not res:
             return super().get_user_data()
-        self._user_data = self._extract_bot_data_from_db(res)
+        self._user_data = self._extract_bot_data_from_db(res["user_data"])
         return self._user_data
 
     def get_bot_data(self):
         """"""
-        res = self.load()["bot_data"]
+        res = self.load()
         if not res:
             return super().get_bot_data()
-        self._bot_data = self._extract_bot_data_from_db(res)
+        self._bot_data = self._extract_bot_data_from_db(res["bot_data"])
         return self._bot_data
 
     def get_chat_data(self):
         """"""
-        res = self.load()["chat_data"]
+        res = self.load()
         if not res:
             return super().get_chat_data()
-        self._chat_data = self._extract_bot_data_from_db(res)
+        self._chat_data = self._extract_bot_data_from_db(res["chat_data"])
         return self._chat_data
 
     def update_user_data(self, user_id: int, data: typing.Dict) -> None:

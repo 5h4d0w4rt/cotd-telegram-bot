@@ -32,4 +32,5 @@ def cache_users(
             context.chat_data[user.id]["messages"][today] += 1
 
     context.dispatcher.logger.debug(context.user_data)
+    context.dispatcher.logger.debug(context.chat_data)
     context.dispatcher.logger.debug(update.effective_user)
