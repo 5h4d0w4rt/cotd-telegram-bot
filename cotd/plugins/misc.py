@@ -19,16 +19,16 @@ def oldfellow_inline(
 ):
     """create old fellow result in inline mode"""
     # TODO move static to cache initialization with timer
-    video = context.bot.send_video(chat_id=context.dispatcher._cotd_db, video=data.oldfellow)
-    oldfellow_cache = context.bot_data.setdefault("cache", {}).setdefault(
-        "oldfellow", video.video.file_id
-    )
-    context.bot.delete_message(video.chat_id, video.message_id)
+    oldfellow_cache = context.bot_data.setdefault("cache", {}).setdefault("oldfellow", None)
+    if not oldfellow_cache:
+        video = context.bot.send_video(chat_id=context.dispatcher._cotd_db, video=data.oldfellow)
+        context.bot.delete_message(video.chat_id, video.message_id)
+        context.bot_data["cache"]["oldfellow"] = video.video.file_id
     context.dispatcher.logger.debug(context.bot_data)
     return telegram.InlineQueryResultCachedVideo(
         id=str(uuid.uuid4()),
         title="oldfellow",
-        video_file_id=oldfellow_cache,
+        video_file_id=context.bot_data["cache"]["oldfellow"],
     )
 
 
