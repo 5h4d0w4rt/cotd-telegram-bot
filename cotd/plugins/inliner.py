@@ -1,12 +1,14 @@
 import time
+import typing
 import uuid
 
 import cotd
 import ratelimit
 import telegram
 import telegram.ext
-from cotd.plugins.misc import oldfellow_inline_impl
-from cotd.plugins.motivationv2 import motivation_inline_impl
+from cotd.plugins.misc import oldfellow_inline
+from cotd.plugins.motivationv2 import motivation_inline
+from cotd.static import StaticReader
 
 ONE_SECOND = 1
 
@@ -14,11 +16,11 @@ ONE_SECOND = 1
 @ratelimit.limits(
     calls=1, period=ONE_SECOND
 )  # recommended per https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this
-def menu(update: telegram.Update, context: telegram.ext.CallbackContext) -> bool:
+def menu(update: telegram.Update, context: telegram.ext.CallbackContext, data: typing.Type[StaticReader]) -> bool:
     if update.inline_query.query:
         match update.inline_query.query:
             case "menu" | "меню":
-                return update.inline_query.answer([oldfellow_inline_impl(update, context)])
+                return update.inline_query.answer([oldfellow_inline(update, context, data)])
             case _:
-                return update.inline_query.answer([motivation_inline_impl(update, context)])
+                return update.inline_query.answer([motivation_inline(update, context)])
     return update.inline_query.answer([])

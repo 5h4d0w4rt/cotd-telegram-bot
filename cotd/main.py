@@ -27,7 +27,6 @@ from cotd.plugins.misc import (
     massacre_reaction,
     music_reaction,
     no_reaction,
-    oldfellow,
     pig_reaction,
     question_mark,
     secret,
@@ -223,10 +222,6 @@ def main():
                         "iscringe", functools.partial(iscringe, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "oldfellow",
-                        functools.partial(oldfellow, data=data, cache=cache),
-                    ),
-                    telegram.ext.CommandHandler(
                         "cringelord",
                         functools.partial(cringelord, data=data, cache=cache),
                     ),
@@ -245,14 +240,13 @@ def main():
         cotd.service.HandlerGroup(
             **{
                 "group_index": 3,
-                "handlers": [telegram.ext.InlineQueryHandler(functools.partial(menu))],
+                "handlers": [telegram.ext.InlineQueryHandler(functools.partial(menu, data=data))],
             }
         ),
     ]
 
     commands = [
         telegram.BotCommand("iscringe", "Determines if post you reply to is cringe or based"),
-        telegram.BotCommand("oldfellow", "oldfellow, take off!"),
         telegram.BotCommand("goaway", "Helpful reminder to go on your business"),
         telegram.BotCommand("cringelord", "Who's cringelord of the day?"),
         telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),

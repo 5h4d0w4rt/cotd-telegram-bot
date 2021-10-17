@@ -8,38 +8,27 @@ import telegram.ext
 from cotd.cacher import MediaCache
 from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context
 from cotd.static import StaticReader
-
-
-def oldfellow_inline_impl(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-):
-    """create old fellow result in inline mode"""
-    return telegram.InlineQueryResultCachedVideo(
-        id=str(uuid.uuid4()),
-        title="oldfellow",
-        # TODO: make this reliable by adding database with cached files
-        video_file_id="BAACAgIAAx0EWzXwBwACAQNhXIIZ6wX4ji5nZIf6g1Q7nBOw3gACZxEAAsFp4Upg6GrkPvVSfCEE",
-    )
+from telegram import chat
 
 
 @logged_context
-@functools.partial(cacheable_handler, key="oldfellow", path="video.file_id")
-def oldfellow(
+def oldfellow_inline(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
-    cache: typing.Type[MediaCache] = None,
-    data: typing.Type[StaticReader] = None,
-) -> telegram.Message:
-    if not is_reply(update):
-        return context.bot.send_video(
-            chat_id=update.effective_chat.id,
-            video=cache.oldfellow or data.oldfellow,
-        )
-    return context.bot.send_video(
-        chat_id=update.effective_chat.id,
-        reply_to_message_id=update.message.reply_to_message.message_id,
-        video=cache.oldfellow or data.oldfellow,
+    data: typing.Type[StaticReader],
+):
+    """create old fellow result in inline mode"""
+    # TODO move static to cache initialization with timer
+    video = context.bot.send_video(chat_id=context.dispatcher._cotd_db, video=data.oldfellow)
+    oldfellow_cache = context.bot_data.setdefault("cache", {}).setdefault(
+        "oldfellow", video.video.file_id
+    )
+    context.bot.delete_message(video.chat_id, video.message_id)
+    context.dispatcher.logger.debug(context.bot_data)
+    return telegram.InlineQueryResultCachedVideo(
+        id=str(uuid.uuid4()),
+        title="oldfellow",
+        video_file_id=oldfellow_cache,
     )
 
 

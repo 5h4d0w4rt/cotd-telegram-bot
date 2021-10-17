@@ -11,7 +11,7 @@ from PIL import Image
 ONE_SECOND = 1
 
 
-def motivation_inline_impl(
+def motivation_inline(
     update: telegram.Update, context: telegram.ext.CallbackContext
 ) -> telegram.InlineQueryResultCachedPhoto:
     db = context.dispatcher._cotd_db
