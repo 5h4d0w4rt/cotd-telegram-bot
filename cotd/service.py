@@ -151,7 +151,9 @@ def factory(
     storage: cotd.storage.TelegramSavedMessagesStorage | cotd.storage.TelegramSavedMessagesStorageDev = (
         storage
         if features.feature_enable_persistence
-        else cotd.storage.TelegramSavedMessagesStorageDev(options.db)
+        else cotd.storage.TelegramSavedMessagesStorageDev(
+            options.db
+        )
     )
 
     updater = telegram.ext.Updater(
