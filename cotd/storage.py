@@ -27,9 +27,15 @@ class TelegramDocumentDatabaseManagerMixin:
         super().__init__()
 
     def _send_document(self, document: io.BytesIO | io.StringIO) -> telegram.Message:
-        return self.bot.send_document(
-                chat_id=self.db, document=document, filename=f"{self.bot.username}.db"
+        msg = self.bot.send_document(
+                chat_id=self.db, document=document, filename=f"{self.bot.username}.db",
         )
+        self.bot.edit_message_caption(
+            caption=f"file_id::{msg.document.file_id}",
+            message_id=msg.message_id,
+            chat_id=self.db
+        )
+        return msg
 
     def download(self, file_id: str) -> bytes | None:
         try:
@@ -104,7 +110,7 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
         successfully_set_description = self.store_file_id_in_description(document.document.file_id)
         if not successfully_set_description:
             # backup for manual recovery
-            self.bot.send_message(self.db, text = f"{self.bot.id}+{document.document.file_id}")
+            self.bot.send_message(self.db, text = f"backup+{self.bot.id}+{document.document.file_id}")
             raise ValueError("Setting description failed")
 
 
