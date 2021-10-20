@@ -20,3 +20,8 @@ pip_install(
     name = "python_test_deps",
     requirements = "//:requirements_testing.txt",
 )
+
+pip_install(
+    name = "python_dev_deps",
+    requirements = "//:requirements_devtools.txt",
+)

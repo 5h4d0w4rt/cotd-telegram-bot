@@ -86,6 +86,20 @@ def secret(
 
 
 @logged_context
+def dump(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
+    _tmpl = "{:<8} {:<15} {:<10}"
+
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=data.ozon_secret,
+    )
+
+
+@logged_context
 def leftie_meme_detector(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,

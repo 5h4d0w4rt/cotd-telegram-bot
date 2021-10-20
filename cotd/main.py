@@ -129,7 +129,10 @@ def main():
                 "handlers": [
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.all,
-                        functools.partial(check_allowed_sources),
+                        functools.partial(
+                            check_allowed_sources,
+                            trusted_sources=dict(users="All", chats=[options.group, options.db]),
+                        ),
                     ),
                 ]
                 if features.feature_enable_security is True

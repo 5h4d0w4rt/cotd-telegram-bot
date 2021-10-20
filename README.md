@@ -4,11 +4,11 @@ cringe of the day bot
 
 ## how to start
 
-1. install python3
-2. export `COTD_TELEGRAM_BOT_TOKEN=` and run
+1. install python3 ([pyenv](https://github.com/pyenv/pyenv) preferred)
+3. export `COTD_TELEGRAM_BOT_TOKEN=`[how to get bot](https://core.telegram.org/bots) and run
 
 ```bash
-   bazel build //...
+   bazel test //...
    bazel run //cotd:cotdbot
 ```
 
@@ -21,9 +21,6 @@ cringe of the day bot
 3. then it will post smiley-cat as a reply
    1. this will require database persistence
 
-## todo
-
-- inline mode 'that's cringe'?
 
 ## stories
 

@@ -114,7 +114,7 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
             raise ValueError("Setting description failed")
 
 
-    def cache(self, data) -> bytes | None:
+    def cache(self, data: bytes | None) -> bytes | None:
         if not self._cache:
             self._cache = data
         return self._cache

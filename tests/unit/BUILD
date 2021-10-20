@@ -8,7 +8,9 @@ package(
 py_test(
     name = "test_static",
     srcs = ["test_static.py"],
-    data = ["//:pytest.ini"],
+    data = [
+        "//:pytest",
+    ],
     imports = ["$(BINDIR)/test_static.runfiles/python_test_deps/pypi__pyfakefs/pyfakefs/pytest_plugin.py"],
     deps = [
         "//cotd:static",
