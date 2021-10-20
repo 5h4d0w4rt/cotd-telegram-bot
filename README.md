@@ -5,11 +5,19 @@ cringe of the day bot
 ## how to start
 
 1. install python3 ([pyenv](https://github.com/pyenv/pyenv) preferred)
+2. get bazelisk
+
+```bash
+
+   brew install bazelisk
+```
+
 3. export `COTD_TELEGRAM_BOT_TOKEN=`[how to get bot](https://core.telegram.org/bots) and run
 
 ```bash
-   bazel test //...
-   bazel run //cotd:cotdbot
+
+   bazelisk test //...
+   bazelisk run //cotd:cotdbot
 ```
 
 ## flow
