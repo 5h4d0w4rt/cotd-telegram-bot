@@ -4,8 +4,6 @@ import io
 import json
 import typing
 from collections import defaultdict
-from zlib import Z_DEFAULT_COMPRESSION
-import zlib
 
 import telegram
 import telegram.ext
@@ -142,10 +140,7 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
             try:
                 return json.loads(gzip.decompress(res))
             except gzip.BadGzipFile:
-                try:
-                    return json.loads(zlib.decompress(res))
-                except zlib.error:
-                    return json.loads(res)
+                return json.loads(res)
 
         return {
             "user_data": None,
