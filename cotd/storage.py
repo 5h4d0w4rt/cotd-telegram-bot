@@ -1,16 +1,16 @@
 import builtins
+import gzip
 import io
 import json
 import typing
-import zlib
 from collections import defaultdict
+from zlib import Z_DEFAULT_COMPRESSION
+import zlib
 
 import telegram
 import telegram.ext
 import telegram.ext.utils.types
-from telegram import user
 from telegram.ext import DictPersistence
-from telegram.ext.basepersistence import BasePersistence
 from telegram.utils.types import FileLike
 
 
@@ -97,7 +97,7 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
 
     def flush(self) -> None:
 
-        data_to_save = zlib.compress(json.dumps(
+        data_to_save = gzip.compress(json.dumps(
             {
                 "db_metadata": self.bot.get_chat(chat_id=self.db).to_dict(),
                 "bot_metadata": self.bot.get_me().to_dict(),
@@ -105,7 +105,7 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
                 "user_data": self.user_data,
                 "chat_data": self.chat_data,
             }
-        ).encode('utf-8'), level=zlib.Z_BEST_COMPRESSION)
+        ).encode('utf-8'))
         document = self.upload(data_to_save)
         successfully_set_description = self.store_file_id_in_description(document.document.file_id)
         if not successfully_set_description:
@@ -140,9 +140,12 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
     def load(self) -> dict:
         if (res := self.cache(self.retrieve_file_from_description())) is not None:
             try:
-                return json.loads(zlib.decompress(res))
-            except zlib.error:
-                return json.loads(res)
+                return json.loads(gzip.decompress(res))
+            except gzip.BadGzipFile:
+                try:
+                    return json.loads(zlib.decompress(res))
+                except zlib.error:
+                    return json.loads(res)
 
         return {
             "user_data": None,
@@ -199,7 +202,8 @@ class TelegramSavedMessagesStorageDev(TelegramDocumentDatabaseManagerMixin, Dict
         self.db = db
 
     def flush(self) -> None:
-        data_to_save = json.dumps(
+
+        data_to_save = gzip.compress(json.dumps(
                 {
                     "db_metadata": self.bot.get_chat(chat_id=self.db).to_dict(),
                     "bot_metadata": self.bot.get_me().to_dict(),
@@ -207,12 +211,12 @@ class TelegramSavedMessagesStorageDev(TelegramDocumentDatabaseManagerMixin, Dict
                     "user_data": self.user_data,
                     "chat_data": self.chat_data,
                 }
-            )
+            ).encode('utf-8'))
         document = self.upload(data_to_save)
         if ( d := self.download(document.document.file_id)) is not None:
             try:
                 print("decompressed")
-                print(json.loads(zlib.decompress(d)))
-            except zlib.error as err:
+                print(json.loads(gzip.decompress(d)))
+            except gzip.BadGzipFile as err:
                 print('failed to decompress, loading json')
                 print(json.loads(d))
