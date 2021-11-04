@@ -16,12 +16,39 @@ filegroup(
     ],
 )
 
+filegroup(
+    name = "_black",
+    srcs = [
+        devtools_entry_point("black"),
+    ],
+)
+
 alias(
     name = "black",
     actual = devtools_entry_point("black"),
+    tags = ["local"],
 )
 
 alias(
     name = "pytest",
     actual = ":_pytest",
+)
+
+alias(
+    name = "binpytest",
+    actual = test_entry_point("pytest"),
+    tags = ["local"],
+)
+
+filegroup(
+    name = "_mypy",
+    srcs = [
+        devtools_entry_point("mypy"),
+    ],
+)
+
+alias(
+    name = "mypy",
+    actual = devtools_entry_point("mypy"),
+    tags = ["local"],
 )
