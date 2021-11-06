@@ -6,8 +6,8 @@ package(
 )
 
 py_test(
-    name = "test_static_unit",
-    srcs = ["test_static_unit.py"],
+    name = "test_static_integration",
+    srcs = ["test_static_integration.py"],
     data = [
         "//:pytest",
     ],
