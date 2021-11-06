@@ -154,7 +154,7 @@ def factory(
         else cotd.storage.TelegramSavedMessagesStorageDev(options.db)
     )
 
-    bot = telegram.Bot(
+    bot = telegram.ext.ExtBot(
         token=envs.token,
         defaults=telegram.ext.Defaults(
             parse_mode="HTML",

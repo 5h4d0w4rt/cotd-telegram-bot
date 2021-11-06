@@ -3,19 +3,31 @@ import operator
 import pathlib
 import typing
 from dataclasses import dataclass
-from os import path
-from types import MappingProxyType
 
+
+
+class BaseStatic(metaclass=abc.ABCMeta):
+    def __init__(self):
+        raise NotImplementedError
+
+    def __getattribute__(self, name: str) -> pathlib.Path:
+        raise NotImplementedError
+
+    def __setattr__(self, name: str, value: str) -> None:
+        raise NotImplementedError
 
 @dataclass
-class Static:
-    files: MappingProxyType
-
-    def __post_init__(self):
+class Static(BaseStatic):
+    def __init__(self, **kwargs):
         """make all instantiated attributes with relative-path-strings to absolute paths"""
-        for meme in self.files:
-            object.__setattr__(self, meme, pathlib.Path(pathlib.Path(self.files[meme]).resolve()))
-        del self.files
+        for meme in kwargs:
+            self.__setattr__(meme, kwargs[meme])
+
+    def __getattribute__(self, name: str) -> pathlib.Path:
+        return object.__getattribute__(self, name)
+
+    def __setattr__(self, name: str, value: str) -> None:
+        object.__setattr__(self, name, pathlib.Path(pathlib.Path(value).resolve()))
 
 
 class BaseStaticReader(metaclass=abc.ABCMeta):

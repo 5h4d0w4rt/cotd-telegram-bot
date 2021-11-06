@@ -2,7 +2,6 @@ import argparse
 import functools
 import os
 import re
-import types
 
 import telegram
 import telegram.ext
@@ -104,8 +103,7 @@ def main():
 
     data = cotd.static.StaticReader(
         cotd.static.Static(
-            files=types.MappingProxyType(
-                dict(
+                **dict(
                     kekw="static/KEKW.mp4",
                     oldfellow="static/oldfellow.mp4",
                     ribnikov="static/ribnikov.based.mp4",
@@ -116,7 +114,6 @@ def main():
                     sf="static/deadinside.jpg",
                     go_away="static/go_away.mp4",
                 )
-            )
         )
     )
 

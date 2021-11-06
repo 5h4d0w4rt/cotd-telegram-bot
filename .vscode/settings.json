@@ -1,12 +1,14 @@
 {
+    // disabled - does not discover, todo investigate
     // "python.testing.pytestArgs": [
     //     "tests",
     //     "tests/unit"
     // ],
     // "python.testing.pytestEnabled": true,
     // "python.testing.pytestPath": "${workspaceFolder}/bazel-bin/external/python_test_deps/pypi__pytest/rules_python_wheel_entry_point_pytest",
-    "python.linting.mypyEnabled": true,
-    "python.linting.mypyPath": "${workspaceFolder}/bazel-bin/external/python_dev_deps/pypi__mypy/rules_python_wheel_entry_point_mypy",
+    // disabled - low performance
+    // "python.linting.mypyEnabled": true,
+    // "python.linting.mypyPath": "${workspaceFolder}/bazel-bin/external/python_dev_deps/pypi__mypy/rules_python_wheel_entry_point_mypy",
     "python.formatting.provider": "black",
     "python.formatting.blackPath": "${workspaceFolder}/bazel-bin/external/python_dev_deps/pypi__black/rules_python_wheel_entry_point_black",
     "python.pythonPath": "${env:HOME}/.pyenv/versions/3.10.0/bin/python",
