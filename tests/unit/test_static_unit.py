@@ -13,6 +13,8 @@ from pyfakefs.fake_filesystem_unittest import Patcher
 
 @dataclass
 class FakeStatic(BaseStatic):
+    test_attribute: FakeFile
+
     def __init__(self, **kwargs: FakeFile):
         for test_meme in kwargs:
             self.__setattr__(test_meme, kwargs[test_meme])
@@ -41,7 +43,6 @@ class StubStaticReader(BaseStaticReader):
     def __init__(self, static, fake_filesystem) -> None:
         self.static = static
         self.fake_filesystem = fake_filesystem
-        super().__init__()
 
     def __getattribute__(self, name: str) -> FakeFileWrapper: # return io.BytesIO-like object
         fake_filesystem = object.__getattribute__(self, "fake_filesystem")
@@ -54,7 +55,6 @@ class StubStaticReader(BaseStaticReader):
 
 @pytest.fixture
 def data(fs: pyfakefs.fake_filesystem.FakeFilesystem) -> FakeStatic:
-    # Static(**{"test_attribute": "/some/where/on/file/system"})
     return FakeStatic(test_attribute=fs.create_file('/tmp/file1', contents=b"contents"))
 
 

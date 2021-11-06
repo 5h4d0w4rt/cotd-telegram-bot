@@ -7,12 +7,15 @@ from dataclasses import dataclass
 
 
 class BaseStatic(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
     def __init__(self):
         raise NotImplementedError
 
+    @abc.abstractmethod
     def __getattribute__(self, name: str) -> pathlib.Path:
         raise NotImplementedError
 
+    @abc.abstractmethod
     def __setattr__(self, name: str, value: str) -> None:
         raise NotImplementedError
 
@@ -41,7 +44,6 @@ class StaticReader(BaseStaticReader):
 
     def __init__(self, static) -> None:
         self.static = static
-        super().__init__()
 
     def __getattribute__(self, name: str) -> typing.BinaryIO:
         """access static holder and make it's attributes readable objects"""
