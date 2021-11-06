@@ -136,23 +136,27 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
 
 
     def load(self) -> dict:
+        default = {
+            "user_data": None,
+            "chat_data": None,
+            "bot_data": None,
+        }
+
         if (res := self.cache(self.retrieve_file_from_description())) is not None:
             try:
                 return json.loads(gzip.decompress(res))
             except gzip.BadGzipFile:
                 return json.loads(res)
 
-        return {
-            "user_data": None,
-            "chat_data": None,
-            "bot_data": None,
-        }
+        return default
 
     def get_user_data(self):
         """"""
         res = self.load()
         if not res:
-            return super().get_user_data()
+            default = super().get_user_data()
+            return default
+
         self._user_data = self._extract_bot_data_from_db(res["user_data"])
         return self._user_data
 
@@ -160,7 +164,9 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
         """"""
         res = self.load()
         if not res:
-            return super().get_bot_data()
+            default = super().get_bot_data()
+            return default
+
         self._bot_data = self._extract_bot_data_from_db(res["bot_data"])
         return self._bot_data
 
@@ -168,7 +174,9 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
         """"""
         res = self.load()
         if not res:
-            return super().get_chat_data()
+            default = super().get_chat_data()
+            return default
+
         self._chat_data = self._extract_bot_data_from_db(res["chat_data"])
         return self._chat_data
 
