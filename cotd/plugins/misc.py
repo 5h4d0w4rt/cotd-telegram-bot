@@ -115,6 +115,7 @@ def leftie_meme_detector(
         9: "а что сказать то хотел?",
         12: "интересное чтиво",
         14: "TL;DR",
+        16: "don't care + didn't ask + L + Ratio + you fell of + cancelled + quote retweet + you're white + suck on deez nuts + caught in 4k + soyjak + cry about it + delete this + cope + seethe + cringe + ok boomer + incel + virgin + Karen + you're not just a clown you're the entire circus + go touch some grass",
     }
     decision = roll_map.get(random.randint(0, 16))
 
