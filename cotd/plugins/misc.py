@@ -141,7 +141,7 @@ def question_mark(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.7):
+    if not _chance(0.3):
         return None
 
     return context.bot.send_message(
@@ -163,7 +163,7 @@ def no_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.5):
+    if not _chance(0.35):
         return None
 
     return context.bot.send_message(
@@ -179,12 +179,12 @@ def yes_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.5):
+    if not _chance(0.35):
         return None
 
     reaction_text = "пизда"
 
-    if _chance(0.2):
+    if _chance(0.3):
         reaction_text = "1/5, чел"
 
     return context.bot.send_message(
