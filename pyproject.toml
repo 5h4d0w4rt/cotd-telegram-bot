@@ -1,6 +1,7 @@
-[mypy]
-mypy_path = /tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__python_telegram_bot,/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__pillow,/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__ratelimit,/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__pytest,/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__pyfakefs,/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__protobuf
-["mypy-telegram.*"]
-ignore_missing_imports = True
-warn_return_any = True
-warn_unused_configs = True
+#[mypy]
+#mypy_path = "/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__python_telegram_bot,/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__pillow,/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__ratelimit,/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__pytest,/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__pyfakefs,/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__protobuf"
+#
+#["mypy-telegram.*"]
+#ignore_missing_imports = True
+#warn_return_any = True
+#warn_unused_configs = True

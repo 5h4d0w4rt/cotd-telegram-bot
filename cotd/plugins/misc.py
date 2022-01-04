@@ -11,6 +11,12 @@ from cotd.static import StaticReader
 from telegram import chat
 
 
+def _chance(percent: float = 0.5):
+    if random.random() < percent:
+        return False
+    return True
+
+
 @logged_context
 def oldfellow_inline(
     update: telegram.Update,
@@ -92,7 +98,6 @@ def dump(
 ) -> telegram.Message:
     _tmpl = "{:<8} {:<15} {:<10}"
 
-
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=data.ozon_secret,
@@ -104,29 +109,29 @@ def leftie_meme_detector(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if len(update.message.text) < 1024:
+
+    if not _chance():
         return None
 
-    roll_map = {
-        1: "опять левацкие мемы постишь...",
-        3: "Разумеется, на приведённое выше рассуждение есть что возразить. Но назвать сказанное идиотизмом всё-таки нельзя: это вполне корректно выстроенная модель.",
-        5: "ну и нахуя ты это высрал?",
-        7: "?",
-        9: "а что сказать то хотел?",
-        12: "интересное чтиво",
-        14: "TL;DR",
-        16: "don't care + didn't ask + L + Ratio + you fell of + cancelled + quote retweet + you're white + suck on deez nuts + caught in 4k + soyjak + cry about it + delete this + cope + seethe + cringe + ok boomer + incel + virgin + Karen + you're not just a clown you're the entire circus + go touch some grass",
-        18: "Кремль взбешен, но что делать — пока не знает",
-    }
-    decision = roll_map.get(random.randint(0, len(roll_map)))
-
-    if not decision:
+    if len(update.message.text) < 1024:
         return None
 
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
-        text=decision,
+        text=random.choice(
+            [
+                "опять левацкие мемы постишь...",
+                "Разумеется, на приведённое выше рассуждение есть что возразить. Но назвать сказанное идиотизмом всё-таки нельзя: это вполне корректно выстроенная модель.",
+                "ну и нахуя ты это высрал?",
+                "?",
+                "а что сказать то хотел?",
+                "интересное чтиво",
+                "TL;DR",
+                "don't care + didn't ask + L + Ratio + you fell of + cancelled + quote retweet + you're white + suck on deez nuts + caught in 4k + soyjak + cry about it + delete this + cope + seethe + cringe + ok boomer + incel + virgin + Karen + you're not just a clown you're the entire circus + go touch some grass",
+                "Кремль взбешен, но что делать — пока не знает",
+            ]
+        ),
     )
 
 
@@ -135,20 +140,20 @@ def question_mark(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {
-        1: "???",
-        2: "слыш ты ебало то завали",
-        3: "ты сейчас быканул или мне показалось?",
-    }
 
-    decision = roll_map.get(random.randint(0, 10))
-    if not decision:
+    if not _chance(0.7):
         return None
 
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
-        text=decision,
+        text=random.choice(
+            [
+                "???",
+                "слыш ты ебало то завали",
+                "ты сейчас быканул или мне показалось?",
+            ]
+        ),
     )
 
 
@@ -157,7 +162,8 @@ def no_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
+
+    if not _chance(0.5):
         return None
 
     return context.bot.send_message(
@@ -172,12 +178,13 @@ def yes_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
+
+    if not _chance(0.5):
         return None
 
     reaction_text = "пизда"
 
-    if random.randint(0, 5) == 3:
+    if _chance(0.2):
         reaction_text = "1/5, чел"
 
     return context.bot.send_message(
@@ -202,7 +209,8 @@ def trista_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 1) == 0:
+
+    if not _chance(0.3):
         return None
 
     return context.bot.send_message(
@@ -217,20 +225,20 @@ def pig_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {
-        1: "🐷",
-        2: "🐽",
-        3: "🐖",
-    }
 
-    decision = roll_map.get(random.randint(0, 5))
-    if not decision:
+    if not _chance():
         return None
 
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
-        text=decision,
+        text=random.choice(
+            [
+                "🐷",
+                "🐽",
+                "🐖",
+            ]
+        ),
     )
 
 
@@ -254,7 +262,8 @@ def stuffy_reaction(
     cache: typing.Type[MediaCache] = None,
     data: typing.Type[StaticReader] = None,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
+
+    if not _chance(0.4):
         return None
 
     return context.bot.send_photo(
@@ -287,7 +296,8 @@ def journalism_reaction(
     cache: typing.Type[MediaCache] = None,
     data: typing.Type[StaticReader] = None,
 ) -> typing.Union[telegram.Message, None]:
-    if random.randint(0, 5) != 3:
+
+    if not _chance(0.4):
         return None
 
     return context.bot.send_photo(
@@ -302,18 +312,18 @@ def gym_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    roll_map = {
-        0: "CgACAgQAAxkBAAICAWDHwlSbdnzRBerbl8fhV6DppkLCAALMAgACUR4UUv1ixkAlxvRIHwQ",
-        3: "CgACAgIAAxkBAAICBGDHw_5wfo37SOuyP3JNgI6gig6VAALDBwACpoWJSx8qHG1cCcQMHwQ",
-        6: "CgACAgIAAxkBAAICBWDHxCIPQ2aZuEk6RaAm_fCXe0DKAAIXAgAC13S5SH7Or-N7YQh4HwQ",
-    }
-    decision = roll_map.get(random.randint(0, 9))
 
-    if not decision:
+    if not _chance():
         return None
 
     return context.bot.send_animation(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
-        animation=decision,
+        animation=random.choice(
+            [
+                "CgACAgQAAxkBAAICAWDHwlSbdnzRBerbl8fhV6DppkLCAALMAgACUR4UUv1ixkAlxvRIHwQ",
+                "CgACAgIAAxkBAAICBGDHw_5wfo37SOuyP3JNgI6gig6VAALDBwACpoWJSx8qHG1cCcQMHwQ",
+                "CgACAgIAAxkBAAICBWDHxCIPQ2aZuEk6RaAm_fCXe0DKAAIXAgAC13S5SH7Or-N7YQh4HwQ",
+            ]
+        ),
     )

@@ -14,7 +14,9 @@
     "python.pythonPath": "${env:HOME}/.pyenv/versions/3.10.0/bin/python",
     "python.formatting.blackArgs": [
         "-l",
-        "100"
+        "100",
+        "--target-version",
+        "py310"
     ],
     // this live at .bazelrc: startup --output_base=/tmp/_bazel/cotd-telegram-bot/output
     // output_base has changed to share libraries properly in vscode
