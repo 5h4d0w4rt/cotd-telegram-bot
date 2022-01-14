@@ -12,7 +12,7 @@ from telegram import chat
 
 
 def _chance(percent: float = 0.5):
-    if random.random() < percent:
+    if round(random.random(), 1) < percent:
         return False
     return True
 
