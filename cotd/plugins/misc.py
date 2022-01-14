@@ -141,7 +141,7 @@ def bot_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.3):
+    if not _chance(0.15):
         return None
 
     return context.bot.send_message(
@@ -151,6 +151,8 @@ def bot_reaction(
             [
                 "что хотел?",
                 "а что опять я то?",
+                "пошёл нахуй",
+                "я и так пашу без отдыха, а тут ты ещё",
             ]
         ),
     )
