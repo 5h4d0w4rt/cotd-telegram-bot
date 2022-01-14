@@ -56,6 +56,8 @@ re_massacre = re.compile(r".*резня.*", re.IGNORECASE)
 re_spotify = re.compile(r".*open\.spotify\.com.*", re.IGNORECASE)
 # Fuck does Cuno care?
 re_cuno = re.compile(r"похуй|мне похуй", re.IGNORECASE)
+# It's me!
+re_bot = re.compile(r".* бот(|а|у) .*", re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -177,7 +179,7 @@ def main():
                         functools.partial(music_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(["бот","бота","боту"]),
+                        telegram.ext.Filters.regex(re_bot),
                         functools.partial(bot_reaction),
                     ),
                     telegram.ext.MessageHandler(
