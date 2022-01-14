@@ -177,7 +177,7 @@ def main():
                         functools.partial(music_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.text(["бот"]),
+                        telegram.ext.Filters.text(["бот","бота","боту"]),
                         functools.partial(bot_reaction),
                     ),
                     telegram.ext.MessageHandler(
