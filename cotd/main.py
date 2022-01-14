@@ -27,6 +27,7 @@ from cotd.plugins.misc import (
     music_reaction,
     no_reaction,
     pig_reaction,
+    bot_reaction,
     question_mark,
     secret,
     stuffy_reaction,
@@ -46,7 +47,7 @@ re_stuffy_handler = re.compile(r".*душ(ный|нила|но|ишь|ара).*"
 # piggy
 re_piggy = re.compile(r".*хрю.*", re.IGNORECASE)
 # watermelon
-re_watermelon = re.compile(r".*арбуз.*", re.IGNORECASE)
+re_watermelon = re.compile(r".*(а|a)(р|p)б(у|y)з.*", re.IGNORECASE)
 # 300
 re_300 = re.compile(r".* 300 .*|.* триста .*|^300$|^300 .*|^триста$|^триста .*", re.IGNORECASE)
 # massacre
@@ -174,6 +175,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_spotify),
                         functools.partial(music_reaction, data=data, cache=cache),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.text(["бот"]),
+                        functools.partial(bot_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["?", "??", "???"]),

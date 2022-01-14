@@ -136,6 +136,27 @@ def leftie_meme_detector(
 
 
 @logged_context
+def bot_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+
+    if not _chance(0.3):
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text=random.choice(
+            [
+                "что хотел?",
+                "а что опять я то?",
+            ]
+        ),
+    )
+
+
+@logged_context
 def question_mark(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
