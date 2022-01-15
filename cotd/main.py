@@ -60,7 +60,7 @@ re_spotify = re.compile(r".*open\.spotify\.com.*", re.IGNORECASE)
 # Fuck does Cuno care?
 re_cuno = re.compile(r"похуй|мне похуй", re.IGNORECASE)
 # It's me!
-re_bot = re.compile(r".* бот(|а|у) .*|.*бот$|бо(т|та|ту).*", re.IGNORECASE)
+re_bot = re.compile(r".* бот(|а|у) .*|^бо(т|та|ту).*", re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
