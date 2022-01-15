@@ -155,6 +155,26 @@ def bot_reaction(
         ),
     )
 
+logged_context
+def patriot_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+
+    if not _chance(0.5):
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text=random.choice(
+            [
+                "Побольше бы таких новостей!",
+                "РОССИЯ🇷🇺РОССИЯ🇷🇺РОССИЯ",
+            ]
+        ),
+    )
+
 
 @logged_context
 def question_mark(
