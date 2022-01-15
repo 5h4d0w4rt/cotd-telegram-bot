@@ -21,6 +21,7 @@ from cotd.plugins.misc import (
     goaway,
     gym_reaction,
     journalism_reaction,
+    patriot_reaction,
     kekw,
     leftie_meme_detector,
     massacre_reaction,
@@ -40,6 +41,8 @@ from cotd.plugins.security import check_allowed_sources
 
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
+# a regular expression that matches news from blacklist.
+re_news_whitelist = re.compile(r".*rt_russian.*", re.IGNORECASE)
 # a regular expression that matches gym.
 re_gym = re.compile(r".*качалк.*", re.IGNORECASE)
 # a regular expression that matches stuffy words.
@@ -165,6 +168,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_news_blacklist),
                         functools.partial(journalism_reaction, data=data, cache=cache),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_news_whitelist),
+                        functools.partial(patriot_reaction, data=data, cache=cache),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_gym),
