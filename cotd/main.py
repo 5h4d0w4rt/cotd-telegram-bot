@@ -171,7 +171,7 @@ def main():
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_news_whitelist),
-                        functools.partial(patriot_reaction, data=data, cache=cache),
+                        functools.partial(patriot_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_gym),
