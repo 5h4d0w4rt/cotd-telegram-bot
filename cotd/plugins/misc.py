@@ -134,6 +134,43 @@ def leftie_meme_detector(
 
 
 @logged_context
+@functools.partial(cacheable_handler, key="journalism", path="photo[0].file_id")
+def journalism_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[StaticReader] = None,
+) -> typing.Union[telegram.Message, None]:
+
+    if not _chance(0.4):
+        return None
+
+    return context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id,
+        photo=cache.journalism or data.journalism,
+    )
+
+
+@logged_context
+def patriot_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text=random.choice(
+            [
+                "Побольше бы таких новостей!",
+                "РОССИЯ🇷🇺РОССИЯ🇷🇺РОССИЯ",
+            ]
+        ),
+    )
+
+
+@logged_context
 def bot_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -151,22 +188,6 @@ def bot_reaction(
                 "а что опять я то?",
                 "пошёл нахуй",
                 "я и так пашу без отдыха, а тут ты ещё",
-            ]
-        ),
-    )
-
-logged_context
-def patriot_reaction(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-) -> typing.Union[telegram.Message, None]:
-    return context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        reply_to_message_id=update.message.message_id,
-        text=random.choice(
-            [
-                "Побольше бы таких новостей!",
-                "РОССИЯ🇷🇺РОССИЯ🇷🇺РОССИЯ",
             ]
         ),
     )
@@ -322,25 +343,6 @@ def music_reaction(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.effective_message.message_id,
         photo=cache.music or data.music,
-    )
-
-
-@logged_context
-@functools.partial(cacheable_handler, key="journalism", path="photo[0].file_id")
-def journalism_reaction(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-    cache: typing.Type[MediaCache] = None,
-    data: typing.Type[StaticReader] = None,
-) -> typing.Union[telegram.Message, None]:
-
-    if not _chance(0.4):
-        return None
-
-    return context.bot.send_photo(
-        chat_id=update.effective_chat.id,
-        reply_to_message_id=update.effective_message.message_id,
-        photo=cache.journalism or data.journalism,
     )
 
 
