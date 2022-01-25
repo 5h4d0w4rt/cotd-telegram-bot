@@ -179,7 +179,7 @@ def bot_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.15):
+    if not _chance(0.35):
         return None
 
     return context.bot.send_message(
