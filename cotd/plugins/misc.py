@@ -168,6 +168,7 @@ def patriot_reaction(
             [
                 "Побольше бы таких новостей!",
                 "РОССИЯ🇷🇺РОССИЯ🇷🇺РОССИЯ",
+                "так победим!",
             ]
         ),
     )
@@ -231,6 +232,22 @@ def no_reaction(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
         text="пидора ответ",
+    )
+
+
+@logged_context
+def grass_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+
+    if not _chance(0.35):
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text="бро, пойди потрогай траву",
     )
 
 
