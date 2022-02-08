@@ -27,6 +27,7 @@ from cotd.plugins.misc import (
     massacre_reaction,
     music_reaction,
     no_reaction,
+    grass_reaction,
     pig_reaction,
     bot_reaction,
     question_mark,
@@ -61,6 +62,8 @@ re_spotify = re.compile(r".*open\.spotify\.com.*", re.IGNORECASE)
 re_cuno = re.compile(r"похуй|мне похуй", re.IGNORECASE)
 # It's me!
 re_bot = re.compile(r".* бот(|а|у) .*|^бо(т|та|ту).*", re.IGNORECASE)
+# oh shit, i'm sorry!
+re_gacha = re.compile(r".* гач(|а|у|и) .*|^гач(а|у|и).*", re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -200,6 +203,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text(["Да.", "Да", "да", "да."]),
                         functools.partial(yes_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_gacha),
+                        functools.partial(grass_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_piggy),
