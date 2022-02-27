@@ -1,6 +1,7 @@
 import datetime
 import random
 import typing
+import datetime
 
 import telegram
 import telegram.ext
@@ -93,6 +94,7 @@ kandinsky_messages = [
 
 kandinsky_max = 1  # TODO: rename
 kandinsky_chances = {}  # TODO: rename
+kandinsky_last = datetime.datetime.now()
 
 
 @logged_context
@@ -100,6 +102,14 @@ def kandinsky_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
+    now = datetime.datetime.now()
+    time_diff = now - kandinsky_last
+
+    if time_diff.total_seconds() < 180:
+        return None
+
+    kandinsky_last = now
+
     if random.randint(0, 3) != 2:
         return None
 
