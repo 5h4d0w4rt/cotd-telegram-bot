@@ -102,8 +102,13 @@ def kandinsky_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
+    global kandinsky_last
+
     now = datetime.datetime.now()
     time_diff = now - kandinsky_last
+
+    if time_diff.total_seconds() < 180:
+        return None
 
     kandinsky_last = now
 
