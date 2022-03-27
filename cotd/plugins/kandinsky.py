@@ -105,9 +105,6 @@ def kandinsky_handler(
     now = datetime.datetime.now()
     time_diff = now - kandinsky_last
 
-    if time_diff.total_seconds() < 180:
-        return None
-
     kandinsky_last = now
 
     if random.randint(0, 3) != 2:
