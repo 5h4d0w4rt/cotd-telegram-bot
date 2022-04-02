@@ -11,7 +11,7 @@
     // "python.linting.mypyPath": "${workspaceFolder}/bazel-bin/external/python_dev_deps/pypi__mypy/rules_python_wheel_entry_point_mypy",
     "python.formatting.provider": "black",
     "python.formatting.blackPath": "${workspaceFolder}/bazel-bin/external/python_dev_deps/pypi__black/rules_python_wheel_entry_point_black",
-    "python.pythonPath": "${env:HOME}/.pyenv/versions/3.10.0/bin/python",
+    "python.defaultInterpreterPath": "${env:HOME}/.pyenv/versions/3.10.0/bin/python",
     "python.formatting.blackArgs": [
         "-l",
         "100",
@@ -28,7 +28,6 @@
         "/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__pyfakefs",
         "/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__protobuf",
     ],
-    "python.analysis.cacheFolderPath": "${workspaceFolder}/.pyanalysis",
     "python.analysis.diagnosticMode": "openFilesOnly",
     "bazel.buildifierFixOnFormat": true,
     "bazel.enableCodeLens": true,

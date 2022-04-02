@@ -16,6 +16,7 @@ class TelegramDocumentDatabaseManagerMixin:
     """This mixin class is responsible for upload/download and managing "database"(chat that bot controls)
     This is mixin expected to be mixed to storage class that will write to telegram channel as a backend
     """
+
     bot: telegram.Bot
     db: str
     DELIMETER = "::"
@@ -26,12 +27,12 @@ class TelegramDocumentDatabaseManagerMixin:
 
     def _send_document(self, document: io.BytesIO | io.StringIO) -> telegram.Message:
         msg = self.bot.send_document(
-                chat_id=self.db, document=document, filename=f"{self.bot.username}.db",
+            chat_id=self.db,
+            document=document,
+            filename=f"{self.bot.username}.db",
         )
         self.bot.edit_message_caption(
-            caption=f"file_id::{msg.document.file_id}",
-            message_id=msg.message_id,
-            chat_id=self.db
+            caption=f"file_id::{msg.document.file_id}", message_id=msg.message_id, chat_id=self.db
         )
         return msg
 
@@ -47,8 +48,7 @@ class TelegramDocumentDatabaseManagerMixin:
     def store_file_id_in_description(self, file_id: str) -> bool:
         """encode uploaded file_id to description for later retrieval"""
         return self.bot.set_chat_description(
-            chat_id=self.db,
-            description=f"{self.bot.id}{self.DELIMETER}{file_id}"
+            chat_id=self.db, description=f"{self.bot.id}{self.DELIMETER}{file_id}"
         )
 
     def retrieve_file_from_description(self) -> bytes | None:
@@ -80,8 +80,8 @@ class TelegramDocumentDatabaseManagerMixin:
             case _:
                 raise ValueError("Data should be either of bytes or str type")
 
-class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPersistence):
 
+class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPersistence):
     def __init__(self, db):
         self._data = None
         self._cache = None
@@ -95,22 +95,23 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
 
     def flush(self) -> None:
 
-        data_to_save = gzip.compress(json.dumps(
-            {
-                "db_metadata": self.bot.get_chat(chat_id=self.db).to_dict(),
-                "bot_metadata": self.bot.get_me().to_dict(),
-                "bot_data": self.bot_data,
-                "user_data": self.user_data,
-                "chat_data": self.chat_data,
-            }
-        ).encode('utf-8'))
+        data_to_save = gzip.compress(
+            json.dumps(
+                {
+                    "db_metadata": self.bot.get_chat(chat_id=self.db).to_dict(),
+                    "bot_metadata": self.bot.get_me().to_dict(),
+                    "bot_data": self.bot_data,
+                    "user_data": self.user_data,
+                    "chat_data": self.chat_data,
+                }
+            ).encode("utf-8")
+        )
         document = self.upload(data_to_save)
         successfully_set_description = self.store_file_id_in_description(document.document.file_id)
         if not successfully_set_description:
             # backup for manual recovery
-            self.bot.send_message(self.db, text = f"backup+{self.bot.id}+{document.document.file_id}")
+            self.bot.send_message(self.db, text=f"backup+{self.bot.id}+{document.document.file_id}")
             raise ValueError("Setting description failed")
-
 
     def cache(self, data: bytes | None) -> bytes | None:
         if not self._cache:
@@ -133,7 +134,6 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
                     nested_key
                 ]
         return out
-
 
     def load(self) -> dict:
         default = {
@@ -206,7 +206,8 @@ class TelegramSavedMessagesStorageDev(TelegramDocumentDatabaseManagerMixin, Dict
 
     def flush(self) -> None:
 
-        data_to_save = gzip.compress(json.dumps(
+        data_to_save = gzip.compress(
+            json.dumps(
                 {
                     "db_metadata": self.bot.get_chat(chat_id=self.db).to_dict(),
                     "bot_metadata": self.bot.get_me().to_dict(),
@@ -214,12 +215,13 @@ class TelegramSavedMessagesStorageDev(TelegramDocumentDatabaseManagerMixin, Dict
                     "user_data": self.user_data,
                     "chat_data": self.chat_data,
                 }
-            ).encode('utf-8'))
+            ).encode("utf-8")
+        )
         document = self.upload(data_to_save)
-        if ( d := self.download(document.document.file_id)) is not None:
+        if (d := self.download(document.document.file_id)) is not None:
             try:
                 print("decompressed")
                 print(json.loads(gzip.decompress(d)))
             except gzip.BadGzipFile as err:
-                print('failed to decompress, loading json')
+                print("failed to decompress, loading json")
                 print(json.loads(d))

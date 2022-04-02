@@ -7,7 +7,7 @@ def _log_formatter():
     )
 
 
-def get_logger(name: str, level: str) -> logging.Logger:
+def get_logger(name: str, level: str, formatter_factory=_log_formatter) -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(level)
 

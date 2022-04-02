@@ -9,7 +9,6 @@ import operator
 
 pytest_plugins = ("pyfakefs",)  # this is imported from BUILD bazel file for tests
 
-from pyfakefs.fake_filesystem_unittest import Patcher
 
 @dataclass
 class FakeStatic(BaseStatic):

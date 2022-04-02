@@ -112,17 +112,17 @@ def main():
 
     data = cotd.static.StaticReader(
         cotd.static.Static(
-                **dict(
-                    kekw="static/KEKW.mp4",
-                    oldfellow="static/oldfellow.mp4",
-                    ribnikov="static/ribnikov.based.mp4",
-                    sniff_dog="static/cringe-sniff-dog.jpg",
-                    stuffy="static/stuffy.jpg",
-                    music="static/music.jpg",
-                    journalism="static/journalism.jpg",
-                    sf="static/deadinside.jpg",
-                    go_away="static/go_away.mp4",
-                )
+            **dict(
+                kekw="static/KEKW.mp4",
+                oldfellow="static/oldfellow.mp4",
+                ribnikov="static/ribnikov.based.mp4",
+                sniff_dog="static/cringe-sniff-dog.jpg",
+                stuffy="static/stuffy.jpg",
+                music="static/music.jpg",
+                journalism="static/journalism.jpg",
+                sf="static/deadinside.jpg",
+                go_away="static/go_away.mp4",
+            )
         )
     )
 

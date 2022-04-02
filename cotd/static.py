@@ -5,7 +5,6 @@ import typing
 from dataclasses import dataclass
 
 
-
 class BaseStatic(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def __init__(self):
@@ -18,6 +17,7 @@ class BaseStatic(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def __setattr__(self, name: str, value: str) -> None:
         raise NotImplementedError
+
 
 @dataclass
 class Static(BaseStatic):

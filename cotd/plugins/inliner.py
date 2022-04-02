@@ -12,11 +12,14 @@ from cotd.static import StaticReader
 
 ONE_SECOND = 1
 
+
 @ratelimit.sleep_and_retry
 @ratelimit.limits(
     calls=1, period=ONE_SECOND
 )  # recommended per https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this
-def menu(update: telegram.Update, context: telegram.ext.CallbackContext, data: typing.Type[StaticReader]) -> bool:
+def menu(
+    update: telegram.Update, context: telegram.ext.CallbackContext, data: typing.Type[StaticReader]
+) -> bool:
     if update.inline_query.query:
         match update.inline_query.query:
             case "menu" | "меню":

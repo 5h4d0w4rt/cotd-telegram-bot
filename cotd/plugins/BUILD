@@ -2,21 +2,21 @@ load("@rules_python//python:defs.bzl", "py_library")
 load("@python_runtime_deps//:requirements.bzl", "requirement")
 
 package(
-    default_visibility = ["//visibility:public"],
+    default_visibility=["//visibility:public"],
 )
 
 py_library(
-    name = "helpers",
-    srcs = ["helpers.py"],
-    deps = [
+    name="helpers",
+    srcs=["helpers.py"],
+    deps=[
         requirement("python-telegram-bot"),
         requirement("pillow"),
     ],
 )
 
 py_library(
-    name = "all",
-    srcs = [
+    name="all",
+    srcs=[
         "anti_voice.py",
         "cringelord.py",
         "cringer.py",
@@ -28,8 +28,8 @@ py_library(
         "prospector.py",
         "security.py",
     ],
-    data = ["//static:lobster.ttf"],
-    deps = [
+    data=["//static:lobster.ttf"],
+    deps=[
         requirement("python-telegram-bot"),
         requirement("pillow"),
         requirement("ratelimit"),
