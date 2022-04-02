@@ -89,12 +89,11 @@ kandinsky_messages = [
     "Фото, заряженное на позитив",
     "прошлогодний мэм",
     "мы",
-    "если бы мы знали что это такое"
+    "если бы мы знали что это такое",
 ]
 
 kandinsky_max = 1  # TODO: rename
 kandinsky_chances = {}  # TODO: rename
-kandinsky_last = datetime.datetime.now()
 
 
 @logged_context
@@ -102,15 +101,34 @@ def kandinsky_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    global kandinsky_last
 
-    now = datetime.datetime.now()
-    time_diff = now - kandinsky_last
+    # throttle picture spam in chat when album of pictures is sent
+    # only one picture will be handled per threshold
+    # TODO better handle that with delayed message https://core.telegram.org/method/messages.sendMessage#schedule_date
+    throttle_threshold_seconds = 180
+    kandinsky_timer_storage_key = "kandinsky_throttle_timer"
+    kandinsky_trigger_time = datetime.datetime.now()
 
-    if time_diff.total_seconds() < 180:
-        return None
+    # if timer is set and less than threshold
+    # stop the processing of picture and exit
+    if kandinsky_timer_storage_key in context.bot_data:
+        kandinsky_last_trigger_time = datetime.datetime.fromisoformat(
+            context.bot_data[kandinsky_timer_storage_key]
+        )
+        context.dispatcher.logger.debug(
+            f"Kandinsky timer: {kandinsky_last_trigger_time}; current time: {kandinsky_trigger_time} "
+        )
 
-    kandinsky_last = now
+        if (
+            kandinsky_trigger_time - kandinsky_last_trigger_time
+        ).total_seconds() < throttle_threshold_seconds:
+            return None
+
+    context.dispatcher.logger.debug(f"Update kandinsky timer with: {kandinsky_trigger_time}")
+
+    context.bot_data[kandinsky_timer_storage_key] = datetime.datetime.isoformat(
+        kandinsky_trigger_time
+    )
 
     if random.randint(0, 3) != 2:
         return None
