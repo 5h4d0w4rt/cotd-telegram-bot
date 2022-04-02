@@ -21,14 +21,21 @@
     // this live at .bazelrc: startup --output_base=/tmp/_bazel/cotd-telegram-bot/output
     // output_base has changed to share libraries properly in vscode
     "python.analysis.extraPaths": [
-        "/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__python_telegram_bot",
+        "/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__python_telegram_bot/telegram",
         "/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__pillow",
         "/tmp/_bazel/cotd-telegram-bot/output/external/python_runtime_deps/pypi__ratelimit",
         "/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__pytest",
         "/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__pyfakefs",
         "/tmp/_bazel/cotd-telegram-bot/output/external/python_test_deps/pypi__protobuf",
+        "${workspaceFolder}/bazel-cotd-telegram-bot/external/python_runtime_deps/pypi__python_telegram_bot",
+        "${workspaceFolder}/bazel-cotd-telegram-bot/external/python_runtime_deps/pypi__pillow",
+        "${workspaceFolder}/bazel-cotd-telegram-bot/external/python_runtime_deps/pypi__ratelimit",
+        "${workspaceFolder}/bazel-bin/cotd/cotdbot.runfiles/python_runtime_deps/pypi__python_telegram_bot",
+        "${workspaceFolder}/bazel-bin/cotd/cotdbot.runfiles/python_runtime_deps/pypi__pillow",
+        "${workspaceFolder}/bazel-bin/cotd/cotdbot.runfiles/python_runtime_deps/pypi__ratelimit",
     ],
     "python.analysis.diagnosticMode": "openFilesOnly",
+    "python.analysis.indexing": true,
     "bazel.buildifierFixOnFormat": true,
     "bazel.enableCodeLens": true,
 }
