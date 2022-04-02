@@ -6,6 +6,7 @@ import datetime
 import telegram
 import telegram.ext
 from cotd.plugins.helpers import logged_context, make_image
+from cotd.utils import check_timer
 from PIL import Image
 
 
@@ -107,31 +108,22 @@ def kandinsky_handler(
     # TODO better handle that with delayed message https://core.telegram.org/method/messages.sendMessage#schedule_date
     throttle_threshold_seconds = 180
     kandinsky_timer_storage_key = "kandinsky_throttle_timer"
-    kandinsky_trigger_time = datetime.datetime.now()
 
     # if timer is set and less than threshold
     # stop the processing of picture and exit
     if kandinsky_timer_storage_key in context.bot_data:
-        kandinsky_last_trigger_time = datetime.datetime.fromisoformat(
-            context.bot_data[kandinsky_timer_storage_key]
-        )
-        context.dispatcher.logger.debug(
-            f"Kandinsky timer: {kandinsky_last_trigger_time}; current time: {kandinsky_trigger_time} "
-        )
-
-        if (
-            kandinsky_trigger_time - kandinsky_last_trigger_time
-        ).total_seconds() < throttle_threshold_seconds:
+        if not check_timer(
+            datetime.datetime.now(),
+            datetime.datetime.fromisoformat(context.bot_data[kandinsky_timer_storage_key]),
+            throttle_threshold_seconds,
+        ):
             return None
 
-    context.dispatcher.logger.debug(f"Update kandinsky timer with: {kandinsky_trigger_time}")
+    context.dispatcher.logger.debug(f"Update kandinsky timer with: {datetime.datetime.now()}")
 
     context.bot_data[kandinsky_timer_storage_key] = datetime.datetime.isoformat(
-        kandinsky_trigger_time
+        datetime.datetime.now()
     )
-
-    if random.randint(0, 3) != 2:
-        return None
 
     x = 0
     i = 0

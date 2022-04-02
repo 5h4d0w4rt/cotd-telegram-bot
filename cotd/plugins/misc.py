@@ -8,11 +8,8 @@ import telegram.ext
 from cotd.cacher import MediaCache
 from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context
 from cotd.static import StaticReader
+from cotd.utils import check_chance
 from telegram import chat
-
-
-def _chance(percent: float = 0.5):
-    return round(random.random(), 1) < percent
 
 
 @logged_context
@@ -108,7 +105,7 @@ def leftie_meme_detector(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance():
+    if not check_chance():
         return None
 
     if len(update.message.text) < 1024:
@@ -142,7 +139,7 @@ def journalism_reaction(
     data: typing.Type[StaticReader] = None,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.4):
+    if not check_chance(0.4):
         return None
 
     return context.bot.send_photo(
@@ -158,7 +155,7 @@ def patriot_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(1):
+    if not check_chance(1):
         return None
 
     return context.bot.send_message(
@@ -180,7 +177,7 @@ def bot_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.35):
+    if not check_chance(0.35):
         return None
 
     return context.bot.send_message(
@@ -203,7 +200,7 @@ def question_mark(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.3):
+    if not check_chance(0.3):
         return None
 
     return context.bot.send_message(
@@ -225,7 +222,7 @@ def no_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.35):
+    if not check_chance(0.35):
         return None
 
     return context.bot.send_message(
@@ -241,7 +238,7 @@ def grass_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.35):
+    if not check_chance(0.35):
         return None
 
     return context.bot.send_message(
@@ -257,12 +254,12 @@ def yes_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.35):
+    if not check_chance(0.35):
         return None
 
     reaction_text = "пизда"
 
-    if _chance(0.3):
+    if check_chance(0.3):
         reaction_text = "1/5, чел"
 
     return context.bot.send_message(
@@ -288,7 +285,7 @@ def trista_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.3):
+    if not check_chance(0.3):
         return None
 
     return context.bot.send_message(
@@ -304,7 +301,7 @@ def pig_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance():
+    if not check_chance():
         return None
 
     return context.bot.send_message(
@@ -341,7 +338,7 @@ def stuffy_reaction(
     data: typing.Type[StaticReader] = None,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance(0.4):
+    if not check_chance(0.4):
         return None
 
     return context.bot.send_photo(
@@ -372,7 +369,7 @@ def gym_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not _chance():
+    if not check_chance():
         return None
 
     return context.bot.send_animation(

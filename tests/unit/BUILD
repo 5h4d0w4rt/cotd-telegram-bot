@@ -18,3 +18,17 @@ py_test(
         requirement("pyfakefs"),
     ],
 )
+
+py_test(
+    name = "test_utils_unit",
+    srcs = ["test_utils_unit.py"],
+    data = [
+        "//:pytest",
+    ],
+    imports = ["$(BINDIR)/test_static.runfiles/python_test_deps/pypi__pyfakefs/pyfakefs/pytest_plugin.py"],
+    deps = [
+        "//cotd:utils",
+        requirement("pytest"),
+        requirement("pyfakefs"),
+    ],
+)
