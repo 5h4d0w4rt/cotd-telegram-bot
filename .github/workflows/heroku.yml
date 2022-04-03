@@ -30,6 +30,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           ls .
+          shopt -s globstar
           cat bazel-testlogs/**/*.log
 
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
