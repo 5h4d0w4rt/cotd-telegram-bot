@@ -22,6 +22,7 @@ jobs:
 
       - name: build
         run: |
+          sudo apt install -y ffmpeg
           bazel build //...
           bazel test //...
 
