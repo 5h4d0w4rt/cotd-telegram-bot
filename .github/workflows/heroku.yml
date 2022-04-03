@@ -22,7 +22,8 @@ jobs:
 
       - name: build
         run: |
-          sudo apt install -y ffmpeg
+          sudo apt update
+          sudo apt install -y --fix-missing ffmpeg
           bazel build //...
           bazel test //...
 
