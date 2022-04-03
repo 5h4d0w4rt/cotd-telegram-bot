@@ -4,6 +4,7 @@ import typing
 import telegram
 import telegram.ext
 from cotd.plugins.helpers import logged_context
+from cotd.utils import check_chance
 
 
 @logged_context
@@ -19,7 +20,8 @@ def voice_reaction(
         "не могу послушать твоё голосове, мне оторвало уши",
         "пиши давай",
     ]
-    if random.randint(0, 5) != 3:
+
+    if not check_chance():
         msg = voice_messages[random.randint(0, len(voice_messages) - 1)]
 
         return context.bot.send_message(
