@@ -24,6 +24,11 @@ jobs:
         run: |
           bazel build //...
           bazel test //...
+
+      # https://docs.github.com/en/actions/learn-github-actions/expressions#failure conditional job
+      - name: cat logs on failure
+        if: ${{ failure() }}
+        run: |
           cat ./bazel-testlogs/tests/**/*.log
 
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
