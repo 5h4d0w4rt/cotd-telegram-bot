@@ -24,7 +24,7 @@ jobs:
         run: |
           bazel build //...
           bazel test //...
-          ls .
+          cat ./bazel-testlogs/tests/**/*.log
 
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
