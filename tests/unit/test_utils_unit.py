@@ -62,6 +62,30 @@ def test_utils_check_timer_return_true_when_timer_is_expired(
     )
 
 
+@pytest.fixture
+def webm_test_out_file():
+    import pathlib
+
+    out = pathlib.Path("test.mp4")
+    yield out
+    out.unlink()
+
+
+def test_utils_webm_to_mp4_return_false(webm_test_out_file):
+    from cotd.utils import webm_to_mp4
+    import subprocess
+
+    # ins = pathlib.Path("test.webm").absolute()
+
+    assert webm_to_mp4() == 0
+    assert (
+        subprocess.run(
+            ["ffmpeg", "-v", "error", "-i", webm_test_out_file, "-f", "null", "-"]
+        ).returncode
+        == 0
+    )
+
+
 if __name__ == "__main__":
     import sys
 

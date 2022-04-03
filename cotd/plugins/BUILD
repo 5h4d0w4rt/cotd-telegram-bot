@@ -27,6 +27,7 @@ py_library(
         "motivationv2.py",
         "prospector.py",
         "security.py",
+        "webm_to_mp4.py",
     ],
     data = ["//static:lobster.ttf"],
     deps = [
