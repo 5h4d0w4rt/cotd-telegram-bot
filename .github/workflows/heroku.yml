@@ -29,7 +29,8 @@ jobs:
       - name: cat logs on failure
         if: ${{ failure() }}
         run: |
-          cat ./bazel-testlogs/tests/**/*.log
+          ls .
+          cat bazel-testlogs/**/*.log
 
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
