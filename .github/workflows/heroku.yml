@@ -24,7 +24,7 @@ jobs:
         # sudo apt install -y --fix-missing ffmpeg
       - name: build
         run: |
-          cp vendor/amd64/ffmpeg /bin/
+          cp vendor/ffmpeg/amd64/ffmpeg /bin/
           bazel build //...
           bazel test //...
 
