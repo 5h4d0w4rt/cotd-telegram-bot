@@ -88,7 +88,7 @@ def fake_webm_to_mp4(outs):
 
     return out.returncode
 
-
+@pytest.mark.xfail(reason="ffmpeg is disabled, expected to fail")
 def test_utils_webm_to_mp4_return_false(webm_test_out_file):
     import subprocess
 
