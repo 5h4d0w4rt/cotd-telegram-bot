@@ -32,9 +32,9 @@ def _webm_converter_handler_impl(
         dl_video_file.write(requests.get(dl_video_link, allow_redirects=True).content)
 
     try:
-        status, err = webm_to_mp4(dl_video_path, converted_video_path)
-    except:
-        pass
+        status = webm_to_mp4(dl_video_path, converted_video_path)
+    except Exception as err:
+        raise
     finally:
         if status != 0:
             print(err)
@@ -50,14 +50,9 @@ def webm_converter_handler(
 ) -> typing.Union[telegram.Message, None]:
 
     converted_video = _webm_converter_handler_impl(update, context)
-
-    try:
-        context.bot.send_video(
-            chat_id=update.effective_chat.id,
-            reply_to_message_id=update.message.message_id,
-            video=open(pathlib.Path(converted_video), "rb"),
-        )
-    except:
-        pass
-    finally:
-        converted_video.unlink()
+    context.bot.send_video(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        video=open(pathlib.Path(converted_video), "rb"),
+    )
+    converted_video.unlink()

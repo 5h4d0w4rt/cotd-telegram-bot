@@ -162,6 +162,19 @@ def main():
         ),
         cotd.service.HandlerGroup(
             **{
+                "group_index": -98,
+                "handlers": [
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_webm_link),
+                        functools.partial(webm_converter_handler),
+                    ),
+                ]
+                if features.feature_enable_webm_converter
+                else [],
+            }
+        ),
+        cotd.service.HandlerGroup(
+            **{
                 "group_index": 1,
                 "handlers": [
                     telegram.ext.MessageHandler(
@@ -235,10 +248,6 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.text,
                         functools.partial(leftie_meme_detector),
-                    ),
-                    telegram.ext.MessageHandler(
-                        telegram.ext.Filters.regex(re_webm_link),
-                        functools.partial(webm_converter_handler),
                     ),
                 ]
                 + []
