@@ -236,13 +236,12 @@ def main():
                         telegram.ext.Filters.text,
                         functools.partial(leftie_meme_detector),
                     ),
-                ]
-                + [
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_webm_link),
                         functools.partial(webm_converter_handler),
-                    )
+                    ),
                 ]
+                + []
                 if features.feature_enable_webm_converter
                 else [],
             }
