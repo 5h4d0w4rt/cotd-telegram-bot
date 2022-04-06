@@ -38,4 +38,7 @@
     "python.analysis.indexing": true,
     "bazel.buildifierFixOnFormat": true,
     "bazel.enableCodeLens": true,
+    "terminal.integrated.env.osx": {
+        "PATH": "${workspaceFolder}/vendor/ffmpeg/osx:${env:PATH}"
+    }
 }
