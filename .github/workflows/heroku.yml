@@ -24,7 +24,8 @@ jobs:
         # sudo apt install -y --fix-missing ffmpeg
       - name: build
         run: |
-          cp vendor/ffmpeg/amd64/ffmpeg /bin/
+          cp vendor/ffmpeg/amd64/ffmpeg /usr/local/bin
+          export PATH=`pwd`/vendor/ffmpeg/amd64:$PATH
           bazel build //...
           bazel test //...
 
