@@ -71,13 +71,28 @@ def webm_test_out_file():
     out.unlink()
 
 
-def test_utils_webm_to_mp4_return_false(webm_test_out_file):
-    from cotd.utils import webm_to_mp4
+def fake_webm_to_mp4(outs):
     import subprocess
 
-    # ins = pathlib.Path("test.webm").absolute()
+    out = subprocess.run(
+        [
+            "ffmpeg",
+            "-y",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc2=d=1[out0];sine=d=1[out1]",
+            outs
+        ]
+    )
 
-    assert webm_to_mp4() == 0
+    return out.returncode
+
+
+def test_utils_webm_to_mp4_return_false(webm_test_out_file):
+    import subprocess
+
+    assert fake_webm_to_mp4(webm_test_out_file) == 0
     assert (
         subprocess.run(
             ["ffmpeg", "-v", "error", "-i", webm_test_out_file, "-f", "null", "-"]

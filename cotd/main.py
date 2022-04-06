@@ -17,6 +17,7 @@ from cotd.plugins.cringer import iscringe
 from cotd.plugins.cuno import cuno_handler
 from cotd.plugins.inliner import menu
 from cotd.plugins.kandinsky import kandinsky_handler
+from cotd.plugins.webm_to_mp4 import webm_converter_handler
 from cotd.plugins.misc import (
     goaway,
     gym_reaction,
@@ -64,6 +65,8 @@ re_cuno = re.compile(r"похуй|мне похуй", re.IGNORECASE)
 re_bot = re.compile(r".* бот(|а|у) .*|^бо(т|та|ту).*", re.IGNORECASE)
 # oh shit, i'm sorry!
 re_gacha = re.compile(r".* гач(|а|у|и) .*|^гач(а|у|и).*", re.IGNORECASE)
+# links with webm
+re_webm_link = re.compile(r"http.*:\/\/.*.webm", re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -167,6 +170,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.photo,
                         functools.partial(kandinsky_handler),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_webm_link),
+                        functools.partial(webm_converter_handler),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_news_blacklist),
