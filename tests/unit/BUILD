@@ -23,6 +23,8 @@ py_test(
     name = "test_utils_unit",
     srcs = ["test_utils_unit.py"],
     data = [
+        "//:ffmpeg-amd64",
+        "//:ffmpeg-osx",
         "//:pytest",
     ],
     imports = ["$(BINDIR)/test_static.runfiles/python_test_deps/pypi__pyfakefs/pyfakefs/pytest_plugin.py"],

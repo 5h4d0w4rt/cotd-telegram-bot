@@ -23,6 +23,16 @@ filegroup(
     ],
 )
 
+filegroup(
+    name = "ffmpeg-amd64",
+    srcs = glob(["vendor/ffmpeg/amd/**/*"]),
+)
+
+filegroup(
+    name = "ffmpeg-osx",
+    srcs = glob(["vendor/ffmpeg/osx/**/*"]),
+)
+
 alias(
     name = "black",
     actual = devtools_entry_point("black"),
@@ -52,3 +62,42 @@ alias(
     actual = devtools_entry_point("mypy"),
     tags = ["local"],
 )
+
+config_setting(
+    name = "osx_build",
+    constraint_values = [
+        ":osx",
+    ],
+)
+
+constraint_setting(name = "os")
+
+constraint_value(
+    name = "osx",
+    constraint_setting = "os",
+)
+
+constraint_value(
+    name = "linux",
+    constraint_setting = "os",
+)
+
+platform(
+    name = "osx_platform",
+    constraint_values = [
+        ":osx",
+    ],
+)
+
+# + select({
+# "//:osx_build": ["vendor/ffmpeg/osx/ffmpeg"],
+# "//conditions:default": ["vendor/ffmpeg/amd/ffmpeg"],
+# }),
+
+# config_setting(
+#     name = "linux_build",
+#     constraint_values = [
+#         ":white",
+#         ":metamorphic",
+#     ],
+# )

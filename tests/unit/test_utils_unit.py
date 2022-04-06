@@ -75,27 +75,29 @@ def fake_webm_to_mp4(outs):
     import subprocess
 
     out = subprocess.run(
-        [
-            "ffmpeg",
-            "-y",
-            "-f",
-            "lavfi",
-            "-i",
-            "testsrc2=d=1[out0];sine=d=1[out1]",
-            outs
-        ]
+        ["ffmpeg", "-y", "-f", "lavfi", "-i", "testsrc2=d=1[out0];sine=d=1[out1]", outs]
     )
 
     return out.returncode
 
-@pytest.mark.xfail(reason="ffmpeg is disabled, expected to fail")
+
+# @pytest.mark.xfail(reason="ffmpeg is disabled, expected to fail")
 def test_utils_webm_to_mp4_return_false(webm_test_out_file):
     import subprocess
 
     assert fake_webm_to_mp4(webm_test_out_file) == 0
     assert (
         subprocess.run(
-            ["ffmpeg", "-v", "error", "-i", webm_test_out_file, "-f", "null", "-"]
+            [
+                "ffmpeg",
+                "-v",
+                "error",
+                "-i",
+                webm_test_out_file,
+                "-f",
+                "null",
+                "-",
+            ]
         ).returncode
         == 0
     )
