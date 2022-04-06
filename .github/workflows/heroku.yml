@@ -23,7 +23,7 @@ jobs:
       - name: build
         run: |
           sudo apt update
-          sudo apt install -y --fix-missing ffmpeg
+          sudo apt install -y --fix-missing ffmpeg libvpx
           bazel build //...
           bazel test //...
 
