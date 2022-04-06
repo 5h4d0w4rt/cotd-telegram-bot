@@ -22,7 +22,7 @@ class Options(argparse.Namespace):
 class Flags(argparse.Namespace):
     feature_enable_security: bool
     feature_enable_persistence: bool
-
+    feature_enable_webm_converter: bool
 
 @dataclass
 class EnvConfig:

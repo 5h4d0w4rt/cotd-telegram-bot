@@ -73,6 +73,7 @@ def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentG
     flags = parser.add_argument_group("flags")
     flags.add_argument("--feature-enable-security", action="store_true", default=False)
     flags.add_argument("--feature-enable-persistence", action="store_true", default=False)
+    flags.add_argument("--feature-enable-webm-converter", action="store_true", default=False)
     return flags
 
 
@@ -172,10 +173,6 @@ def main():
                         functools.partial(kandinsky_handler),
                     ),
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.regex(re_webm_link),
-                        functools.partial(webm_converter_handler),
-                    ),
-                    telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_news_blacklist),
                         functools.partial(journalism_reaction, data=data, cache=cache),
                     ),
@@ -239,7 +236,15 @@ def main():
                         telegram.ext.Filters.text,
                         functools.partial(leftie_meme_detector),
                     ),
-                ],
+                ]
+                + [
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_webm_link),
+                        functools.partial(webm_converter_handler),
+                    )
+                ]
+                if features.feature_enable_webm_converter
+                else [],
             }
         ),
         cotd.service.HandlerGroup(
