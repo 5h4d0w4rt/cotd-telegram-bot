@@ -34,6 +34,7 @@ py_library(
         requirement("python-telegram-bot"),
         requirement("pillow"),
         requirement("ratelimit"),
+        requirement("requests"),
         "helpers",
         "//cotd:cacher",
         "//cotd:static",

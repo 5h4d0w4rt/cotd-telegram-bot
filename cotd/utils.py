@@ -14,8 +14,4 @@ def check_timer(now: datetime.datetime, timer: datetime.datetime, threshold: int
 def webm_to_mp4(ins, outs):
 
     result = subprocess.run(["ffmpeg", "-y", "-i", ins, outs])
-
-    if result.returncode != 0:
-        print(result.stderr)
-
-    return result.returncode
+    return result.returncode, result.stderr

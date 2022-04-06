@@ -13,19 +13,32 @@ def _webm_converter_handler_impl(
     context: telegram.ext.CallbackContext,
 ) -> pathlib.Path:
 
+    # https://some/video.webm
     dl_video_link: str = update.effective_message.text
 
+    # video.webm
     dl_video_name = dl_video_link.rsplit("/")[-1]
+
+    # video.mp4
     converted_video_name = f"{dl_video_name.split('.')[0]}.mp4"
 
+    # /tmp/video.webm
     dl_video_path = pathlib.Path(f"/tmp/{dl_video_name}")
+
+    # /tmp/video.mp4
     converted_video_path = pathlib.Path(f"/tmp/{converted_video_name}")
 
-    x = requests.get(dl_video_link, allow_redirects=True)
     with open(f"{dl_video_path}", "wb") as dl_video_file:
         dl_video_file.write(requests.get(dl_video_link, allow_redirects=True).content)
 
-    webm_to_mp4(dl_video_path, converted_video_path)
+    try:
+        status, err = webm_to_mp4(dl_video_path, converted_video_path)
+    except:
+        pass
+    finally:
+        if status != 0:
+            print(err)
+        dl_video_path.unlink()
 
     return converted_video_path
 
@@ -36,10 +49,15 @@ def webm_converter_handler(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    video = _webm_converter_handler_impl(update, context)
+    converted_video = _webm_converter_handler_impl(update, context)
 
-    return context.bot.send_video(
-        chat_id=update.effective_chat.id,
-        reply_to_message_id=update.message.message_id,
-        video=open(pathlib.Path(video), "rb"),
-    )
+    try:
+        context.bot.send_video(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.message_id,
+            video=open(pathlib.Path(converted_video), "rb"),
+        )
+    except:
+        pass
+    finally:
+        converted_video.unlink()
