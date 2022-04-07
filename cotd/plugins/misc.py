@@ -281,6 +281,31 @@ def massacre_reaction(
     )
 
 
+@logged_context
+def tweet_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> typing.Union[telegram.Message, None]:
+
+    if not check_chance():
+        return None
+
+    return context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.message.message_id,
+        text=random.choice(
+            [
+                ">PENTAGON OFFICIAL SAYS\n>RESPECTABLE SOURCE CLAIM",
+                ">RESPECTABLE SOURCE CLAIM",
+                "это пойдёт в паблик 'жизнь насекомых'",
+                "это хотя бы тысячник?",
+                "очередной вскукарек...",
+                "зарепортил",
+            ]
+        ),
+    )
+
+
 def trista_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,

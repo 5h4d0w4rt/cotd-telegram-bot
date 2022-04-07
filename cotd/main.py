@@ -23,6 +23,7 @@ from cotd.plugins.misc import (
     gym_reaction,
     journalism_reaction,
     patriot_reaction,
+    tweet_reaction,
     kekw,
     leftie_meme_detector,
     massacre_reaction,
@@ -67,6 +68,8 @@ re_bot = re.compile(r".* бот(|а|у) .*|^бо(т|та|ту).*", re.IGNORECASE
 re_gacha = re.compile(r".* гач(|а|у|и) .*|^гач(а|у|и).*", re.IGNORECASE)
 # links with webm
 re_webm_link = re.compile(r"http.*:\/\/.*.webm", re.IGNORECASE)
+# tweet
+re_tweet = re.compile(r".*twitter\.com.*", re.IGNORECASE)
 
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
@@ -196,6 +199,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_gym),
                         functools.partial(gym_reaction),
+                    ),
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_tweet),
+                        functools.partial(tweet_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_stuffy_handler),
