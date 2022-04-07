@@ -20,6 +20,12 @@ cringe of the day bot
    bazelisk run //cotd:cotdbot
 ```
 
+## interactive shell
+
+1. install poetry - pipx install poetry
+2. poetry install
+3. poetry shell
+
 ## flow
 
 1. start bot with accepted channelid/channelname flag in gcs and initialized as can-join-groups
@@ -29,7 +35,6 @@ cringe of the day bot
 3. then it will post smiley-cat as a reply
    1. this will require database persistence
 
-
 ## stories
 
 - As a shitposter I want to activate cringebot by sending a sticker so I can save up time typing "/cringe".
@@ -38,3 +43,7 @@ cringe of the day bot
 ### deploy
 
 by github action
+
+```
+
+```

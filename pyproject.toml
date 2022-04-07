@@ -5,3 +5,23 @@
 #ignore_missing_imports = True
 #warn_return_any = True
 #warn_unused_configs = True
+
+[tool.poetry]
+name = "cotd"
+version = "1.0.0"
+description = ""
+authors = ["Literally Who <who@where.io>"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+python-telegram-bot = "^13.11"
+pillow = ">=8.3"
+ratelimit = ">=2.2"
+requests = ">=2.27"
+
+[tool.poetry.dev-dependencies]
+black=">=21.12b0"
+pylint="*"
+mypy="*"
+pytest="*"
+pyfakefs="*"

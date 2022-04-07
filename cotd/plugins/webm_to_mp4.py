@@ -1,4 +1,3 @@
-from importlib.resources import path
 import pathlib
 from cotd.plugins.helpers import logged_context
 from cotd.utils import webm_to_mp4
