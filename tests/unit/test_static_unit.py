@@ -4,8 +4,13 @@ from dataclasses import dataclass
 import sys
 import pyfakefs
 import pyfakefs.fake_filesystem
-from pyfakefs.fake_filesystem import AnyFileWrapper, FakeFile, FakeFileOpen, FakeFileWrapper, FakeFilesystem
+from pyfakefs.fake_filesystem import (
+    FakeFile,
+    FakeFileWrapper,
+    FakeFilesystem,
+)
 import operator
+import pathlib
 
 pytest_plugins = ("pyfakefs",)  # this is imported from BUILD bazel file for tests
 
@@ -23,6 +28,7 @@ class FakeStatic(BaseStatic):
 
     def __setattr__(self, name: str, value: FakeFile) -> None:
         object.__setattr__(self, name, value)
+
 
 @pytest.fixture
 def fake_filesystem(
@@ -43,18 +49,20 @@ class StubStaticReader(BaseStaticReader):
         self.static = static
         self.fake_filesystem = fake_filesystem
 
-    def __getattribute__(self, name: str) -> FakeFileWrapper: # return io.BytesIO-like object
+    def __getattribute__(self, name: str) -> FakeFileWrapper:  # return io.BytesIO-like object
         fake_filesystem = object.__getattribute__(self, "fake_filesystem")
         fakeOpener = pyfakefs.fake_filesystem.FakeFileOpen(fake_filesystem)
 
         fake_file: FakeFile = operator.attrgetter(name)(object.__getattribute__(self, "static"))
 
-        return fakeOpener.call(fake_file.path, "rb") # type: ignore
+        return fakeOpener.call(fake_file.path, "rb")  # type: ignore
 
 
 @pytest.fixture
 def data(fs: pyfakefs.fake_filesystem.FakeFilesystem) -> FakeStatic:
-    return FakeStatic(test_attribute=fs.create_file('/tmp/file1', contents=b"contents"))
+    return FakeStatic(
+        test_attribute=fs.create_file(pathlib.Path("/tmp/file1"), contents=b"contents")
+    )
 
 
 @pytest.fixture
@@ -63,12 +71,14 @@ def reader(fake_filesystem: pyfakefs.fake_filesystem.FakeFilesystem, data: FakeS
 
 
 def test_static_attribute_accessable_after_construction(data: FakeStatic) -> None:
-    attribute_to_access = 'test_attribute'
+    attribute_to_access = "test_attribute"
     res = getattr(data, attribute_to_access)
     assert type(res) is FakeFile
 
 
-def test_static_reader_returns_repeatable_correct_values(data: FakeStatic, reader: StubStaticReader) -> None:
+def test_static_reader_returns_repeatable_correct_values(
+    data: FakeStatic, reader: StubStaticReader
+) -> None:
     """Test file opens and being read multiple times with the same content"""
 
     res1 = reader.test_attribute.read()

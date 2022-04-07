@@ -257,9 +257,6 @@ def main():
                         functools.partial(leftie_meme_detector),
                     ),
                 ]
-                + []
-                if features.feature_enable_webm_converter
-                else [],
             }
         ),
         cotd.service.HandlerGroup(
