@@ -17,7 +17,7 @@ from cotd.plugins.cringer import iscringe
 from cotd.plugins.cuno import cuno_handler
 from cotd.plugins.inliner import menu
 from cotd.plugins.kandinsky import kandinsky_handler
-from cotd.plugins.webm_to_mp4 import webm_converter_handler
+from cotd.plugins.webm_to_mp4 import webm_converter_handler, webm_to_mp4_inline
 from cotd.plugins.misc import (
     goaway,
     gym_reaction,
@@ -256,7 +256,7 @@ def main():
                         telegram.ext.Filters.text,
                         functools.partial(leftie_meme_detector),
                     ),
-                ]
+                ],
             }
         ),
         cotd.service.HandlerGroup(
@@ -282,6 +282,17 @@ def main():
                 ],
             }
         ),
+        # does not work
+        # cotd.service.HandlerGroup(
+        #     **{
+        #         "group_index": 3,
+        #         "handlers": [
+        #             telegram.ext.InlineQueryHandler(
+        #                 functools.partial(webm_to_mp4_inline), pattern=re_webm_link
+        #             )
+        #         ],
+        #     }
+        # ),
         cotd.service.HandlerGroup(
             **{
                 "group_index": 3,

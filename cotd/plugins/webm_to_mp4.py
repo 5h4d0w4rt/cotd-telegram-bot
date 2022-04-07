@@ -6,14 +6,13 @@ import telegram.ext
 import typing
 import requests
 
+import uuid
 
-def _webm_converter_handler_impl(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-) -> pathlib.Path:
+
+def _webm_converter_handler_impl(download_link: str) -> pathlib.Path:
 
     # https://some/video.webm
-    dl_video_link: str = update.effective_message.text
+    dl_video_link: str = download_link
 
     # video.webm
     dl_video_name = dl_video_link.rsplit("/")[-1]
@@ -48,10 +47,44 @@ def webm_converter_handler(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    converted_video = _webm_converter_handler_impl(update, context)
+    converted_video = _webm_converter_handler_impl(update.effective_message.text)
     context.bot.send_video(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
         video=open(pathlib.Path(converted_video), "rb"),
     )
     converted_video.unlink()
+
+
+@logged_context
+def webm_to_mp4_inline(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> bool:
+    """create old fellow result in inline mode"""
+
+    query = update.inline_query.query
+
+    if query == "":
+        return update.inline_query.answer([])
+
+    converted_video = _webm_converter_handler_impl(query)
+
+    video = context.bot.send_video(
+        chat_id=context.dispatcher._cotd_db, video=open(pathlib.Path(converted_video), "rb")
+    )
+
+    converted_video.unlink()
+
+    context.bot.delete_message(video.chat_id, video.message_id)
+
+    return context.bot.answer_inline_query(
+        inline_query_id=str(uuid.uuid4()),
+        results=[
+            telegram.InlineQueryResultCachedVideo(
+                id=str(uuid.uuid4()),
+                title="{query}",
+                video_file_id=video.video.file_id,
+            )
+        ],
+    )
