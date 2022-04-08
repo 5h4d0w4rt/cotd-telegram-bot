@@ -173,8 +173,12 @@ def bot_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not check_chance(0.35):
-        return None
+    if check_chance(0.3):
+        return context.bot.send_video(
+            chat_id=update.effective_chat.id,
+            video="BAACAgIAAx0EWzXwBwACC1diUGH6jS-O48JTmpEtjHS-HxS3aAACWhkAAm4pgUox7IuFDlfzkiME",
+            reply_to_message_id=update.message.message_id,
+        )
 
     return context.bot.send_message(
         chat_id=update.effective_chat.id,

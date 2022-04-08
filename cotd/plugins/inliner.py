@@ -8,7 +8,6 @@ import telegram
 import telegram.ext
 from cotd.plugins.misc import oldfellow_inline
 from cotd.plugins.motivationv2 import motivation_inline
-from cotd.plugins.webm_to_mp4 import webm_to_mp4_inline
 from cotd.static import StaticReader
 import re
 
@@ -30,4 +29,4 @@ def menu(
             case _:
                 return update.inline_query.answer([motivation_inline(update, context)])
 
-    return update.inline_query.answer([])
+    return update.inline_query.answer([oldfellow_inline(update, context, data)])
