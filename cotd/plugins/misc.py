@@ -345,6 +345,7 @@ def tweet_reaction(
         "это хотя бы тысячник?",
         "очередной вскукарек...",
         "зарепортил",
+        ">PESKOV SAID",
     ]
 
     if check_chance(0.7):
@@ -394,6 +395,7 @@ def tweet_reaction(
                 ">NATO ESTIMATES",
                 ">JOE BIDEN SAID",
                 ">AZOV COMMANDER SAID",
+                ">PESKOV SAID",
                 ">INTERCEPTED COMMUNICATION",
                 ">INTERCEPTED PHONE CALLS",
             )
