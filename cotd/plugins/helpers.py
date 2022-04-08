@@ -118,27 +118,3 @@ def check_chance(percent: float = 0.5):
 
 def check_timer(now: datetime.datetime, timer: datetime.datetime, threshold: int):
     return (now - timer).total_seconds() < threshold
-
-
-def webm_to_mp4(
-    ins: pathlib.Path, outs: pathlib.Path
-) -> subprocess.CompletedProcess | subprocess.CalledProcessError:
-    def _ffmpeg_runner(
-        inputfile: pathlib.Path, outputfile: pathlib.Path
-    ) -> subprocess.CompletedProcess:
-        result = subprocess.run(
-            ["ffmpeg", "-y", "-i", inputfile, outputfile],
-            check=True,
-            timeout=180,
-            text=True,
-            stderr=subprocess.STDOUT,
-        )
-        return result
-
-    try:
-        result = _ffmpeg_runner(ins, outs)
-    except subprocess.CalledProcessError as failed_run:
-        return failed_run
-    except subprocess.TimeoutExpired:
-        raise
-    return result

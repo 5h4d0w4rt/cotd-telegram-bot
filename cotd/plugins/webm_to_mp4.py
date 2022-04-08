@@ -2,7 +2,7 @@ from asyncio import subprocess
 from importlib.resources import path
 import pathlib
 import subprocess
-from cotd.plugins.helpers import logged_context, webm_to_mp4
+from cotd.plugins.helpers import logged_context
 import telegram
 import telegram.ext
 import typing
@@ -70,6 +70,30 @@ def webm_converter_handler(
             ),
 
             converted_video.unlink()
+
+
+def webm_to_mp4(
+    ins: pathlib.Path, outs: pathlib.Path
+) -> subprocess.CompletedProcess | subprocess.CalledProcessError:
+    def _ffmpeg_runner(
+        inputfile: pathlib.Path, outputfile: pathlib.Path
+    ) -> subprocess.CompletedProcess:
+        result = subprocess.run(
+            ["ffmpeg", "-y", "-i", inputfile, outputfile],
+            check=True,
+            timeout=180,
+            text=True,
+            stderr=subprocess.STDOUT,
+        )
+        return result
+
+    try:
+        result = _ffmpeg_runner(ins, outs)
+    except subprocess.CalledProcessError as failed_run:
+        return failed_run
+    except subprocess.TimeoutExpired:
+        raise
+    return result
 
 
 @logged_context
