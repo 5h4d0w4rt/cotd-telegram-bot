@@ -11,14 +11,15 @@ import cotd.logger
 import cotd.service
 import cotd.static
 import cotd.storage
-from cotd.plugins.anti_voice import voice_reaction
+
 from cotd.plugins.cringelord import cringelord
-from cotd.plugins.cringer import iscringe
-from cotd.plugins.cuno import cuno_handler
 from cotd.plugins.inliner import menu
 from cotd.plugins.kandinsky import kandinsky_handler
 from cotd.plugins.webm_to_mp4 import webm_converter_handler, webm_to_mp4_inline
 from cotd.plugins.misc import (
+    voice_reaction,
+    iscringe,
+    cuno_handler,
     goaway,
     gym_reaction,
     journalism_reaction,
@@ -33,7 +34,6 @@ from cotd.plugins.misc import (
     pig_reaction,
     bot_reaction,
     question_mark,
-    secret,
     stuffy_reaction,
     trista_reaction,
     watermelon_reaction,
@@ -275,9 +275,6 @@ def main():
                     ),
                     telegram.ext.CommandHandler(
                         "kekw", functools.partial(kekw, data=data, cache=cache)
-                    ),
-                    telegram.ext.CommandHandler(
-                        "secret", functools.partial(secret, data=data, cache=cache)
                     ),
                 ],
             }

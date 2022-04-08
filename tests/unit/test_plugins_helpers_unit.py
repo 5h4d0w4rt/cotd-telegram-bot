@@ -20,7 +20,7 @@ def different_date(threshold) -> datetime.datetime:
 def test_utils_check_timer_return_false_when_timer_less_than_target(
     now: datetime.datetime, different_date: datetime.datetime, threshold: int
 ) -> None:
-    from cotd.utils import check_timer
+    from cotd.plugins.helpers import check_timer
 
     assert (
         check_timer(
@@ -35,7 +35,7 @@ def test_utils_check_timer_return_false_when_timer_less_than_target(
 def test_utils_check_timer_return_true_when_timer_is_exact(
     now: datetime.datetime, different_date: datetime.datetime, threshold: int
 ) -> None:
-    from cotd.utils import check_timer
+    from cotd.plugins.helpers import check_timer
 
     assert (
         check_timer(
@@ -50,7 +50,7 @@ def test_utils_check_timer_return_true_when_timer_is_exact(
 def test_utils_check_timer_return_true_when_timer_is_expired(
     now: datetime.datetime, different_date: datetime.datetime, threshold: int
 ) -> None:
-    from cotd.utils import check_timer
+    from cotd.plugins.helpers import check_timer
 
     assert (
         check_timer(
@@ -81,7 +81,6 @@ def fake_webm_to_mp4(outs):
     return out.returncode
 
 
-# @pytest.mark.xfail(reason="ffmpeg is disabled, expected to fail")
 def test_utils_webm_to_mp4_return_false(webm_test_out_file):
     import subprocess
 

@@ -17,10 +17,7 @@ py_library(
 py_library(
     name = "all",
     srcs = [
-        "anti_voice.py",
         "cringelord.py",
-        "cringer.py",
-        "cuno.py",
         "inliner.py",
         "kandinsky.py",
         "misc.py",
@@ -38,6 +35,5 @@ py_library(
         "helpers",
         "//cotd:cacher",
         "//cotd:static",
-        "//cotd:utils",
     ],
 )

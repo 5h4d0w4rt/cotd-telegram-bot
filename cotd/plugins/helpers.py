@@ -5,6 +5,11 @@ import telegram.ext
 import logging
 import typing
 import io
+
+import random
+import datetime
+import subprocess
+
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -22,13 +27,13 @@ def logged_context(f):
         dispatcher: telegram.ext.Dispatcher = args[1].dispatcher
 
         logging.setLogRecordFactory(_record_factory)
-        dispatcher.logger.debug(args)
-        dispatcher.logger.debug(kwargs)
+        dispatcher.logger.info(args)
+        dispatcher.logger.info(kwargs)
         dispatcher.logger.debug(dispatcher.bot_data)
         dispatcher.logger.debug(dispatcher.chat_data)
         dispatcher.logger.debug(dispatcher.user_data)
         result = f(*args, **kwargs)
-        dispatcher.logger.debug(f"{f.__name__} : {result}")
+        dispatcher.logger.info(f"{f.__name__} : {result}")
         logging.setLogRecordFactory(old_factory)
 
         return result
@@ -104,3 +109,17 @@ def make_image(image, text: str, pos: str) -> io.BytesIO:
     bio.seek(0)
 
     return bio
+
+
+def check_chance(percent: float = 0.5):
+    return round(random.random(), 1) < percent
+
+
+def check_timer(now: datetime.datetime, timer: datetime.datetime, threshold: int):
+    return (now - timer).total_seconds() < threshold
+
+
+def webm_to_mp4(ins, outs):
+    result = subprocess.run(["ffmpeg", "-y", "-i", ins, outs])
+    result.check_returncode()
+    return result.returncode

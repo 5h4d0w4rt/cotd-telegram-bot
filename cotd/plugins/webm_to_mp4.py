@@ -1,6 +1,5 @@
 import pathlib
-from cotd.plugins.helpers import logged_context
-from cotd.utils import webm_to_mp4
+from cotd.plugins.helpers import logged_context, webm_to_mp4
 import telegram
 import telegram.ext
 import typing

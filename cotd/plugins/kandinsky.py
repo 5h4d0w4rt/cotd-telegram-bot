@@ -5,8 +5,7 @@ import datetime
 
 import telegram
 import telegram.ext
-from cotd.plugins.helpers import logged_context, make_image
-from cotd.utils import check_timer
+from cotd.plugins.helpers import logged_context, make_image, check_timer
 from PIL import Image
 
 

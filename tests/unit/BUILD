@@ -20,8 +20,8 @@ py_test(
 )
 
 py_test(
-    name = "test_utils_unit",
-    srcs = ["test_utils_unit.py"],
+    name = "test_plugins_helpers_unit",
+    srcs = ["test_plugins_helpers_unit.py"],
     data = [
         "//:ffmpeg-amd64",
         "//:ffmpeg-osx",
@@ -29,7 +29,7 @@ py_test(
     ],
     imports = ["$(BINDIR)/test_static.runfiles/python_test_deps/pypi__pyfakefs/pyfakefs/pytest_plugin.py"],
     deps = [
-        "//cotd:utils",
+        "//cotd/plugins:helpers",
         requirement("pytest"),
         requirement("pyfakefs"),
     ],

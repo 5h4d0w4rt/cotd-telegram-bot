@@ -6,14 +6,30 @@ import uuid
 import telegram
 import telegram.ext
 from cotd.cacher import MediaCache
-from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context
+from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context, check_chance
 from cotd.static import StaticReader
-from cotd.utils import check_chance
-from telegram import chat
 
 
 def _to_code_block(text):
     return f"<code>{text}</code>"
+
+
+@logged_context
+@functools.partial(cacheable_handler, key="sf", path="photo[0].file_id")
+def cuno_handler(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[StaticReader] = None,
+) -> typing.Union[telegram.Message, None]:
+    if random.randint(0, 1) != 0:
+        return None
+
+    return context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id,
+        photo=cache.sf or data.sf,
+    )
 
 
 @logged_context
@@ -75,31 +91,6 @@ def goaway(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.reply_to_message.message_id,
         video=cache.go_away or data.go_away,
-    )
-
-
-@logged_context
-def secret(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-    data: typing.Type[StaticReader] = None,
-) -> telegram.Message:
-    return context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=data.ozon_secret,
-    )
-
-
-@logged_context
-def dump(
-    update: telegram.Update,
-    context: telegram.ext.CallbackContext,
-) -> telegram.Message:
-    _tmpl = "{:<8} {:<15} {:<10}"
-
-    return context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=data.ozon_secret,
     )
 
 
@@ -413,6 +404,7 @@ def tweet_reaction(
     )
 
 
+@logged_context
 def trista_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
@@ -515,4 +507,80 @@ def gym_reaction(
                 "CgACAgIAAxkBAAICBWDHxCIPQ2aZuEk6RaAm_fCXe0DKAAIXAgAC13S5SH7Or-N7YQh4HwQ",
             ]
         ),
+    )
+
+
+@logged_context
+def iscringe(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+    cache: typing.Type[MediaCache] = None,
+    data: typing.Type[StaticReader] = None,
+) -> telegram.Message:
+    if not is_reply(update):
+        return context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text='Can"t see cringe though, reply to a cringe post',
+        )
+
+    @functools.partial(cacheable_handler, key="ribnikov", path="video.file_id")
+    @logged_context
+    def _process_based(
+        update: telegram.Update,
+        context: telegram.ext.CallbackContext,
+        cache: typing.Type[MediaCache] = None,
+        data: typing.Type[StaticReader] = None,
+    ) -> telegram.Message:
+        return context.bot.send_video(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.reply_to_message.message_id,
+            video=cache.ribnikov or data.ribnikov,
+        )
+
+    @functools.partial(cacheable_handler, key="sniff_dog", path="photo[0].file_id")
+    @logged_context
+    def _process_cringe(
+        update: telegram.Update,
+        context: telegram.ext.CallbackContext,
+        cache: typing.Type[MediaCache] = None,
+        data: typing.Type[StaticReader] = None,
+    ) -> telegram.Message:
+        return context.bot.send_photo(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.reply_to_message.message_id,
+            photo=cache.sniff_dog or data.sniff_dog,
+        )
+
+    choice_map = {"based": _process_based, "cringe": _process_cringe}
+
+    return choice_map[random.choice(["based", "cringe"])](update, context, cache=cache, data=data)
+
+
+@logged_context
+def voice_reaction(
+    update: telegram.Update,
+    context: telegram.ext.CallbackContext,
+) -> telegram.Message:
+    voice_messages = [
+        "как болезнь называется?",
+        "пацаны, тут человеку руки оторвало!",
+        "слова красивые, но ты пидор",
+        "ничего не понял",
+        "не могу послушать твоё голосове, мне оторвало уши",
+        "пиши давай",
+    ]
+
+    if not check_chance():
+        msg = voice_messages[random.randint(0, len(voice_messages) - 1)]
+
+        return context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            reply_to_message_id=update.message.message_id,
+            text=msg,
+        )
+
+    return context.bot.sendSticker(
+        chat_id=update.effective_chat.id,
+        reply_to_message_id=update.effective_message.message_id,
+        sticker="CAACAgIAAxkBAAIBy2DHu6uTHF_uKSwtLRuWcUmHNHejAAI-AQAC39LPAoZ3xK3gRdEhHwQ",
     )
