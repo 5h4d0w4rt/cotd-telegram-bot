@@ -12,6 +12,10 @@ from cotd.utils import check_chance
 from telegram import chat
 
 
+def _to_code_block(text):
+    return f"<code>{text}</code>"
+
+
 @logged_context
 def oldfellow_inline(
     update: telegram.Update,
@@ -287,22 +291,121 @@ def tweet_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
+    stuff_twitter_retard_says = [
+        ">ORYX SAYS",
+        ">CONFIRMED BY VISUAL EVIDENCE",
+        ">AUDIO REPORTS DETAIL",
+        ">UKRANIAN MEDIA REPORTS",
+        ">PENTAGON PROJECTS",
+        ">U.K. SPY CHIEF INFORMS",
+        ">UNCONFIRMED BUT REALISTIC REPORTS",
+        ">ACCORDING TO ANALYSTS",
+        ">THE UKRANIAN SECURITY SERVICE HAS ANNOUNCED",
+        ">UKRANIAN INTELLIGENCE CLAIM",
+        ">BELLINCUNT CONFIRMS",
+        ">RUSSIAN (((DISSIDENT))) PREDICTS",
+        ">PUBLIC SENTIMENT SUGGESTS",
+        ">MULTIPLE REPORTS FROM BOTH SIDES",
+        ">UNNAMED SOURCES CITED",
+        ">ACCORDING TO UNNAMED (((WESTERN))) OFFICIALS",
+        ">CITING UNNAMED WESTERN OFFICIALS",
+        ">A SOURCE FAMILIAR WITH RUSSIAN THINKING",
+        ">A SOURCE WHO SPOKE ON CONDITION OF ANONYMITY",
+        ">US INTELLIGENCE REVEALS",
+        ">UK INTELLIGENCE CONFIRMS",
+        ">NEXTA SAYS",
+        ">REUTERS SAYS",
+        ">/K/ TOLD ME",
+        ">I MADE IT UP",
+        ">US OFFICIALS SAY",
+        ">PENTAGON SAYS",
+        ">DOD BELIEVES",
+        ">GENERAL MILLEY CONFIRMS",
+        ">FBI AGREES",
+        ">DIPLOMATS SURMISE",
+        ">EU PROMISES",
+        ">CNN BELIEVES",
+        ">MSNBC HAS FOUND",
+        ">PFIZER PROMISES",
+        ">MODERNA GUARANTEES",
+        ">STUDIES SHOW",
+        ">EXPERTS SAY",
+        ">TWATTER (((BLUECHECKMARK))) SAID",
+        ">UNCONFIRMED BUT REALISTIC REPORTS",
+        ">BASED ON RELIABLE SIMULATIONS",
+        ">A SOURCE FROM UKRAINE",
+        ">NATO ESTIMATES",
+        ">JOE BIDEN SAID",
+        ">AZOV COMMANDER SAID",
+        ">INTERCEPTED COMMUNICATION",
+        ">INTERCEPTED PHONE CALLS",
+        ">RESPECTABLE SOURCE CLAIM",
+    ] + [
+        "это пойдёт в паблик 'жизнь насекомых'",
+        "это хотя бы тысячник?",
+        "очередной вскукарек...",
+        "зарепортил",
+    ]
+
+    if check_chance(0.7):
+        stuff_twitter_retard_says = """
+>ORYX SAYS
+>CONFIRMED BY VISUAL EVIDENCE
+>AUDIO REPORTS DETAIL
+>UKRANIAN MEDIA REPORTS
+>PENTAGON PROJECTS
+>U.K. SPY CHIEF INFORMS
+>UNCONFIRMED BUT REALISTIC REPORTS
+>ACCORDING TO ANALYSTS
+>THE UKRANIAN SECURITY SERVICE HAS ANNOUNCED
+>UKRANIAN INTELLIGENCE CLAIM
+>BELLINCUNT CONFIRMS
+>RUSSIAN (((DISSIDENT))) PREDICTS
+>PUBLIC SENTIMENT SUGGESTS
+>MULTIPLE REPORTS FROM BOTH SIDES
+>UNNAMED SOURCES CITED
+>ACCORDING TO UNNAMED (((WESTERN))) OFFICIALS
+>CITING UNNAMED WESTERN OFFICIALS
+>A SOURCE FAMILIAR WITH RUSSIAN THINKING
+>A SOURCE WHO SPOKE ON CONDITION OF ANONYMITY
+>US INTELLIGENCE REVEALS
+>UK INTELLIGENCE CONFIRMS
+>NEXTA SAYS
+>REUTERS SAYS
+>/K/ TOLD ME
+>US OFFICIALS SAY
+>PENTAGON SAYS
+>DOD BELIEVES
+>GENERAL MILLEY CONFIRMS
+>FBI AGREES
+>DIPLOMATS SURMISE
+>EU PROMISES
+>CNN BELIEVES
+>MSNBC HAS FOUND
+>PFIZER PROMISES
+>MODERNA GUARANTEES
+>STUDIES SHOW
+>EXPERTS SAY
+>TWATTER (((BLUECHECKMARK))) SAID
+>UNCONFIRMED BUT REALISTIC REPORTS
+>BASED ON RELIABLE SIMULATIONS
+>A SOURCE FROM UKRAINE
+>NATO ESTIMATES
+>JOE BIDEN SAID
+>AZOV COMMANDER SAID
+>INTERCEPTED COMMUNICATION
+>INTERCEPTED PHONE CALLS
+"""
+
     if not check_chance():
         return None
 
     return context.bot.send_message(
         chat_id=update.effective_chat.id,
         reply_to_message_id=update.message.message_id,
-        text=random.choice(
-            [
-                ">PENTAGON OFFICIAL SAYS\n>RESPECTABLE SOURCE CLAIM",
-                ">RESPECTABLE SOURCE CLAIM",
-                "это пойдёт в паблик 'жизнь насекомых'",
-                "это хотя бы тысячник?",
-                "очередной вскукарек...",
-                "зарепортил",
-            ]
-        ),
+        text=_to_code_block(random.choice(stuff_twitter_retard_says))
+        if isinstance(stuff_twitter_retard_says, list)
+        else _to_code_block(stuff_twitter_retard_says),
     )
 
 
