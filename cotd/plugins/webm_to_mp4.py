@@ -1,4 +1,7 @@
+from asyncio import subprocess
+from importlib.resources import path
 import pathlib
+import subprocess
 from cotd.plugins.helpers import logged_context, webm_to_mp4
 import telegram
 import telegram.ext
@@ -8,7 +11,9 @@ import requests
 import uuid
 
 
-def _webm_converter_handler_impl(download_link: str) -> pathlib.Path:
+def _webm_converter_handler_impl(
+    download_link: str,
+) -> pathlib.Path | subprocess.CalledProcessError:
 
     # https://some/video.webm
     dl_video_link: str = download_link
@@ -31,13 +36,17 @@ def _webm_converter_handler_impl(download_link: str) -> pathlib.Path:
     try:
         status = webm_to_mp4(dl_video_path, converted_video_path)
     except Exception as err:
+        dl_video_path.unlink()
+        converted_video_path.unlink(missing_ok=True)
         raise
     finally:
-        if status != 0:
-            print(err)
         dl_video_path.unlink()
 
-    return converted_video_path
+    match type(status):
+        case subprocess.CalledProcessError:
+            return status
+        case _:
+            return converted_video_path
 
 
 @logged_context
@@ -47,12 +56,20 @@ def webm_converter_handler(
 ) -> typing.Union[telegram.Message, None]:
 
     converted_video = _webm_converter_handler_impl(update.effective_message.text)
-    context.bot.send_video(
-        chat_id=update.effective_chat.id,
-        reply_to_message_id=update.message.message_id,
-        video=open(pathlib.Path(converted_video), "rb"),
-    )
-    converted_video.unlink()
+    match type(converted_video):
+        case subprocess.CalledProcessError:
+            return context.bot.send_message(
+                chat_id=context.dispatcher._cotd_db,
+                text=f"FFMpeg run failed -- {repr(converted_video)}",
+            )
+        case _:
+            context.bot.send_video(
+                chat_id=update.effective_chat.id,
+                reply_to_message_id=update.message.message_id,
+                video=open(converted_video, "rb"),
+            ),
+
+            converted_video.unlink()
 
 
 @logged_context
