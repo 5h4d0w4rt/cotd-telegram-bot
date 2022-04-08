@@ -1,7 +1,6 @@
 import functools
 from importlib.resources import path
 import logging
-import ratelimit
 import telegram
 import telegram.ext
 import logging
