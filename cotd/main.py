@@ -14,7 +14,7 @@ import cotd.service
 import cotd.static
 import cotd.storage
 
-from cotd.plugins.cronjobs import you_made_it, list_cronjobs
+from cotd.plugins.cronjobs import you_made_it, cronjobsctl
 from cotd.plugins.cringelord import cringelord
 from cotd.plugins.inliner import menu
 from cotd.plugins.kandinsky import kandinsky_handler
@@ -75,13 +75,16 @@ re_webm_link = re.compile(r"http.*:\/\/.*.webm", re.IGNORECASE)
 # tweet
 re_tweet = re.compile(r".*twitter\.com.*", re.IGNORECASE)
 
+
 def next_date(given_date: datetime.date, weekday: int) -> datetime.date:
     # https://stackoverflow.com/questions/6558535/find-the-date-for-the-first-monday-after-a-given-date
     day_shift = (weekday - given_date.weekday()) % 7
     return given_date + datetime.timedelta(days=day_shift)
 
+
 def date_to_datetime(d: datetime.date, tz=None) -> datetime.datetime:
     return datetime.datetime.combine(d, datetime.datetime.min.time(), tzinfo=tz)
+
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
@@ -156,7 +159,9 @@ def main():
                         telegram.ext.Filters.all,
                         functools.partial(
                             check_allowed_sources,
-                            trusted_sources=dict(users="All", chats=[int(options.group), int(options.db)]),
+                            trusted_sources=dict(
+                                users="All", chats=[int(options.group), int(options.db)]
+                            ),
                         ),
                     ),
                 ]
@@ -289,10 +294,14 @@ def main():
                         "kekw", functools.partial(kekw, data=data, cache=cache)
                     ),
                     telegram.ext.CommandHandler(
-                        "jobs", functools.partial(list_cronjobs), filters=telegram.ext.Filters.chat(int(options.db)),
+                        "jobs",
+                        functools.partial(cronjobsctl),
+                        filters=telegram.ext.Filters.chat(int(options.db)),
                     ),
                     telegram.ext.CommandHandler(
-                        "config", lambda update, context: print(), filters=telegram.ext.Filters.chat(int(options.db)),
+                        "config",
+                        lambda update, context: print(),
+                        filters=telegram.ext.Filters.chat(int(options.db)),
                     ),
                 ],
             }
@@ -323,7 +332,7 @@ def main():
         handlers=handlers,
         commands=commands,
         storage=cotd.storage.TelegramSavedMessagesStorage(db=options.db),
-        static_content=data
+        static_content=data,
     )
 
     cotdbot.logger.info(f"initialized with feature flags: {features}")

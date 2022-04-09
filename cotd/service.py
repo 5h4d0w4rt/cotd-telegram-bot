@@ -25,6 +25,7 @@ class Flags(argparse.Namespace):
     feature_enable_persistence: bool
     feature_enable_webm_converter: bool
 
+
 @dataclass
 class EnvConfig:
     token: str
@@ -99,9 +100,11 @@ class TGBotClient:
         self.set_dispatcher_handlers()
         self.set_commands()
 
+
 # class COTDBotWithData(telegram.ExtBot):
 #         self.static_content = static_content
 #         super().__init__()
+
 
 class COTDBotService:
     def __init__(self, client: TGBotClient, config: COTDBotConfig):
@@ -156,7 +159,7 @@ def factory(
     commands: typing.List[telegram.BotCommand],
     handlers: typing.List[HandlerGroup],
     storage: cotd.storage.TelegramSavedMessagesStorage,
-    static_content: StaticReader
+    static_content: StaticReader,
 ) -> COTDBotService:
 
     storage: cotd.storage.TelegramSavedMessagesStorage | cotd.storage.TelegramSavedMessagesStorageDev = (
@@ -195,7 +198,7 @@ def factory(
             handlers=handlers,
             commands=commands,
             persistence=storage,
-            static_content=static_content
+            static_content=static_content,
         )
     )
     return COTDBotService(
