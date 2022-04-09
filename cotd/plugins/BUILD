@@ -26,6 +26,7 @@ py_library(
         "prospector.py",
         "security.py",
         "webm_to_mp4.py",
+        "youtuber.py",
     ],
     data = ["//static:lobster.ttf"],
     deps = [

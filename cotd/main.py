@@ -18,7 +18,8 @@ from cotd.plugins.cronjobs import you_made_it, cronjobsctl
 from cotd.plugins.cringelord import cringelord
 from cotd.plugins.inliner import menu
 from cotd.plugins.kandinsky import kandinsky_handler
-from cotd.plugins.webm_to_mp4 import webm_converter_handler, webm_to_mp4_inline
+from cotd.plugins.webm_to_mp4 import webm_converter_handler
+from cotd.plugins.youtuber import youtubedl
 from cotd.plugins.misc import (
     voice_reaction,
     iscringe,
@@ -72,6 +73,8 @@ re_bot = re.compile(r".* бот(|а|у) .*|^бо(т|та|ту).*", re.IGNORECASE
 re_gacha = re.compile(r".* гач(|а|у|и) .*|^гач(а|у|и).*", re.IGNORECASE)
 # links with webm
 re_webm_link = re.compile(r"http.*:\/\/.*.webm", re.IGNORECASE)
+# youtube link
+re_youtube_link = re.compile(r"http.*:\/\/(youtube.com|youtu.be)", re.IGNORECASE)
 # tweet
 re_tweet = re.compile(r".*twitter\.com.*", re.IGNORECASE)
 
@@ -191,6 +194,17 @@ def main():
                 ]
                 if features.feature_enable_webm_converter
                 else [],
+            }
+        ),
+                cotd.service.HandlerGroup(
+            **{
+                "group_index": -97,
+                "handlers": [
+                    telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_youtube_link),
+                        youtubedl
+                    ),
+                ]
             }
         ),
         cotd.service.HandlerGroup(

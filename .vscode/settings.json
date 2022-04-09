@@ -32,6 +32,6 @@
     "bazel.buildifierFixOnFormat": true,
     "bazel.enableCodeLens": true,
     "terminal.integrated.env.osx": {
-        "PATH": "${workspaceFolder}/vendor/ffmpeg/osx:${env:PATH}",
+        "PATH": "${workspaceFolder}/vendor/ffmpeg/osx:${env:PATH}:${workspaceFolder}/vendor/youtube-dl:${env:PATH}",
     }
 }

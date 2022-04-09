@@ -111,8 +111,7 @@ def webm_to_mp4_inline(
     converted_video = _webm_converter_handler_impl(query)
 
     video = context.bot.send_video(
-        chat_id=context.dispatcher._cotd_db, video=open(pathlib.Path(converted_video), "rb")
-    )
+        chat_id=context.dispatcher._cotd_db, video=open(converted_video, "rb"))
 
     converted_video.unlink()
 

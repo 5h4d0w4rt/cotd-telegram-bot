@@ -33,6 +33,11 @@ filegroup(
     srcs = glob(["vendor/ffmpeg/osx/**/*"]),
 )
 
+filegroup(
+    name = "youtube-dl",
+    srcs = glob(["vendor/youtube-dl/**/*"]),
+)
+
 alias(
     name = "black",
     actual = devtools_entry_point("black"),
