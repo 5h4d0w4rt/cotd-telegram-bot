@@ -345,7 +345,7 @@ def main():
     cotdbot.client.updater.job_queue.run_repeating(
         you_made_it,
         interval=datetime.timedelta(days=7),
-        first=date_to_datetime(next_date(datetime.date.today(), 4)),
+        first=date_to_datetime(next_date(datetime.date.today(), 4), tz=TZ),
     )
 
     cotdbot.logger.info("initialized cringe of the day client")
