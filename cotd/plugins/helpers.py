@@ -120,6 +120,7 @@ def check_timer(now: datetime.datetime, timer: datetime.datetime, threshold: int
     return (now - timer).total_seconds() < threshold
 
 
+# day_of_week - return current day of the week.
 def day_of_week():
     days = [
         "понедельник",
