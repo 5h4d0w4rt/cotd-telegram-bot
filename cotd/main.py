@@ -202,13 +202,13 @@ def main():
                 "group_index": -97,
                 "handlers": [
                     telegram.ext.MessageHandler(
-                        telegram.ext.Filters.regex(re_youtube_link),
-                        youtubedl
+                        telegram.ext.Filters.regex(re_youtube_link), youtubedl
                     ),
                 ]
-                if features.feature_enable_youtubedl else [],
+                if features.feature_enable_youtubedl
+                else [],
             }
-        )
+        ),
         cotd.service.HandlerGroup(
             **{
                 "group_index": 1,
