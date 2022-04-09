@@ -23,7 +23,9 @@ def cronjobsctl(update: telegram.Update, context: telegram.ext.CallbackContext):
     )
 
     match ctl:
+        case "help":
+            return
         case "list":
             return context.bot.send_message(chat_id=update.effective_chat.id, text=jobs)
-        case "run:doge":
-            context.dispatcher.job_queue.get_jobs_by_name("you_made_it")[0].run(context.dispatcher)
+        case "run:you_made_it" as run_cmd:
+            context.dispatcher.job_queue.get_jobs_by_name(run_cmd.split(':')[-1])[0].run(context.dispatcher)
