@@ -1,15 +1,11 @@
 import datetime
 import random
 import typing
-import datetime
 
 import telegram
 import telegram.ext
 from cotd.plugins.helpers import logged_context, make_image, check_timer, day_of_week
 from PIL import Image
-
-
-# dow - return current day of the week.
 
 
 # kandinsky_handler - list of reactions.

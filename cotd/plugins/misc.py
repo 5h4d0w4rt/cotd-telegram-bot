@@ -2,11 +2,12 @@ import functools
 import random
 import typing
 import uuid
+import datetime
 
 import telegram
 import telegram.ext
 from cotd.cacher import MediaCache
-from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context, check_chance
+from cotd.plugins.helpers import cacheable_handler, is_reply, logged_context, check_chance, check_timer
 from cotd.static import StaticReader
 
 
@@ -172,6 +173,26 @@ def bot_reaction(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
+    # throttle reaction spam in chat when retard appears
+    # TODO better handle that with delayed message https://core.telegram.org/method/messages.sendMessage#schedule_date
+    throttle_threshold_seconds = 180 # TODO: вынести в глобальную константу.
+    bot_timer_storage_key = "bot_throttle_timer"
+
+    # if timer is set and less than threshold
+    # stop the processing of picture and exit
+    if bot_timer_storage_key in context.bot_data:
+        if not check_timer(
+            datetime.datetime.now(),
+            datetime.datetime.fromisoformat(context.bot_data[bot_timer_storage_key]),
+            throttle_threshold_seconds,
+        ):
+            return None
+
+    context.dispatcher.logger.debug(f"Update kandinsky timer with: {datetime.datetime.now()}")
+
+    context.bot_data[bot_timer_storage_key] = datetime.datetime.isoformat(
+        datetime.datetime.now()
+    )
 
     if not check_chance(0.33):
         return None
