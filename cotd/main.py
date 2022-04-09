@@ -94,6 +94,7 @@ def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentG
     flags.add_argument("--feature-enable-security", action="store_true", default=False)
     flags.add_argument("--feature-enable-persistence", action="store_true", default=False)
     flags.add_argument("--feature-enable-webm-converter", action="store_true", default=False)
+    flags.add_argument("--feature-enable-youtubedl", action="store_true", default=False)
     return flags
 
 
@@ -196,7 +197,7 @@ def main():
                 else [],
             }
         ),
-                cotd.service.HandlerGroup(
+        cotd.service.HandlerGroup(
             **{
                 "group_index": -97,
                 "handlers": [
@@ -205,8 +206,9 @@ def main():
                         youtubedl
                     ),
                 ]
+                if features.feature_enable_youtubedl else [],
             }
-        ),
+        )
         cotd.service.HandlerGroup(
             **{
                 "group_index": 1,

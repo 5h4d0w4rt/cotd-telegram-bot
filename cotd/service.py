@@ -24,6 +24,7 @@ class Flags(argparse.Namespace):
     feature_enable_security: bool
     feature_enable_persistence: bool
     feature_enable_webm_converter: bool
+    feature_enable_youtubedl: bool
 
 
 @dataclass

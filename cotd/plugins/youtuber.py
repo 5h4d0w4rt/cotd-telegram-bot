@@ -10,13 +10,14 @@ import requests
 
 import uuid
 
-def _youtubedl_impl(url: str, outfile: pathlib.Path):
-    result = subprocess.run(['youtube-dl', url, '-o', outfile])
+def _youtubedl_impl(url: str):
+    result = subprocess.run(['youtube-dl', url, '-o', '%(title)s.%(ext)s'])
     result.check_returncode()
 
 def youtubedl(update: telegram.Update,
     context: telegram.ext.CallbackContext):
 
+    
     out = pathlib.Path('temp.mp4')
 
     _youtubedl_impl(update.effective_message.text, out)
