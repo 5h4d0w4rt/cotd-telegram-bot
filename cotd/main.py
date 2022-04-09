@@ -81,7 +81,7 @@ def next_date(given_date: datetime.date, weekday: int) -> datetime.date:
     return given_date + datetime.timedelta(days=day_shift)
 
 def date_to_datetime(d: datetime.date, tz=None) -> datetime.datetime:
-    return datetime.datetime.combine(d, datetime.datetime.min.time(),tzinfo=tz)
+    return datetime.datetime.combine(d, datetime.datetime.min.time(), tzinfo=tz)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
@@ -323,6 +323,7 @@ def main():
         handlers=handlers,
         commands=commands,
         storage=cotd.storage.TelegramSavedMessagesStorage(db=options.db),
+        static_content=data
     )
 
     cotdbot.logger.info(f"initialized with feature flags: {features}")
@@ -331,11 +332,9 @@ def main():
     cotdbot.client.initialize()
 
     # register jobs block
-    doge_friday = functools.partial(you_made_it, data=data)
-    doge_friday.__name__ = "doge_friday"
 
     cotdbot.client.updater.job_queue.run_repeating(
-        doge_friday,
+        you_made_it,
         interval=datetime.timedelta(days=7),
         first=date_to_datetime(next_date(datetime.date.today(), 4)),
     )

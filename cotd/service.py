@@ -2,6 +2,7 @@ import argparse
 import logging
 import typing
 from dataclasses import dataclass
+from cotd.static import StaticReader
 
 import telegram
 import telegram.ext
@@ -54,6 +55,7 @@ class TGBotConfig:
     metadata: TGBotMetadata
     handlers: typing.List[HandlerGroup]
     commands: typing.List[telegram.BotCommand]
+    static_content: StaticReader
 
 
 @dataclass
@@ -70,6 +72,7 @@ class TGBotClient:
         self.commands = config.commands
         self.handlers = config.handlers
         self.persistence = config.persistence
+        self.static_content = config.static_content
 
     def set_dispatcher_handlers(self) -> None:
         for handler_group in self.handlers:
@@ -78,6 +81,9 @@ class TGBotClient:
 
     def set_commands(self) -> None:
         self.updater.bot.set_my_commands(self.commands)
+
+    def set_static_content(self) -> None:
+        self.updater.bot.static_content = self.static_content
 
     def run(self) -> None:
         self.updater.start_polling()
@@ -89,9 +95,13 @@ class TGBotClient:
 
     def initialize(self) -> None:
         self.set_secure_sources()
+        self.set_static_content()
         self.set_dispatcher_handlers()
         self.set_commands()
 
+# class COTDBotWithData(telegram.ExtBot):
+#         self.static_content = static_content
+#         super().__init__()
 
 class COTDBotService:
     def __init__(self, client: TGBotClient, config: COTDBotConfig):
@@ -146,6 +156,7 @@ def factory(
     commands: typing.List[telegram.BotCommand],
     handlers: typing.List[HandlerGroup],
     storage: cotd.storage.TelegramSavedMessagesStorage,
+    static_content: StaticReader
 ) -> COTDBotService:
 
     storage: cotd.storage.TelegramSavedMessagesStorage | cotd.storage.TelegramSavedMessagesStorageDev = (
@@ -184,6 +195,7 @@ def factory(
             handlers=handlers,
             commands=commands,
             persistence=storage,
+            static_content=static_content
         )
     )
     return COTDBotService(
