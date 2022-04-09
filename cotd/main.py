@@ -74,7 +74,7 @@ re_gacha = re.compile(r".* гач(|а|у|и) .*|^гач(а|у|и).*", re.IGNOREC
 # links with webm
 re_webm_link = re.compile(r"http.*:\/\/.*.webm", re.IGNORECASE)
 # youtube link
-re_youtube_link = re.compile(r"http.*:\/\/(youtube.com|youtu.be)", re.IGNORECASE)
+re_youtube_link = re.compile(r"http.*:\/\/.*(youtube.com|youtu.be)", re.IGNORECASE)
 # tweet
 re_tweet = re.compile(r".*twitter\.com.*", re.IGNORECASE)
 
