@@ -118,3 +118,15 @@ def check_chance(percent: float = 0.5):
 
 def check_timer(now: datetime.datetime, timer: datetime.datetime, threshold: int):
     return (now - timer).total_seconds() < threshold
+
+def day_of_week():
+    days = [
+        "понедельник",
+        "вторник",
+        "среда",
+        "четверг",
+        "пятница",
+        "суббота",
+        "воскресенье",
+    ]
+    return days[datetime.datetime.today().weekday()]

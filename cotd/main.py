@@ -2,6 +2,8 @@ import argparse
 import functools
 import os
 import re
+import datetime
+from zoneinfo import ZoneInfo
 
 import telegram
 import telegram.ext
@@ -12,6 +14,7 @@ import cotd.service
 import cotd.static
 import cotd.storage
 
+from cotd.plugins.cronjobs import you_made_it, list_cronjobs
 from cotd.plugins.cringelord import cringelord
 from cotd.plugins.inliner import menu
 from cotd.plugins.kandinsky import kandinsky_handler
@@ -42,6 +45,7 @@ from cotd.plugins.misc import (
 from cotd.plugins.prospector import cache_users
 from cotd.plugins.security import check_allowed_sources
 
+TZ = ZoneInfo("Europe/Moscow")
 # a regular expression that matches news from blacklist.
 re_news_blacklist = re.compile(r".*meduza\.io.*|.*lenta\.ru.*|.*vc\.ru.*", re.IGNORECASE)
 # a regular expression that matches news from blacklist.
@@ -71,6 +75,13 @@ re_webm_link = re.compile(r"http.*:\/\/.*.webm", re.IGNORECASE)
 # tweet
 re_tweet = re.compile(r".*twitter\.com.*", re.IGNORECASE)
 
+def next_date(given_date: datetime.date, weekday: int) -> datetime.date:
+    # https://stackoverflow.com/questions/6558535/find-the-date-for-the-first-monday-after-a-given-date
+    day_shift = (weekday - given_date.weekday()) % 7
+    return given_date + datetime.timedelta(days=day_shift)
+
+def date_to_datetime(d: datetime.date, tz=None) -> datetime.datetime:
+    return datetime.datetime.combine(d, datetime.datetime.min.time(),tzinfo=tz)
 
 def define_feature_flags(parser: argparse.ArgumentParser) -> argparse._ArgumentGroup:
     flags = parser.add_argument_group("flags")
@@ -129,6 +140,7 @@ def main():
                 journalism="static/journalism.jpg",
                 sf="static/deadinside.jpg",
                 go_away="static/go_away.mp4",
+                doge_friday="static/doge_friday.mp4",
             )
         )
     )
@@ -144,7 +156,7 @@ def main():
                         telegram.ext.Filters.all,
                         functools.partial(
                             check_allowed_sources,
-                            trusted_sources=dict(users="All", chats=[options.group, options.db]),
+                            trusted_sources=dict(users="All", chats=[int(options.group), int(options.db)]),
                         ),
                     ),
                 ]
@@ -276,20 +288,15 @@ def main():
                     telegram.ext.CommandHandler(
                         "kekw", functools.partial(kekw, data=data, cache=cache)
                     ),
+                    telegram.ext.CommandHandler(
+                        "jobs", functools.partial(list_cronjobs), filters=telegram.ext.Filters.chat(int(options.db)),
+                    ),
+                    telegram.ext.CommandHandler(
+                        "config", lambda update, context: print(), filters=telegram.ext.Filters.chat(int(options.db)),
+                    ),
                 ],
             }
         ),
-        # does not work
-        # cotd.service.HandlerGroup(
-        #     **{
-        #         "group_index": 3,
-        #         "handlers": [
-        #             telegram.ext.InlineQueryHandler(
-        #                 functools.partial(webm_to_mp4_inline), pattern=re_webm_link
-        #             )
-        #         ],
-        #     }
-        # ),
         cotd.service.HandlerGroup(
             **{
                 "group_index": 3,
@@ -303,6 +310,8 @@ def main():
         telegram.BotCommand("goaway", "Helpful reminder to go on your business"),
         telegram.BotCommand("cringelord", "Who's cringelord of the day?"),
         telegram.BotCommand("kekw", "E TU BRUTE? :DDD"),
+        telegram.BotCommand("jobs", "Show scheduled jobs"),
+        telegram.BotCommand("config", "Show options/features"),
     ]
 
     cotdbot = cotd.service.factory(
@@ -320,6 +329,16 @@ def main():
     cotdbot.logger.info(f"initialized with startup options {options}")
 
     cotdbot.client.initialize()
+
+    # register jobs block
+    doge_friday = functools.partial(you_made_it, data=data)
+    doge_friday.__name__ = "doge_friday"
+
+    cotdbot.client.updater.job_queue.run_repeating(
+        doge_friday,
+        interval=datetime.timedelta(days=7),
+        first=date_to_datetime(next_date(datetime.date.today(), 4)),
+    )
 
     cotdbot.logger.info("initialized cringe of the day client")
 

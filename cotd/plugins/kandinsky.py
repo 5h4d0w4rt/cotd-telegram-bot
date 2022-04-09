@@ -5,22 +5,11 @@ import datetime
 
 import telegram
 import telegram.ext
-from cotd.plugins.helpers import logged_context, make_image, check_timer
+from cotd.plugins.helpers import logged_context, make_image, check_timer, day_of_week
 from PIL import Image
 
 
 # dow - return current day of the week.
-def dow():
-    days = [
-        "понедельник",
-        "вторник",
-        "среда",
-        "четверг",
-        "пятница",
-        "суббота",
-        "воскресенье",
-    ]
-    return days[datetime.datetime.today().weekday()]
 
 
 # kandinsky_handler - list of reactions.
@@ -128,6 +117,9 @@ def kandinsky_handler(
     i = 0
     msg = ""
 
+    # make histogram https://numpy.org/doc/stable/reference/generated/numpy.histogram.html
+    # store on bot
+    # use value from distribution
     global kandinsky_max
 
     # correct the frequency of using phrases
@@ -151,7 +143,7 @@ def kandinsky_handler(
 
             # ахаха, что ты мне сделаешь, я в другом городе
             if i == 0:
-                msg = "Наконец-то, " + dow() + "!"
+                msg = "Наконец-то, " + day_of_week() + "!"
 
             break
 

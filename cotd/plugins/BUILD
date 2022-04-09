@@ -18,6 +18,7 @@ py_library(
     name = "all",
     srcs = [
         "cringelord.py",
+        "cronjobs.py",
         "inliner.py",
         "kandinsky.py",
         "misc.py",
