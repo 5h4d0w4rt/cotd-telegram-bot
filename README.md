@@ -26,6 +26,12 @@ cringe of the day bot
 2. poetry install
 3. poetry shell
 
+## plumbing
+
+### inspect database
+
+bazel run --ui_event_filters=-info,-stdout,-stderr --noshow_progress //hack:inspect_db $TOKEN file_id_corresponding_to_bot
+
 ## flow
 
 1. start bot with accepted channelid/channelname flag in gcs and initialized as can-join-groups
