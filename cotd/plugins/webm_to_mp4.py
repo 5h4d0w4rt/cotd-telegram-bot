@@ -55,9 +55,11 @@ def webm_converter_handler(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
+    context.bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.UPLOAD_VIDEO)
     converted_video = _webm_converter_handler_impl(update.effective_message.text)
     match type(converted_video):
         case subprocess.CalledProcessError:
+            context.bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
             return context.bot.send_message(
                 chat_id=context.dispatcher._cotd_db,
                 text=f"FFMpeg run failed -- {repr(converted_video)}",

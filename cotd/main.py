@@ -14,6 +14,7 @@ import cotd.service
 import cotd.static
 import cotd.storage
 
+from cotd.plugins.helpers import check_timer, check_chance
 from cotd.plugins.cronjobs import you_made_it, cronjobsctl
 from cotd.plugins.cringelord import cringelord
 from cotd.plugins.inliner import menu
@@ -78,6 +79,15 @@ re_youtube_link = re.compile(r"http.*:\/\/.*(youtube.com|youtu.be)", re.IGNORECA
 # tweet
 re_tweet = re.compile(r".*twitter\.com.*", re.IGNORECASE)
 
+# not used yet
+class ThrottleFilter(telegram.ext.UpdateFilter):
+    def filter(self, update: telegram.Update):
+        return
+
+# not used yet
+class ChanceFilter(telegram.ext.UpdateFilter):
+    def filter(self, update: telegram.Update):
+        return
 
 def next_date(given_date: datetime.date, weekday: int) -> datetime.date:
     # https://stackoverflow.com/questions/6558535/find-the-date-for-the-first-monday-after-a-given-date
