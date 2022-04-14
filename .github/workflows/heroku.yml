@@ -29,6 +29,14 @@ jobs:
           bazel build //...
           bazel test //...
 
+      - name: Cache
+        uses: actions/cache@v3.0.2
+        with:
+          path: |
+            bazel-bin
+            bazel-out
+          key: ${{ runner.os }}-bazel-build-outputs
+
       # https://docs.github.com/en/actions/learn-github-actions/expressions#failure conditional job
       - name: cat logs on failure
         if: ${{ failure() }}
