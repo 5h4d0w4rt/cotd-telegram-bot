@@ -11,7 +11,7 @@
     // "python.linting.mypyPath": "${workspaceFolder}/bazel-bin/external/python_dev_deps/pypi__mypy/rules_python_wheel_entry_point_mypy",
     "python.formatting.provider": "black",
     "python.formatting.blackPath": "${workspaceFolder}/bazel-bin/external/python_dev_deps/pypi__black/rules_python_wheel_entry_point_black",
-    "python.defaultInterpreterPath": "${env:HOME}/.pyenv/versions/3.10.0/bin/python",
+    "python.defaultInterpreterPath": "/tmp/_bazel/cotd-telegram-bot/external/python_x86_64-apple-darwin/bin/python3",
     "python.formatting.blackArgs": [
         "-l",
         "100",

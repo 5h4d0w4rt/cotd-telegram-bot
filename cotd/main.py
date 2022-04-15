@@ -84,10 +84,12 @@ class ThrottleFilter(telegram.ext.UpdateFilter):
     def filter(self, update: telegram.Update):
         return
 
+
 # not used yet
 class ChanceFilter(telegram.ext.UpdateFilter):
     def filter(self, update: telegram.Update):
         return
+
 
 def next_date(given_date: datetime.date, weekday: int) -> datetime.date:
     # https://stackoverflow.com/questions/6558535/find-the-date-for-the-first-monday-after-a-given-date

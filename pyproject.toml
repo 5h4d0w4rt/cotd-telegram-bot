@@ -25,3 +25,5 @@ pylint="*"
 mypy="*"
 pytest="*"
 pyfakefs="*"
+
+[tool.pyright]
