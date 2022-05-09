@@ -4,7 +4,7 @@ import typing
 
 import telegram
 import telegram.ext
-from cotd.plugins.helpers import logged_context, make_image, check_timer, day_of_week
+from cotd.plugins.helpers import logged_context, make_image, check_chance, day_of_week
 from PIL import Image
 
 
@@ -87,7 +87,7 @@ def kandinsky_handler(
     update: telegram.Update,
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
-    if not _chance(0.4): 
+    if not check_chance(0.4): 
         return None
 
     global kandinsky_last
