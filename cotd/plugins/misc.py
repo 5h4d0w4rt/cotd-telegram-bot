@@ -281,7 +281,7 @@ def yes_reaction(
     context: telegram.ext.CallbackContext,
 ) -> typing.Union[telegram.Message, None]:
 
-    if not check_chance(0.35):
+    if not check_chance(0.15):
         return None
 
     reaction_text = "пизда"
