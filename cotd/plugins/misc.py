@@ -121,6 +121,7 @@ def leftie_meme_detector(
                 "TL;DR",
                 "don't care + didn't ask + L + Ratio + you fell of + cancelled + quote retweet + you're white + suck on deez nuts + caught in 4k + soyjak + cry about it + delete this + cope + seethe + cringe + ok boomer + incel + virgin + Karen + you're not just a clown you're the entire circus + go touch some grass",
                 "Кремль взбешен, но что делать — пока не знает",
+                "Это, конечно, перевод, но хороший перевод. Конечно, есть и оригинал. Этот документ - один из многих, которые попали в наши руки.",
             ]
         ),
     )
