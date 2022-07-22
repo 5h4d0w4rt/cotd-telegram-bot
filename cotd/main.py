@@ -35,6 +35,7 @@ from cotd.plugins.misc import (
     massacre_reaction,
     music_reaction,
     no_reaction,
+    games_reaction,
     grass_reaction,
     pig_reaction,
     bot_reaction,
@@ -78,6 +79,8 @@ re_webm_link = re.compile(r"http.*:\/\/.*.webm", re.IGNORECASE)
 re_youtube_link = re.compile(r"http.*:\/\/.*(youtube.com|youtu.be)", re.IGNORECASE)
 # tweet
 re_tweet = re.compile(r".*twitter\.com.*", re.IGNORECASE)
+# gamers
+re_games = re.compile(r".* глум .*|^глум.*", re.IGNORECASE)
 
 # not used yet
 class ThrottleFilter(telegram.ext.UpdateFilter):
@@ -276,6 +279,10 @@ def main():
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_gacha),
                         functools.partial(grass_reaction),
+                    ),
+                      telegram.ext.MessageHandler(
+                        telegram.ext.Filters.regex(re_games),
+                        functools.partial(games_reaction),
                     ),
                     telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_piggy),
