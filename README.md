@@ -4,11 +4,12 @@ cringe of the day bot
 
 ## how to start
 
-1. install python3 ([pyenv](https://github.com/pyenv/pyenv) preferred)
-2. get bazelisk
+1. install local compatible python3 ([pyenv](https://github.com/pyenv/pyenv) preferred)
+2. get local compatible bazel/bazelisk
 
 ```bash
-
+   curl -fLO https://releases.bazel.build/5.4.1/release/bazel-5.4.1-darwin-arm64 && chmod +x bazel-5.4.1-darwin-arm64
+   # or
    brew install bazelisk
 ```
 

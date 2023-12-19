@@ -1,6 +1,7 @@
 **/bazel-*/**/*
 bazel-*/**/*
 bazel-*
+!bazel-5.4.1-*
 .pytest_cache
 .mypy_cache
 *pycache*
