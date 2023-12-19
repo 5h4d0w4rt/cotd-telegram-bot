@@ -1,5 +1,0 @@
-# https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-apt
-
-# Added with heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
-
-# libvpx6

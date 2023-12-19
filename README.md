@@ -2,6 +2,8 @@
 
 cringe of the day bot
 
+TODO https://docs-python.ru/packages/biblioteka-python-telegram-bot-python/perekhod-versiiu-20/
+
 ## how to start
 
 1. install local compatible python3 ([pyenv](https://github.com/pyenv/pyenv) preferred)

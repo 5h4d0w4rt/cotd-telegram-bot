@@ -1,52 +1,51 @@
 import argparse
+import datetime
 import functools
 import os
 import re
-import datetime
-from zoneinfo import ZoneInfo
 
 import telegram
 import telegram.ext
+from zoneinfo import ZoneInfo
 
 import cotd.cacher
 import cotd.logger
 import cotd.service
 import cotd.static
 import cotd.storage
-
-from cotd.plugins.helpers import check_timer, check_chance
-from cotd.plugins.cronjobs import you_made_it, cronjobsctl
 from cotd.plugins.cringelord import cringelord
+from cotd.plugins.cronjobs import cronjobsctl, you_made_it
+from cotd.plugins.helpers import check_chance, check_timer
 from cotd.plugins.inliner import menu
 from cotd.plugins.kandinsky import kandinsky_handler
-from cotd.plugins.webm_to_mp4 import webm_converter_handler
-from cotd.plugins.youtuber import youtubedl
 from cotd.plugins.misc import (
-    voice_reaction,
-    iscringe,
+    bot_reaction,
     cuno_handler,
+    games_reaction,
     goaway,
+    grass_reaction,
     gym_reaction,
+    iscringe,
     journalism_reaction,
-    patriot_reaction,
-    tweet_reaction,
     kekw,
     leftie_meme_detector,
     massacre_reaction,
     music_reaction,
     no_reaction,
-    games_reaction,
-    grass_reaction,
+    patriot_reaction,
     pig_reaction,
-    bot_reaction,
     question_mark,
     stuffy_reaction,
     trista_reaction,
+    tweet_reaction,
+    voice_reaction,
     watermelon_reaction,
     yes_reaction,
 )
 from cotd.plugins.prospector import cache_users
 from cotd.plugins.security import check_allowed_sources
+from cotd.plugins.webm_to_mp4 import webm_converter_handler
+from cotd.plugins.youtuber import youtubedl
 
 TZ = ZoneInfo("Europe/Moscow")
 # a regular expression that matches news from blacklist.
@@ -81,6 +80,7 @@ re_youtube_link = re.compile(r"http.*:\/\/.*(youtube.com|youtu.be)", re.IGNORECA
 re_tweet = re.compile(r".*twitter\.com.*", re.IGNORECASE)
 # gamers
 re_games = re.compile(r".* глум .*|^глум.*", re.IGNORECASE)
+
 
 # not used yet
 class ThrottleFilter(telegram.ext.UpdateFilter):
@@ -178,9 +178,7 @@ def main():
                         telegram.ext.Filters.all,
                         functools.partial(
                             check_allowed_sources,
-                            trusted_sources=dict(
-                                users="All", chats=[int(options.group), int(options.db)]
-                            ),
+                            trusted_sources=dict(users="All", chats=[int(options.group), int(options.db)]),
                         ),
                     ),
                 ]
@@ -216,9 +214,7 @@ def main():
             **{
                 "group_index": -97,
                 "handlers": [
-                    telegram.ext.MessageHandler(
-                        telegram.ext.Filters.regex(re_youtube_link), youtubedl
-                    ),
+                    telegram.ext.MessageHandler(telegram.ext.Filters.regex(re_youtube_link), youtubedl),
                 ]
                 if features.feature_enable_youtubedl
                 else [],
@@ -280,7 +276,7 @@ def main():
                         telegram.ext.Filters.regex(re_gacha),
                         functools.partial(grass_reaction),
                     ),
-                      telegram.ext.MessageHandler(
+                    telegram.ext.MessageHandler(
                         telegram.ext.Filters.regex(re_games),
                         functools.partial(games_reaction),
                     ),
@@ -322,12 +318,8 @@ def main():
                         "cringelord",
                         functools.partial(cringelord, data=data, cache=cache),
                     ),
-                    telegram.ext.CommandHandler(
-                        "goaway", functools.partial(goaway, data=data, cache=cache)
-                    ),
-                    telegram.ext.CommandHandler(
-                        "kekw", functools.partial(kekw, data=data, cache=cache)
-                    ),
+                    telegram.ext.CommandHandler("goaway", functools.partial(goaway, data=data, cache=cache)),
+                    telegram.ext.CommandHandler("kekw", functools.partial(kekw, data=data, cache=cache)),
                     telegram.ext.CommandHandler(
                         "jobs",
                         functools.partial(cronjobsctl),
@@ -389,5 +381,4 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()

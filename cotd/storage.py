@@ -7,7 +7,6 @@ from collections import defaultdict
 
 import telegram
 import telegram.ext
-import telegram.ext.utils.types
 from telegram.ext import DictPersistence
 from telegram.utils.types import FileLike
 
@@ -65,7 +64,6 @@ class TelegramDocumentDatabaseManagerMixin:
                 return self.download(file_id)
 
     def upload(self, data: str | bytes) -> telegram.Message:
-
         match type(data):
             case builtins.str:
                 # this is to ensure pyright will recognize the type
@@ -94,7 +92,6 @@ class TelegramSavedMessagesStorage(TelegramDocumentDatabaseManagerMixin, DictPer
         self.db = db
 
     def flush(self) -> None:
-
         data_to_save = gzip.compress(
             json.dumps(
                 {
@@ -205,7 +202,6 @@ class TelegramSavedMessagesStorageDev(TelegramDocumentDatabaseManagerMixin, Dict
         self.db = db
 
     def flush(self) -> None:
-
         data_to_save = gzip.compress(
             json.dumps(
                 {

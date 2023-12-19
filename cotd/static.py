@@ -48,9 +48,7 @@ class StaticReader(BaseStaticReader):
     def __getattribute__(self, name: str) -> typing.BinaryIO:
         """access static holder and make it's attributes readable objects"""
         # access subattribute by making curried attrgetter function call
-        path_to_file: pathlib.Path = operator.attrgetter(name)(
-            object.__getattribute__(self, "static")
-        )
+        path_to_file: pathlib.Path = operator.attrgetter(name)(object.__getattribute__(self, "static"))
         return open(path_to_file, "rb")
 
 
