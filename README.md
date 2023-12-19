@@ -8,8 +8,6 @@ cringe of the day bot
 2. get local compatible bazel/bazelisk
 
 ```bash
-   curl -fLO https://releases.bazel.build/5.4.1/release/bazel-5.4.1-darwin-arm64 && chmod +x bazel-5.4.1-darwin-arm64
-   # or
    brew install bazelisk
 ```
 
