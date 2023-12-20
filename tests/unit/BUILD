@@ -1,5 +1,5 @@
 load("@rules_python//python:defs.bzl", "py_test")
-load("@python_test_deps//:requirements.bzl", "requirement")
+load("@python_deps//:requirements.bzl", "requirement")
 
 package(
     default_visibility = ["//tests:__subpackages__"],

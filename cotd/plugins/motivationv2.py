@@ -5,8 +5,9 @@ import uuid
 import ratelimit
 import telegram
 import telegram.ext
-from cotd.plugins.helpers import make_image
 from PIL import Image
+
+from cotd.plugins.helpers import make_image
 
 ONE_SECOND = 1
 

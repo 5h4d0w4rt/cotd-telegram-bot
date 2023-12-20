@@ -1,16 +1,15 @@
+import datetime
 import functools
-from importlib.resources import path
-import logging
-import telegram
-import telegram.ext
-import logging
-import typing
 import io
+import logging
 import pathlib
 import random
-import datetime
 import subprocess
+import typing
+from importlib.resources import path
 
+import telegram
+import telegram.ext
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -45,7 +44,6 @@ def logged_context(f):
 def cacheable_handler(f, key: typing.Any, path: str):
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
-
         if "cache" not in kwargs:
             return f(*args, **kwargs)
 

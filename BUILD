@@ -1,5 +1,5 @@
-load("@python_dev_deps//:requirements.bzl", devtools_entry_point = "entry_point")
-load("@python_test_deps//:requirements.bzl", test_entry_point = "entry_point")
+load("@python_deps//:requirements.bzl", test_entry_point = "entry_point")
+# load("@rules_python//python/entry_points:py_console_script_binary.bzl", "py_console_script_binary")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -16,12 +16,12 @@ filegroup(
     ],
 )
 
-filegroup(
-    name = "_black",
-    srcs = [
-        devtools_entry_point("black"),
-    ],
-)
+# filegroup(
+#     name = "_ruff",
+#     srcs = [
+#         devtools_entry_point("ruff"),
+#     ],
+# )
 
 filegroup(
     name = "ffmpeg-amd64",
@@ -38,11 +38,10 @@ filegroup(
     srcs = glob(["vendor/youtube-dl/**/*"]),
 )
 
-alias(
-    name = "black",
-    actual = devtools_entry_point("black"),
-    tags = ["local"],
-)
+# py_console_script_binary(
+#     name = "ruff",
+#     pkg = "@python_deps//ruff",
+# )
 
 alias(
     name = "pytest",
@@ -55,18 +54,18 @@ alias(
     tags = ["local"],
 )
 
-filegroup(
-    name = "_mypy",
-    srcs = [
-        devtools_entry_point("mypy"),
-    ],
-)
+# filegroup(
+#     name = "_mypy",
+#     srcs = [
+#         devtools_entry_point("mypy"),
+#     ],
+# )
 
-alias(
-    name = "mypy",
-    actual = devtools_entry_point("mypy"),
-    tags = ["local"],
-)
+# alias(
+#     name = "mypy",
+#     actual = devtools_entry_point("mypy"),
+#     tags = ["local"],
+# )
 
 config_setting(
     name = "osx_build",
@@ -94,15 +93,15 @@ platform(
     ],
 )
 
-# + select({
-# "//:osx_build": ["vendor/ffmpeg/osx/ffmpeg"],
-# "//conditions:default": ["vendor/ffmpeg/amd/ffmpeg"],
-# }),
+# # + select({
+# # "//:osx_build": ["vendor/ffmpeg/osx/ffmpeg"],
+# # "//conditions:default": ["vendor/ffmpeg/amd/ffmpeg"],
+# # }),
 
-# config_setting(
-#     name = "linux_build",
-#     constraint_values = [
-#         ":white",
-#         ":metamorphic",
-#     ],
-# )
+# # config_setting(
+# #     name = "linux_build",
+# #     constraint_values = [
+# #         ":white",
+# #         ":metamorphic",
+# #     ],
+# # )

@@ -3,6 +3,7 @@ import typing
 
 import telegram
 import telegram.ext
+
 from cotd.cacher import MediaCache
 
 

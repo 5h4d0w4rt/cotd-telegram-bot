@@ -2,12 +2,12 @@ import argparse
 import logging
 import typing
 from dataclasses import dataclass
-from cotd.static import StaticReader
 
 import telegram
 import telegram.ext
 
 import cotd.storage
+from cotd.static import StaticReader
 
 
 @dataclass
@@ -140,9 +140,7 @@ class COTDBotService:
 
     def _fetch_sticker_set(self) -> telegram.StickerSet:
         try:
-            return self.client.updater.bot.get_sticker_set(
-                f"VC_by_{self.client.metadata.user.username}"
-            )
+            return self.client.updater.bot.get_sticker_set(f"VC_by_{self.client.metadata.user.username}")
         except telegram.error.BadRequest as err:
             raise err
 
@@ -162,7 +160,6 @@ def factory(
     storage: cotd.storage.TelegramSavedMessagesStorage,
     static_content: StaticReader,
 ) -> COTDBotService:
-
     storage: cotd.storage.TelegramSavedMessagesStorage | cotd.storage.TelegramSavedMessagesStorageDev = (
         storage
         if features.feature_enable_persistence
@@ -202,6 +199,4 @@ def factory(
             static_content=static_content,
         )
     )
-    return COTDBotService(
-        tg_bot_client, config=COTDBotConfig(features=features, logger=cotd_logger)
-    )
+    return COTDBotService(tg_bot_client, config=COTDBotConfig(features=features, logger=cotd_logger))

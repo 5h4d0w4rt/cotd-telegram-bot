@@ -4,6 +4,7 @@ import typing
 
 import telegram
 import telegram.ext
+
 from cotd.cacher import MediaCache
 from cotd.plugins.helpers import logged_context
 from cotd.static import StaticReader
@@ -43,8 +44,7 @@ def cringelord(
         cache.cringelord[datetime.datetime.utcnow().date()] = _cringelord
 
         context.dispatcher.logger.debug(
-            "serving computed cringelord"
-            f"\nupdated cache {datetime.datetime.utcnow().date()}:{_cringelord}"
+            "serving computed cringelord" f"\nupdated cache {datetime.datetime.utcnow().date()}:{_cringelord}"
         )
         return message
     else:

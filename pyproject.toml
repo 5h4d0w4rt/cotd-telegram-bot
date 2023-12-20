@@ -10,6 +10,10 @@ python-telegram-bot = "^13.11"
 pillow = ">=8.3"
 ratelimit = ">=2.2"
 requests = ">=2.27"
+pydantic = "^2.5.2"
+black = "^23.12.0"
+urllib3 = "^2.1.0"
+ruff = "^0.1.8"
 
 [tool.poetry.dev-dependencies]
 black = "*"
@@ -18,3 +22,27 @@ pytest = "*"
 pyfakefs = "*"
 
 [tool.pyright]
+exclude = [
+    "bazel-cotd-telegram-bot",
+    "bazel-out",
+    # "bazel-bin",
+    "bazel-testlogs",
+]
+include = ["bazel-bin/cotd/cotdbot.runfiles/python_deps_python_telegram_bot/"]
+extraPaths = [
+    # "bazel-cotd-telegram-bot/external/python_deps_python_telegram_bot/pypi__python_telegram_bot",
+    # "bazel-cotd-telegram-bot//external/python_deps_python_telegram_bot/pypi__pillow",
+    # "bazel-cotd-telegram-bot//external/python_deps_python_telegram_bot/pypi__ratelimit",
+    # "bazel-cotd-telegram-bot//external/python_deps_python_telegram_bot/pypi__pydantic",
+    # "bazel-cotd-telegram-bot//external/python_deps_python_telegram_bot/pypi__pytest",
+    # "bazel-cotd-telegram-bot//external/python_deps_python_telegram_bot/pypi__pyfakefs",
+    "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_telegram_bot",
+    "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_pillow",
+    "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_ratelimit",
+    "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_pydantic",
+    "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_pytest",
+    "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_pyfakefs",
+    "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_requests",
+]
+# typeCheckingMode = strict
+typeCheckingMode = "basic"
