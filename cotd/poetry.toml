@@ -1,0 +1,11 @@
+cache-dir = ".venv"
+
+[virtualenvs]
+in-project = true
+# https://python-poetry.org/docs/configuration/#virtualenvsoptionsno-setuptools
+no-setuptools = true
+# https://python-poetry.org/docs/configuration/#virtualenvsoptionsno-pip
+no-pip = true
+
+[installer]
+max-workers = 50

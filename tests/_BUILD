@@ -3,11 +3,16 @@ package(
 )
 
 test_suite(
-    name = "unit",
+    name = "unit_v1",
     tests = ["//tests/unit:test_static_unit"],
 )
 
+# test_suite(
+#     name = "unit",
+#     tests = ["//tests/unit:test_static_unit"],
+# )
+
 test_suite(
-    name = "integration",
+    name = "integration_v1",
     tests = ["//tests/integration:test_static_integration"],
 )

@@ -1,21 +1,16 @@
 [tool.poetry]
-name = "cotd_sandbox"
+name = "cotd_v2"
 version = "1.0.0"
 description = ""
 authors = ["Literally Who <who@where.io>"]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0"
-ruff = "^0.1.8"
-pyfakefs = "^5.3.2"
-black = "^23.12.0"
-pytest = "^7.4.3"
-
-[tool.poetry.dev-dependencies]
-# black = "*"
-# ruff = "^0.1"
-# pytest = "*"
-# pyfakefs = "*"
+python = ">=3.7"
+python-telegram-bot = "^20"
+pillow = ">=8.3"
+ratelimit = ">=2.2"
+requests = ">=2.27"
+pydantic = "^2.5"
 
 [tool.pyright]
 exclude = [
@@ -40,6 +35,5 @@ extraPaths = [
     "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_pyfakefs",
     "bazel-bin/cotd/cotdbot.runfiles/python_deps_python_requests",
 ]
-
 # typeCheckingMode = strict
 typeCheckingMode = "basic"

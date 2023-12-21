@@ -1,4 +1,5 @@
 import datetime
+
 import pytest
 
 
@@ -74,9 +75,7 @@ def webm_test_out_file():
 def fake_webm_to_mp4(outs):
     import subprocess
 
-    out = subprocess.run(
-        ["ffmpeg", "-y", "-f", "lavfi", "-i", "testsrc2=d=1[out0];sine=d=1[out1]", outs]
-    )
+    out = subprocess.run(["ffmpeg", "-y", "-f", "lavfi", "-i", "testsrc2=d=1[out0];sine=d=1[out1]", outs])
 
     return out.returncode
 

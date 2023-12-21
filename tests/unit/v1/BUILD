@@ -1,0 +1,36 @@
+load("@rules_python//python:defs.bzl", "py_test")
+load("@python_deps_v1//:requirements.bzl", "requirement")
+
+package(
+    default_visibility = ["//tests:__subpackages__"],
+)
+
+py_test(
+    name = "test_static_unit",
+    srcs = ["test_static_unit.py"],
+    data = [
+        "//:pytest",
+    ],
+    imports = ["$(BINDIR)/test_static.runfiles/python_test_deps/pypi__pyfakefs/pyfakefs/pytest_plugin.py"],
+    deps = [
+        "//cotd:static",
+        requirement("pytest"),
+        requirement("pyfakefs"),
+    ],
+)
+
+py_test(
+    name = "test_plugins_helpers_unit",
+    srcs = ["test_plugins_helpers_unit.py"],
+    data = [
+        "//:ffmpeg-amd64",
+        "//:ffmpeg-osx",
+        "//:pytest",
+    ],
+    imports = ["$(BINDIR)/test_static.runfiles/python_test_deps/pypi__pyfakefs/pyfakefs/pytest_plugin.py"],
+    deps = [
+        "//cotd/plugins:helpers",
+        requirement("pytest"),
+        requirement("pyfakefs"),
+    ],
+)

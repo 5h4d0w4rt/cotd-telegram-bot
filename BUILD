@@ -1,4 +1,4 @@
-load("@python_deps//:requirements.bzl", test_entry_point = "entry_point")
+# load("@python_dev_deps//:requirements.bzl", test_entry_point = "entry_point")
 # load("@rules_python//python/entry_points:py_console_script_binary.bzl", "py_console_script_binary")
 
 package(
@@ -7,14 +7,14 @@ package(
 
 exports_files(["pytest.ini"])
 
-filegroup(
-    # gather all the data for pytest binary to work
-    name = "_pytest",
-    srcs = [
-        test_entry_point("pytest"),
-        "//:pytest.ini",
-    ],
-)
+# filegroup(
+#     # gather all the data for pytest binary to work
+#     name = "_pytest",
+#     srcs = [
+#         test_entry_point("pytest"),
+#         "//:pytest.ini",
+#     ],
+# )
 
 # filegroup(
 #     name = "_ruff",
@@ -40,19 +40,24 @@ filegroup(
 
 # py_console_script_binary(
 #     name = "ruff",
-#     pkg = "@python_deps//ruff",
+#     pkg = "@python_deps_v1//ruff",
 # )
 
-alias(
-    name = "pytest",
-    actual = ":_pytest",
-)
+# py_console_script_binary(
+#     name = "pytest",
+#     pkg = "@python_dev_deps//pytest:pkg",
+# )
 
-alias(
-    name = "binpytest",
-    actual = test_entry_point("pytest"),
-    tags = ["local"],
-)
+# alias(
+#     name = "pytest",
+#     actual = ":_pytest",
+# )
+
+# alias(
+#     name = "binpytest",
+#     actual = test_entry_point("pytest"),
+#     tags = ["local"],
+# )
 
 # filegroup(
 #     name = "_mypy",

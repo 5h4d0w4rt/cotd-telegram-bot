@@ -1,5 +1,5 @@
 load("@rules_python//python:defs.bzl", "py_library")
-load("@python_deps//:requirements.bzl", "requirement")
+load("@python_deps_v1//:requirements.bzl", "requirement")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -35,7 +35,7 @@ py_library(
         requirement("ratelimit"),
         requirement("requests"),
         "helpers",
-        "//cotd:cacher",
-        "//cotd:static",
+        "//v1/cotd:cacher",
+        "//v1/cotd:static",
     ],
 )

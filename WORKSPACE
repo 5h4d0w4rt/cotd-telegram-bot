@@ -25,15 +25,34 @@ load("@python//:defs.bzl", "interpreter")
 load("@rules_python//python:pip.bzl", "pip_parse")
 
 pip_parse(
-    name = "python_deps",
+    name = "python_deps_v1",
     python_interpreter_target = interpreter,
-    requirements_lock = "//:requirements.txt.lock",
+    requirements_lock = "//v1:requirementsv1.txt.lock",
 )
 
-load("@python_deps//:requirements.bzl", "install_deps")
+pip_parse(
+    name = "python_deps_v2",
+    python_interpreter_target = interpreter,
+    requirements_lock = "//v2:requirementsv2.txt.lock",
+)
+
+pip_parse(
+    name = "python_dev_deps",
+    python_interpreter_target = interpreter,
+    requirements_lock = "//:requirements_dev.txt.lock",
+)
+
+load("@python_deps_v1//:requirements.bzl", install_deps_v1 = "install_deps")
+
+# load("@python_deps_v2//:requirements.bzl", install_deps_v2 = "install_deps")
+load("@python_dev_deps//:requirements.bzl", install_deps_dev = "install_deps")
 
 # Initialize repositories for all packages in requirements_lock.txt.
-install_deps(python_interpreter_target = interpreter)
+install_deps_v1(python_interpreter_target = interpreter)
+
+# install_deps_v2(python_interpreter_target = interpreter)
+
+install_deps_dev(python_interpreter_target = interpreter)
 
 # pip_install(
 #     name = "python_test_deps",

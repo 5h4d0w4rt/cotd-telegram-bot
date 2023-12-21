@@ -3,5 +3,5 @@ package(
 )
 
 exports_files(
-    srcs = ["requirementsv2.txt.lock"],
+    srcs = ["requirementsv1.txt.lock"],
 )
